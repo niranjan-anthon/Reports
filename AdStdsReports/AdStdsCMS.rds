@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<RptDataSource xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" Name="AdStdsCMS">
+  <ConnectionProperties>
+    <Extension>SQL</Extension>
+    <ConnectString>Data Source=localhost\MSSQLSERVER17;Initial Catalog=AdStdsBMS;</ConnectString>
+  </ConnectionProperties>
+  <DataSourceID>bfb49065-157b-49c9-8586-3ff3b6d306dd</DataSourceID>
+</RptDataSource>

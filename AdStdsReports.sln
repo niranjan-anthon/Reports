@@ -1,0 +1,30 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.645
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{F14B399A-7131-4C87-9E4B-1186C45EF12D}") = "AdStdsReports", "AdStdsReports\AdStdsReports.rptproj", "{717A9C89-0C29-4B08-A9D9-555BFC54416B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Default = Debug|Default
+		DebugLocal|Default = DebugLocal|Default
+		Release|Default = Release|Default
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{717A9C89-0C29-4B08-A9D9-555BFC54416B}.Debug|Default.ActiveCfg = Debug
+		{717A9C89-0C29-4B08-A9D9-555BFC54416B}.Debug|Default.Build.0 = Debug
+		{717A9C89-0C29-4B08-A9D9-555BFC54416B}.Debug|Default.Deploy.0 = Debug
+		{717A9C89-0C29-4B08-A9D9-555BFC54416B}.DebugLocal|Default.ActiveCfg = DebugLocal
+		{717A9C89-0C29-4B08-A9D9-555BFC54416B}.DebugLocal|Default.Build.0 = DebugLocal
+		{717A9C89-0C29-4B08-A9D9-555BFC54416B}.Release|Default.ActiveCfg = Release
+		{717A9C89-0C29-4B08-A9D9-555BFC54416B}.Release|Default.Build.0 = Release
+		{717A9C89-0C29-4B08-A9D9-555BFC54416B}.Release|Default.Deploy.0 = Release
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {3D74A0D3-BCED-4FEA-AC06-2043ACF1DFF7}
+	EndGlobalSection
+EndGlobal
