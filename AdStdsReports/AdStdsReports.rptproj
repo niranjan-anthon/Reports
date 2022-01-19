@@ -12,7 +12,7 @@
     <TargetDatasetFolder>Datasets</TargetDatasetFolder>
     <TargetDatasourceFolder>Data Sources</TargetDatasourceFolder>
     <TargetReportPartFolder />
-    <TargetServerURL>http://app1-adstandards.mobinet.ca/AdstdsReports</TargetServerURL>
+    <TargetServerURL>http://app1-adstandards.mobinet.ca/AdStdsReports</TargetServerURL>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'DebugLocal' ">
     <FullPath>DebugLocal</FullPath>
@@ -53,6 +53,7 @@
   </ItemGroup>
   <ItemGroup>
     <Report Include="CoverPage.rdl" />
+    <Report Include="InvoiceBatchReport.rdl" />
     <Report Include="VotePaymentReport.rdl" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Reporting Services\Microsoft.ReportingServices.MSBuilder.targets" />
