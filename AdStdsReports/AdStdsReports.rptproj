@@ -53,7 +53,11 @@
   </ItemGroup>
   <ItemGroup>
     <Report Include="CoverPage.rdl" />
+    <Report Include="InvoiceableOrdersByDivisionReport.rdl" />
+    <Report Include="InvoiceableOrdersReport.rdl" />
     <Report Include="InvoiceBatchReport.rdl" />
+    <Report Include="InvoicedOrdersByDivisionReport.rdl" />
+    <Report Include="InvoicedOrdersReport.rdl" />
     <Report Include="VotePaymentReport.rdl" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Reporting Services\Microsoft.ReportingServices.MSBuilder.targets" />
