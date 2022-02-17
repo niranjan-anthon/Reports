@@ -1195,7 +1195,6 @@ WHERE        (i.invoice_batch_id = @batch_id)</CommandText>
     <ReportParameter Name="batch_id">
       <DataType>String</DataType>
       <Prompt>batch id</Prompt>
-      <Hidden>true</Hidden>
     </ReportParameter>
     <ReportParameter Name="report_name">
       <DataType>String</DataType>

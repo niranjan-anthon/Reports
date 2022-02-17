@@ -3126,7 +3126,7 @@ WHERE        (inv.active = 1) AND (inv.created_date &gt; @invoice_start_date) AN
             <Top>3.66084in</Top>
             <Left>0.25229in</Left>
             <Height>2in</Height>
-            <Width>10.51361in</Width>
+            <Width>10.51362in</Width>
             <ZIndex>1</ZIndex>
             <Style>
               <Border>
@@ -3280,11 +3280,16 @@ WHERE        (inv.active = 1) AND (inv.created_date &gt; @invoice_start_date) AN
       <DataType>DateTime</DataType>
       <Prompt>Invoice End Date</Prompt>
     </ReportParameter>
+    <ReportParameter Name="report_name">
+      <DataType>String</DataType>
+      <Prompt>report name</Prompt>
+      <Hidden>true</Hidden>
+    </ReportParameter>
   </ReportParameters>
   <ReportParametersLayout>
     <GridLayoutDefinition>
       <NumberOfColumns>1</NumberOfColumns>
-      <NumberOfRows>7</NumberOfRows>
+      <NumberOfRows>8</NumberOfRows>
       <CellDefinitions>
         <CellDefinition>
           <ColumnIndex>0</ColumnIndex>
@@ -3295,6 +3300,11 @@ WHERE        (inv.active = 1) AND (inv.created_date &gt; @invoice_start_date) AN
           <ColumnIndex>0</ColumnIndex>
           <RowIndex>6</RowIndex>
           <ParameterName>invoice_end_date</ParameterName>
+        </CellDefinition>
+        <CellDefinition>
+          <ColumnIndex>0</ColumnIndex>
+          <RowIndex>7</RowIndex>
+          <ParameterName>report_name</ParameterName>
         </CellDefinition>
       </CellDefinitions>
     </GridLayoutDefinition>

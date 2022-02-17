@@ -735,7 +735,7 @@ ORDER BY BillingCompany</CommandText>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value />
+                                  <Value>Total</Value>
                                   <Style>
                                     <FontWeight>Bold</FontWeight>
                                   </Style>
@@ -765,14 +765,14 @@ ORDER BY BillingCompany</CommandText>
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="Total">
+                        <Textbox Name="Textbox10">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Sum(Fields!Total.Value)</Value>
+                                  <Value>=Round(sum(Fields!Total.Value), 2)</Value>
                                   <Style>
                                     <FontFamily>Arial</FontFamily>
                                     <FontWeight>Bold</FontWeight>
@@ -784,7 +784,7 @@ ORDER BY BillingCompany</CommandText>
                               </Style>
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>Total</rd:DefaultName>
+                          <rd:DefaultName>Textbox10</rd:DefaultName>
                           <Style>
                             <Border>
                               <Style>None</Style>
@@ -829,7 +829,7 @@ ORDER BY BillingCompany</CommandText>
             </TablixRowHierarchy>
             <DataSetName>InvoiceableOrdersReportQuery</DataSetName>
             <Top>4.08792in</Top>
-            <Left>1.02084in</Left>
+            <Left>0.74705in</Left>
             <Height>0.75in</Height>
             <Width>7.51563in</Width>
             <ZIndex>1</ZIndex>
@@ -847,7 +847,7 @@ ORDER BY BillingCompany</CommandText>
           </Border>
         </Style>
       </Body>
-      <Width>9.15105in</Width>
+      <Width>8.38022in</Width>
       <Page>
         <PageFooter>
           <Height>0.70455in</Height>
@@ -969,16 +969,29 @@ ORDER BY BillingCompany</CommandText>
           </Style>
         </PageFooter>
         <InteractiveHeight>0in</InteractiveHeight>
-        <TopMargin>0.25in</TopMargin>
         <ColumnSpacing>0.05118in</ColumnSpacing>
         <Style />
       </Page>
     </ReportSection>
   </ReportSections>
+  <ReportParameters>
+    <ReportParameter Name="report_name">
+      <DataType>String</DataType>
+      <Prompt>report name</Prompt>
+      <Hidden>true</Hidden>
+    </ReportParameter>
+  </ReportParameters>
   <ReportParametersLayout>
     <GridLayoutDefinition>
       <NumberOfColumns>1</NumberOfColumns>
       <NumberOfRows>7</NumberOfRows>
+      <CellDefinitions>
+        <CellDefinition>
+          <ColumnIndex>0</ColumnIndex>
+          <RowIndex>0</RowIndex>
+          <ParameterName>report_name</ParameterName>
+        </CellDefinition>
+      </CellDefinitions>
     </GridLayoutDefinition>
   </ReportParametersLayout>
   <EmbeddedImages>

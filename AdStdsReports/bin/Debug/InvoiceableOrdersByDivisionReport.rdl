@@ -10,7 +10,7 @@
     </DataSource>
   </DataSources>
   <DataSets>
-    <DataSet Name="InvoiceableOrdersReportQuery">
+    <DataSet Name="InvoiceableOrdersByDivisionReportQuery">
       <Query>
         <DataSourceName>DataSource</DataSourceName>
         <CommandText>SELECT co.clearance_order_id, co.date_received,co.completed, co.invoiced,   co.billing_type,
@@ -1745,7 +1745,7 @@ WHERE co.completed = 1 and co.invoiced is null </CommandText>
                 </TablixMember>
               </TablixMembers>
             </TablixRowHierarchy>
-            <DataSetName>InvoiceableOrdersReportQuery</DataSetName>
+            <DataSetName>InvoiceableOrdersByDivisionReportQuery</DataSetName>
             <Top>4.08792in</Top>
             <Left>1.02084in</Left>
             <Height>1.75in</Height>
