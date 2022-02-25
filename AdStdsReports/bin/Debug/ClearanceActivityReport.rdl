@@ -10,86 +10,166 @@
     </DataSource>
   </DataSources>
   <DataSets>
-    <DataSet Name="InvoiceableOrdersReportQuery">
+    <DataSet Name="ClearanceSubmissionSummaryByStatusQuery">
       <Query>
         <DataSourceName>DataSource</DataSourceName>
-        <QueryParameters>
-          <QueryParameter Name="@start_date">
-            <Value>=Parameters!start_date.Value</Value>
-          </QueryParameter>
-          <QueryParameter Name="@end_date">
-            <Value>=Parameters!end_date.Value</Value>
-          </QueryParameter>
-        </QueryParameters>
-        <CommandText>SELECT co.clearance_order_id, co.date_received,co.completed, co.invoiced,   co.billing_type,
-sub.cost,
-CASE co.billing_type
-	WHEN 'company' THEN bill_comp.company_name
-	WHEN 'contact' THEN cont_comp.company_name
-	ELSE ab.company_name
-	END as BillingCompany,
-
-sub.cost + ( sub.cost *
-((   CASE co.billing_type
-	WHEN 'company' THEN (SELECT Top 1 rate FROM TaxRates WHERE province_id = bill_comp.province_id )
-	WHEN 'contact' THEN (SELECT Top 1 rate FROM TaxRates WHERE province_id = cont_comp.province_id )
-	ELSE (SELECT Top 1 rate FROM TaxRates WHERE province_id = ab.province_id)
-	END ) /100)) as Total,
-
-sub.cost *
-((   CASE co.billing_type
-	WHEN 'company' THEN (SELECT Top 1 rate FROM TaxRates WHERE province_id = bill_comp.province_id )
-	WHEN 'contact' THEN (SELECT Top 1 rate FROM TaxRates WHERE province_id = cont_comp.province_id )
-	ELSE (SELECT Top 1 rate FROM TaxRates WHERE province_id = ab.province_id)
-	END ) /100) as taxes
-
-FROM ClearanceOrderSubmissions sub 
-LEFT OUTER JOIN ClearanceOrders co ON co.clearance_order_id = sub.clearance_order_id
-LEFT OUTER JOIN Companies bill_comp ON bill_comp.company_id = co.company_id
-LEFT OUTER JOIN Contacts con ON con.contact_id = co.contact_id
-LEFT OUTER JOIN Companies cont_comp ON cont_comp.company_id = con.company_id
-LEFT OUTER JOIN BillingAddressBook ab ON ab.billing_address_book_id = co.billing_address_book_id
---WHERE 
-WHERE co.completed = 1 and co.invoiced is null and co.date_received &lt;= @start_date 
-and co.date_received &gt;= @end_date
-ORDER BY BillingCompany</CommandText>
+        <CommandText>SELECT        sub_stat.submission_status, csub.clearance_submission_status_id AS Total, csub.clearance_division_id, cdiv.clearance_division
+FROM            ClearanceOrderSubmissions AS csub LEFT OUTER JOIN
+                         ClearanceOrders AS cord ON cord.clearance_order_id = csub.clearance_order_id LEFT OUTER JOIN
+                         ClearanceDivisions AS cdiv ON csub.clearance_division_id = cdiv.clearance_division_id LEFT OUTER JOIN
+                         ClearanceSubmissionStatuses AS sub_stat ON sub_stat.clearance_submission_status_id = csub.clearance_submission_status_id
+WHERE        (cord.activated = 1) AND (cord.active = 1) AND (csub.active = 1)
+GROUP BY sub_stat.submission_status, csub.clearance_submission_status_id, csub.clearance_division_id, cdiv.clearance_division
+HAVING        (csub.clearance_submission_status_id IS NOT NULL)</CommandText>
       </Query>
       <Fields>
-        <Field Name="date_received">
-          <DataField>date_received</DataField>
-          <rd:TypeName>System.DateTime</rd:TypeName>
+        <Field Name="submission_status">
+          <DataField>submission_status</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
         </Field>
+        <Field Name="Total">
+          <DataField>Total</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="clearance_division_id">
+          <DataField>clearance_division_id</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="clearance_division">
+          <DataField>clearance_division</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+      </Fields>
+    </DataSet>
+    <DataSet Name="ClearanceOrderByServiceQuery">
+      <Query>
+        <DataSourceName>DataSource</DataSourceName>
+        <CommandText>SELECT * FROM ClearanceOrders</CommandText>
+      </Query>
+      <Fields>
         <Field Name="clearance_order_id">
           <DataField>clearance_order_id</DataField>
           <rd:TypeName>System.Int32</rd:TypeName>
         </Field>
+        <Field Name="tenant_id">
+          <DataField>tenant_id</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="contact_id">
+          <DataField>contact_id</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="company_id">
+          <DataField>company_id</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="advertiser_id">
+          <DataField>advertiser_id</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="clearance_order_status_id">
+          <DataField>clearance_order_status_id</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="billing_address_book_id">
+          <DataField>billing_address_book_id</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="product_id">
+          <DataField>product_id</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="created_by_id">
+          <DataField>created_by_id</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="updated_by_id">
+          <DataField>updated_by_id</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="currency_id">
+          <DataField>currency_id</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="order_amount">
+          <DataField>order_amount</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="order_number">
+          <DataField>order_number</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="po_number">
+          <DataField>po_number</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="reference_number">
+          <DataField>reference_number</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="billing_correspondence">
+          <DataField>billing_correspondence</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="billing_type">
+          <DataField>billing_type</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="date_received">
+          <DataField>date_received</DataField>
+          <rd:TypeName>System.DateTime</rd:TypeName>
+        </Field>
+        <Field Name="due_date">
+          <DataField>due_date</DataField>
+          <rd:TypeName>System.DateTime</rd:TypeName>
+        </Field>
+        <Field Name="created_date">
+          <DataField>created_date</DataField>
+          <rd:TypeName>System.DateTime</rd:TypeName>
+        </Field>
+        <Field Name="updated_date">
+          <DataField>updated_date</DataField>
+          <rd:TypeName>System.DateTime</rd:TypeName>
+        </Field>
         <Field Name="completed">
           <DataField>completed</DataField>
+          <rd:TypeName>System.Boolean</rd:TypeName>
+        </Field>
+        <Field Name="incomplete">
+          <DataField>incomplete</DataField>
           <rd:TypeName>System.Boolean</rd:TypeName>
         </Field>
         <Field Name="invoiced">
           <DataField>invoiced</DataField>
           <rd:TypeName>System.Boolean</rd:TypeName>
         </Field>
-        <Field Name="billing_type">
-          <DataField>billing_type</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
+        <Field Name="meeting_requested">
+          <DataField>meeting_requested</DataField>
+          <rd:TypeName>System.Boolean</rd:TypeName>
         </Field>
-        <Field Name="cost">
-          <DataField>cost</DataField>
-          <rd:TypeName>System.Double</rd:TypeName>
+        <Field Name="send_confirmation_email">
+          <DataField>send_confirmation_email</DataField>
+          <rd:TypeName>System.Boolean</rd:TypeName>
         </Field>
-        <Field Name="BillingCompany">
-          <DataField>BillingCompany</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
+        <Field Name="rush">
+          <DataField>rush</DataField>
+          <rd:TypeName>System.Boolean</rd:TypeName>
         </Field>
-        <Field Name="Total">
-          <DataField>Total</DataField>
-          <rd:TypeName>System.Double</rd:TypeName>
+        <Field Name="activated">
+          <DataField>activated</DataField>
+          <rd:TypeName>System.Boolean</rd:TypeName>
         </Field>
-        <Field Name="taxes">
-          <DataField>taxes</DataField>
-          <rd:TypeName>System.Double</rd:TypeName>
+        <Field Name="cancelled">
+          <DataField>cancelled</DataField>
+          <rd:TypeName>System.Boolean</rd:TypeName>
+        </Field>
+        <Field Name="order_paid">
+          <DataField>order_paid</DataField>
+          <rd:TypeName>System.Boolean</rd:TypeName>
+        </Field>
+        <Field Name="active">
+          <DataField>active</DataField>
+          <rd:TypeName>System.Boolean</rd:TypeName>
         </Field>
       </Fields>
     </DataSet>
@@ -107,7 +187,7 @@ ORDER BY BillingCompany</CommandText>
                   <Paragraph>
                     <TextRuns>
                       <TextRun>
-                        <Value>Invoice Ready Orders</Value>
+                        <Value>Clearance Activity Report</Value>
                         <Style>
                           <FontFamily>Arial</FontFamily>
                           <FontSize>20pt</FontSize>
@@ -122,9 +202,9 @@ ORDER BY BillingCompany</CommandText>
                 </Paragraphs>
                 <rd:DefaultName>Textbox13</rd:DefaultName>
                 <Top>1.77819in</Top>
-                <Left>2.23143in</Left>
+                <Left>0.21875in</Left>
                 <Height>0.47694in</Height>
-                <Width>3.5863in</Width>
+                <Width>5.41765in</Width>
                 <Style>
                   <Border>
                     <Style>None</Style>
@@ -156,7 +236,7 @@ ORDER BY BillingCompany</CommandText>
                 </Paragraphs>
                 <rd:DefaultName>Textbox13</rd:DefaultName>
                 <Top>2.2968in</Top>
-                <Left>2.23142in</Left>
+                <Left>1.05208in</Left>
                 <Height>0.3125in</Height>
                 <Width>3.5863in</Width>
                 <ZIndex>1</ZIndex>
@@ -174,7 +254,7 @@ ORDER BY BillingCompany</CommandText>
                 <Source>Embedded</Source>
                 <Value>AdStandardsLogo400x117</Value>
                 <Top>0.1in</Top>
-                <Left>2.02309in</Left>
+                <Left>0.84375in</Left>
                 <Height>3.09562cm</Height>
                 <Width>10.58333cm</Width>
                 <ZIndex>2</ZIndex>
@@ -189,674 +269,152 @@ ORDER BY BillingCompany</CommandText>
               <BreakLocation>End</BreakLocation>
             </PageBreak>
             <KeepTogether>true</KeepTogether>
-            <Top>0.635in</Top>
-            <Left>0.635cm</Left>
-            <Height>3.18931in</Height>
-            <Width>7.64908in</Width>
+            <Top>0.26in</Top>
+            <Left>0.91352cm</Left>
+            <Height>2.81431in</Height>
+            <Width>6.46974in</Width>
             <Style>
               <Border>
                 <Style>None</Style>
               </Border>
             </Style>
           </Rectangle>
-          <Tablix Name="Tablix1">
-            <TablixBody>
-              <TablixColumns>
-                <TablixColumn>
-                  <Width>1in</Width>
-                </TablixColumn>
-                <TablixColumn>
-                  <Width>1.07813in</Width>
-                </TablixColumn>
-                <TablixColumn>
-                  <Width>3.61458in</Width>
-                </TablixColumn>
-                <TablixColumn>
-                  <Width>1in</Width>
-                </TablixColumn>
-                <TablixColumn>
-                  <Width>0.82292in</Width>
-                </TablixColumn>
-              </TablixColumns>
-              <TablixRows>
-                <TablixRow>
-                  <Height>0.25in</Height>
-                  <TablixCells>
-                    <TablixCell>
-                      <CellContents>
-                        <Textbox Name="Textbox1">
-                          <CanGrow>true</CanGrow>
-                          <KeepTogether>true</KeepTogether>
-                          <Paragraphs>
-                            <Paragraph>
-                              <TextRuns>
-                                <TextRun>
-                                  <Value>Order ID</Value>
-                                  <Style>
-                                    <FontWeight>Bold</FontWeight>
-                                  </Style>
-                                </TextRun>
-                              </TextRuns>
-                              <Style>
-                                <TextAlign>Center</TextAlign>
-                              </Style>
-                            </Paragraph>
-                          </Paragraphs>
-                          <rd:DefaultName>Textbox1</rd:DefaultName>
-                          <Style>
-                            <Border>
-                              <Color>LightGrey</Color>
-                              <Style>Solid</Style>
-                            </Border>
-                            <TopBorder>
-                              <Color>Black</Color>
-                              <Width>2pt</Width>
-                            </TopBorder>
-                            <BottomBorder>
-                              <Color>Black</Color>
-                              <Width>2pt</Width>
-                            </BottomBorder>
-                            <LeftBorder>
-                              <Style>None</Style>
-                            </LeftBorder>
-                            <RightBorder>
-                              <Style>None</Style>
-                            </RightBorder>
-                            <PaddingLeft>2pt</PaddingLeft>
-                            <PaddingRight>2pt</PaddingRight>
-                            <PaddingTop>2pt</PaddingTop>
-                            <PaddingBottom>2pt</PaddingBottom>
-                          </Style>
-                        </Textbox>
-                      </CellContents>
-                    </TablixCell>
-                    <TablixCell>
-                      <CellContents>
-                        <Textbox Name="Textbox3">
-                          <CanGrow>true</CanGrow>
-                          <KeepTogether>true</KeepTogether>
-                          <Paragraphs>
-                            <Paragraph>
-                              <TextRuns>
-                                <TextRun>
-                                  <Value>Received Date</Value>
-                                  <Style>
-                                    <FontWeight>Bold</FontWeight>
-                                  </Style>
-                                </TextRun>
-                              </TextRuns>
-                              <Style>
-                                <TextAlign>Center</TextAlign>
-                              </Style>
-                            </Paragraph>
-                          </Paragraphs>
-                          <rd:DefaultName>Textbox3</rd:DefaultName>
-                          <Style>
-                            <Border>
-                              <Color>LightGrey</Color>
-                              <Style>Solid</Style>
-                            </Border>
-                            <TopBorder>
-                              <Color>Black</Color>
-                              <Width>2pt</Width>
-                            </TopBorder>
-                            <BottomBorder>
-                              <Color>Black</Color>
-                              <Width>2pt</Width>
-                            </BottomBorder>
-                            <LeftBorder>
-                              <Style>None</Style>
-                            </LeftBorder>
-                            <RightBorder>
-                              <Style>None</Style>
-                            </RightBorder>
-                            <PaddingLeft>2pt</PaddingLeft>
-                            <PaddingRight>2pt</PaddingRight>
-                            <PaddingTop>2pt</PaddingTop>
-                            <PaddingBottom>2pt</PaddingBottom>
-                          </Style>
-                        </Textbox>
-                      </CellContents>
-                    </TablixCell>
-                    <TablixCell>
-                      <CellContents>
-                        <Textbox Name="Textbox5">
-                          <CanGrow>true</CanGrow>
-                          <KeepTogether>true</KeepTogether>
-                          <Paragraphs>
-                            <Paragraph>
-                              <TextRuns>
-                                <TextRun>
-                                  <Value>Company Name</Value>
-                                  <Style>
-                                    <FontWeight>Bold</FontWeight>
-                                  </Style>
-                                </TextRun>
-                              </TextRuns>
-                              <Style>
-                                <TextAlign>Center</TextAlign>
-                              </Style>
-                            </Paragraph>
-                          </Paragraphs>
-                          <rd:DefaultName>Textbox5</rd:DefaultName>
-                          <Style>
-                            <Border>
-                              <Color>LightGrey</Color>
-                              <Style>Solid</Style>
-                            </Border>
-                            <TopBorder>
-                              <Color>Black</Color>
-                              <Width>2pt</Width>
-                            </TopBorder>
-                            <BottomBorder>
-                              <Color>Black</Color>
-                              <Width>2pt</Width>
-                            </BottomBorder>
-                            <LeftBorder>
-                              <Style>None</Style>
-                            </LeftBorder>
-                            <RightBorder>
-                              <Style>None</Style>
-                            </RightBorder>
-                            <PaddingLeft>2pt</PaddingLeft>
-                            <PaddingRight>2pt</PaddingRight>
-                            <PaddingTop>2pt</PaddingTop>
-                            <PaddingBottom>2pt</PaddingBottom>
-                          </Style>
-                        </Textbox>
-                      </CellContents>
-                    </TablixCell>
-                    <TablixCell>
-                      <CellContents>
-                        <Textbox Name="Textbox2">
-                          <CanGrow>true</CanGrow>
-                          <KeepTogether>true</KeepTogether>
-                          <Paragraphs>
-                            <Paragraph>
-                              <TextRuns>
-                                <TextRun>
-                                  <Value>Taxes</Value>
-                                  <Style>
-                                    <FontWeight>Bold</FontWeight>
-                                  </Style>
-                                </TextRun>
-                              </TextRuns>
-                              <Style>
-                                <TextAlign>Center</TextAlign>
-                              </Style>
-                            </Paragraph>
-                          </Paragraphs>
-                          <rd:DefaultName>Textbox2</rd:DefaultName>
-                          <Style>
-                            <Border>
-                              <Color>LightGrey</Color>
-                              <Style>Solid</Style>
-                            </Border>
-                            <TopBorder>
-                              <Color>Black</Color>
-                              <Width>2pt</Width>
-                            </TopBorder>
-                            <BottomBorder>
-                              <Color>Black</Color>
-                              <Width>2pt</Width>
-                            </BottomBorder>
-                            <LeftBorder>
-                              <Style>None</Style>
-                            </LeftBorder>
-                            <RightBorder>
-                              <Style>None</Style>
-                            </RightBorder>
-                            <PaddingLeft>2pt</PaddingLeft>
-                            <PaddingRight>2pt</PaddingRight>
-                            <PaddingTop>2pt</PaddingTop>
-                            <PaddingBottom>2pt</PaddingBottom>
-                          </Style>
-                        </Textbox>
-                      </CellContents>
-                    </TablixCell>
-                    <TablixCell>
-                      <CellContents>
-                        <Textbox Name="Textbox9">
-                          <CanGrow>true</CanGrow>
-                          <KeepTogether>true</KeepTogether>
-                          <Paragraphs>
-                            <Paragraph>
-                              <TextRuns>
-                                <TextRun>
-                                  <Value>Total</Value>
-                                  <Style>
-                                    <FontFamily>Arial</FontFamily>
-                                    <FontWeight>Bold</FontWeight>
-                                  </Style>
-                                </TextRun>
-                              </TextRuns>
-                              <Style>
-                                <TextAlign>Center</TextAlign>
-                              </Style>
-                            </Paragraph>
-                          </Paragraphs>
-                          <rd:DefaultName>Textbox9</rd:DefaultName>
-                          <Style>
-                            <Border>
-                              <Color>LightGrey</Color>
-                              <Style>Solid</Style>
-                            </Border>
-                            <TopBorder>
-                              <Color>Black</Color>
-                              <Width>2pt</Width>
-                            </TopBorder>
-                            <BottomBorder>
-                              <Color>Black</Color>
-                              <Width>2pt</Width>
-                            </BottomBorder>
-                            <LeftBorder>
-                              <Style>None</Style>
-                            </LeftBorder>
-                            <RightBorder>
-                              <Style>None</Style>
-                            </RightBorder>
-                            <PaddingLeft>2pt</PaddingLeft>
-                            <PaddingRight>2pt</PaddingRight>
-                            <PaddingTop>2pt</PaddingTop>
-                            <PaddingBottom>2pt</PaddingBottom>
-                          </Style>
-                        </Textbox>
-                      </CellContents>
-                    </TablixCell>
-                  </TablixCells>
-                </TablixRow>
-                <TablixRow>
-                  <Height>0.25in</Height>
-                  <TablixCells>
-                    <TablixCell>
-                      <CellContents>
-                        <Textbox Name="Textbox11">
-                          <CanGrow>true</CanGrow>
-                          <KeepTogether>true</KeepTogether>
-                          <Paragraphs>
-                            <Paragraph>
-                              <TextRuns>
-                                <TextRun>
-                                  <Value>=Fields!clearance_order_id.Value</Value>
-                                  <Style />
-                                </TextRun>
-                              </TextRuns>
-                              <Style>
-                                <TextAlign>Center</TextAlign>
-                              </Style>
-                            </Paragraph>
-                          </Paragraphs>
-                          <rd:DefaultName>Textbox11</rd:DefaultName>
-                          <Style>
-                            <Border>
-                              <Style>None</Style>
-                            </Border>
-                            <PaddingLeft>2pt</PaddingLeft>
-                            <PaddingRight>2pt</PaddingRight>
-                            <PaddingTop>2pt</PaddingTop>
-                            <PaddingBottom>2pt</PaddingBottom>
-                          </Style>
-                        </Textbox>
-                      </CellContents>
-                    </TablixCell>
-                    <TablixCell>
-                      <CellContents>
-                        <Textbox Name="qb_invoice_number">
-                          <CanGrow>true</CanGrow>
-                          <KeepTogether>true</KeepTogether>
-                          <Paragraphs>
-                            <Paragraph>
-                              <TextRuns>
-                                <TextRun>
-                                  <Value>=FORMATDATETIME(Fields!date_received.Value, DATEFORMAT.ShortDate)</Value>
-                                  <Style />
-                                </TextRun>
-                              </TextRuns>
-                              <Style>
-                                <TextAlign>Center</TextAlign>
-                              </Style>
-                            </Paragraph>
-                          </Paragraphs>
-                          <rd:DefaultName>qb_invoice_number</rd:DefaultName>
-                          <Style>
-                            <Border>
-                              <Style>None</Style>
-                            </Border>
-                            <PaddingLeft>2pt</PaddingLeft>
-                            <PaddingRight>2pt</PaddingRight>
-                            <PaddingTop>2pt</PaddingTop>
-                            <PaddingBottom>2pt</PaddingBottom>
-                          </Style>
-                        </Textbox>
-                      </CellContents>
-                    </TablixCell>
-                    <TablixCell>
-                      <CellContents>
-                        <Textbox Name="sub_total">
-                          <CanGrow>true</CanGrow>
-                          <KeepTogether>true</KeepTogether>
-                          <Paragraphs>
-                            <Paragraph>
-                              <TextRuns>
-                                <TextRun>
-                                  <Value>=Fields!BillingCompany.Value</Value>
-                                  <Style />
-                                </TextRun>
-                              </TextRuns>
-                              <Style>
-                                <TextAlign>Center</TextAlign>
-                              </Style>
-                            </Paragraph>
-                          </Paragraphs>
-                          <rd:DefaultName>sub_total</rd:DefaultName>
-                          <Style>
-                            <Border>
-                              <Style>None</Style>
-                            </Border>
-                            <PaddingLeft>2pt</PaddingLeft>
-                            <PaddingRight>2pt</PaddingRight>
-                            <PaddingTop>2pt</PaddingTop>
-                            <PaddingBottom>2pt</PaddingBottom>
-                          </Style>
-                        </Textbox>
-                      </CellContents>
-                    </TablixCell>
-                    <TablixCell>
-                      <CellContents>
-                        <Textbox Name="Textbox7">
-                          <CanGrow>true</CanGrow>
-                          <KeepTogether>true</KeepTogether>
-                          <Paragraphs>
-                            <Paragraph>
-                              <TextRuns>
-                                <TextRun>
-                                  <Value>=Round(Fields!taxes.Value,2)</Value>
-                                  <Style />
-                                </TextRun>
-                              </TextRuns>
-                              <Style>
-                                <TextAlign>Center</TextAlign>
-                              </Style>
-                            </Paragraph>
-                          </Paragraphs>
-                          <rd:DefaultName>Textbox7</rd:DefaultName>
-                          <Style>
-                            <Border>
-                              <Style>None</Style>
-                            </Border>
-                            <PaddingLeft>2pt</PaddingLeft>
-                            <PaddingRight>2pt</PaddingRight>
-                            <PaddingTop>2pt</PaddingTop>
-                            <PaddingBottom>2pt</PaddingBottom>
-                          </Style>
-                        </Textbox>
-                      </CellContents>
-                    </TablixCell>
-                    <TablixCell>
-                      <CellContents>
-                        <Textbox Name="total">
-                          <CanGrow>true</CanGrow>
-                          <KeepTogether>true</KeepTogether>
-                          <Paragraphs>
-                            <Paragraph>
-                              <TextRuns>
-                                <TextRun>
-                                  <Value>=ROUND(Fields!Total.Value,2)</Value>
-                                  <Style>
-                                    <FontFamily>Arial</FontFamily>
-                                  </Style>
-                                </TextRun>
-                              </TextRuns>
-                              <Style>
-                                <TextAlign>Center</TextAlign>
-                              </Style>
-                            </Paragraph>
-                          </Paragraphs>
-                          <rd:DefaultName>total</rd:DefaultName>
-                          <Style>
-                            <Border>
-                              <Style>None</Style>
-                            </Border>
-                            <PaddingLeft>2pt</PaddingLeft>
-                            <PaddingRight>2pt</PaddingRight>
-                            <PaddingTop>2pt</PaddingTop>
-                            <PaddingBottom>2pt</PaddingBottom>
-                          </Style>
-                        </Textbox>
-                      </CellContents>
-                    </TablixCell>
-                  </TablixCells>
-                </TablixRow>
-                <TablixRow>
-                  <Height>0.25in</Height>
-                  <TablixCells>
-                    <TablixCell>
-                      <CellContents>
-                        <Textbox Name="Textbox12">
-                          <CanGrow>true</CanGrow>
-                          <KeepTogether>true</KeepTogether>
-                          <Paragraphs>
-                            <Paragraph>
-                              <TextRuns>
-                                <TextRun>
-                                  <Value />
-                                  <Style />
-                                </TextRun>
-                              </TextRuns>
-                              <Style>
-                                <TextAlign>Center</TextAlign>
-                              </Style>
-                            </Paragraph>
-                          </Paragraphs>
-                          <rd:DefaultName>Textbox12</rd:DefaultName>
-                          <Style>
-                            <Border>
-                              <Style>None</Style>
-                            </Border>
-                            <PaddingLeft>2pt</PaddingLeft>
-                            <PaddingRight>2pt</PaddingRight>
-                            <PaddingTop>2pt</PaddingTop>
-                            <PaddingBottom>2pt</PaddingBottom>
-                          </Style>
-                        </Textbox>
-                      </CellContents>
-                    </TablixCell>
-                    <TablixCell>
-                      <CellContents>
-                        <Textbox Name="Textbox6">
-                          <CanGrow>true</CanGrow>
-                          <KeepTogether>true</KeepTogether>
-                          <Paragraphs>
-                            <Paragraph>
-                              <TextRuns>
-                                <TextRun>
-                                  <Value />
-                                  <Style>
-                                    <FontWeight>Bold</FontWeight>
-                                  </Style>
-                                </TextRun>
-                              </TextRuns>
-                              <Style>
-                                <TextAlign>Center</TextAlign>
-                              </Style>
-                            </Paragraph>
-                          </Paragraphs>
-                          <rd:DefaultName>Textbox6</rd:DefaultName>
-                          <Style>
-                            <Border>
-                              <Style>None</Style>
-                              <Width>2pt</Width>
-                            </Border>
-                            <TopBorder>
-                              <Style>Solid</Style>
-                            </TopBorder>
-                            <PaddingLeft>2pt</PaddingLeft>
-                            <PaddingRight>2pt</PaddingRight>
-                            <PaddingTop>2pt</PaddingTop>
-                            <PaddingBottom>2pt</PaddingBottom>
-                          </Style>
-                        </Textbox>
-                      </CellContents>
-                    </TablixCell>
-                    <TablixCell>
-                      <CellContents>
-                        <Textbox Name="Textbox4">
-                          <CanGrow>true</CanGrow>
-                          <KeepTogether>true</KeepTogether>
-                          <Paragraphs>
-                            <Paragraph>
-                              <TextRuns>
-                                <TextRun>
-                                  <Value>= string.Format("# of Invoices  :  {0}", count(Fields!clearance_order_id.Value))</Value>
-                                  <Style>
-                                    <FontWeight>Bold</FontWeight>
-                                  </Style>
-                                </TextRun>
-                              </TextRuns>
-                              <Style>
-                                <TextAlign>Center</TextAlign>
-                              </Style>
-                            </Paragraph>
-                          </Paragraphs>
-                          <rd:DefaultName>Textbox4</rd:DefaultName>
-                          <Style>
-                            <Border>
-                              <Style>None</Style>
-                              <Width>2pt</Width>
-                            </Border>
-                            <TopBorder>
-                              <Style>Solid</Style>
-                            </TopBorder>
-                            <PaddingLeft>2pt</PaddingLeft>
-                            <PaddingRight>2pt</PaddingRight>
-                            <PaddingTop>2pt</PaddingTop>
-                            <PaddingBottom>2pt</PaddingBottom>
-                          </Style>
-                        </Textbox>
-                      </CellContents>
-                    </TablixCell>
-                    <TablixCell>
-                      <CellContents>
-                        <Textbox Name="Textbox8">
-                          <CanGrow>true</CanGrow>
-                          <KeepTogether>true</KeepTogether>
-                          <Paragraphs>
-                            <Paragraph>
-                              <TextRuns>
-                                <TextRun>
-                                  <Value>Total</Value>
-                                  <Style>
-                                    <FontWeight>Bold</FontWeight>
-                                  </Style>
-                                </TextRun>
-                              </TextRuns>
-                              <Style>
-                                <TextAlign>Center</TextAlign>
-                              </Style>
-                            </Paragraph>
-                          </Paragraphs>
-                          <rd:DefaultName>Textbox8</rd:DefaultName>
-                          <Style>
-                            <Border>
-                              <Style>None</Style>
-                              <Width>2pt</Width>
-                            </Border>
-                            <TopBorder>
-                              <Style>Solid</Style>
-                            </TopBorder>
-                            <PaddingLeft>2pt</PaddingLeft>
-                            <PaddingRight>2pt</PaddingRight>
-                            <PaddingTop>2pt</PaddingTop>
-                            <PaddingBottom>2pt</PaddingBottom>
-                          </Style>
-                        </Textbox>
-                      </CellContents>
-                    </TablixCell>
-                    <TablixCell>
-                      <CellContents>
-                        <Textbox Name="Textbox10">
-                          <CanGrow>true</CanGrow>
-                          <KeepTogether>true</KeepTogether>
-                          <Paragraphs>
-                            <Paragraph>
-                              <TextRuns>
-                                <TextRun>
-                                  <Value>=Round(sum(Fields!Total.Value), 2)</Value>
-                                  <Style>
-                                    <FontFamily>Arial</FontFamily>
-                                    <FontWeight>Bold</FontWeight>
-                                  </Style>
-                                </TextRun>
-                              </TextRuns>
-                              <Style>
-                                <TextAlign>Center</TextAlign>
-                              </Style>
-                            </Paragraph>
-                          </Paragraphs>
-                          <rd:DefaultName>Textbox10</rd:DefaultName>
-                          <Style>
-                            <Border>
-                              <Style>None</Style>
-                              <Width>2pt</Width>
-                            </Border>
-                            <TopBorder>
-                              <Style>Solid</Style>
-                            </TopBorder>
-                            <PaddingLeft>2pt</PaddingLeft>
-                            <PaddingRight>2pt</PaddingRight>
-                            <PaddingTop>2pt</PaddingTop>
-                            <PaddingBottom>2pt</PaddingBottom>
-                          </Style>
-                        </Textbox>
-                      </CellContents>
-                    </TablixCell>
-                  </TablixCells>
-                </TablixRow>
-              </TablixRows>
-            </TablixBody>
-            <TablixColumnHierarchy>
-              <TablixMembers>
-                <TablixMember />
-                <TablixMember />
-                <TablixMember />
-                <TablixMember />
-                <TablixMember />
-              </TablixMembers>
-            </TablixColumnHierarchy>
-            <TablixRowHierarchy>
-              <TablixMembers>
-                <TablixMember>
-                  <KeepWithGroup>After</KeepWithGroup>
-                </TablixMember>
-                <TablixMember>
-                  <Group Name="Details" />
-                </TablixMember>
-                <TablixMember>
-                  <KeepWithGroup>Before</KeepWithGroup>
-                </TablixMember>
-              </TablixMembers>
-            </TablixRowHierarchy>
-            <DataSetName>InvoiceableOrdersReportQuery</DataSetName>
-            <Top>4.08792in</Top>
-            <Left>0.74705in</Left>
-            <Height>0.75in</Height>
-            <Width>7.51563in</Width>
+          <Rectangle Name="Rectangle1">
+            <ReportItems>
+              <Rectangle Name="Rectangle3">
+                <ReportItems>
+                  <Subreport Name="ActivityBySubmissionSubReport3">
+                    <ReportName>ClearanceActivityByService</ReportName>
+                    <KeepTogether>true</KeepTogether>
+                    <Top>0.01389in</Top>
+                    <Height>0.1875in</Height>
+                    <Width>6.46974in</Width>
+                    <Style>
+                      <Border>
+                        <Style>None</Style>
+                      </Border>
+                    </Style>
+                  </Subreport>
+                </ReportItems>
+                <KeepTogether>true</KeepTogether>
+                <Height>0.27083in</Height>
+                <Width>6.46974in</Width>
+                <Style>
+                  <Border>
+                    <Style>None</Style>
+                  </Border>
+                </Style>
+              </Rectangle>
+            </ReportItems>
+            <PageBreak>
+              <BreakLocation>End</BreakLocation>
+            </PageBreak>
+            <KeepTogether>true</KeepTogether>
+            <Top>4.07167in</Top>
+            <Left>0.35965in</Left>
+            <Height>0.27083in</Height>
+            <Width>6.46974in</Width>
             <ZIndex>1</ZIndex>
             <Style>
               <Border>
                 <Style>None</Style>
               </Border>
             </Style>
-          </Tablix>
+          </Rectangle>
+          <Rectangle Name="Rectangle5">
+            <ReportItems>
+              <Subreport Name="ActivityBySubmissionSubReport">
+                <ReportName>ClearanceActivityByStatus</ReportName>
+                <KeepTogether>true</KeepTogether>
+                <Height>0.1875in</Height>
+                <Width>6.46974in</Width>
+                <Style>
+                  <Border>
+                    <Style>None</Style>
+                  </Border>
+                </Style>
+              </Subreport>
+            </ReportItems>
+            <PageBreak>
+              <BreakLocation>End</BreakLocation>
+            </PageBreak>
+            <KeepTogether>true</KeepTogether>
+            <Top>4.41542in</Top>
+            <Left>0.35965in</Left>
+            <Height>0.27083in</Height>
+            <Width>6.46974in</Width>
+            <ZIndex>2</ZIndex>
+            <Style>
+              <Border>
+                <Style>None</Style>
+              </Border>
+            </Style>
+          </Rectangle>
+          <Rectangle Name="Rectangle4">
+            <ReportItems>
+              <Subreport Name="ActivityBySubmissionSubReport2">
+                <ReportName>ClearanceActivityByStatus</ReportName>
+                <KeepTogether>true</KeepTogether>
+                <Top>0.04166in</Top>
+                <Height>0.1875in</Height>
+                <Width>6.46974in</Width>
+                <Style>
+                  <Border>
+                    <Style>None</Style>
+                  </Border>
+                </Style>
+              </Subreport>
+            </ReportItems>
+            <PageBreak>
+              <BreakLocation>End</BreakLocation>
+            </PageBreak>
+            <KeepTogether>true</KeepTogether>
+            <Top>3.77306in</Top>
+            <Left>0.35965in</Left>
+            <Height>0.27083in</Height>
+            <Width>6.46974in</Width>
+            <ZIndex>3</ZIndex>
+            <Style>
+              <Border>
+                <Style>None</Style>
+              </Border>
+            </Style>
+          </Rectangle>
+          <Rectangle Name="Rectangle6">
+            <ReportItems>
+              <Rectangle Name="Rectangle7">
+                <KeepTogether>true</KeepTogether>
+                <Top>0.03555in</Top>
+                <Height>0.27083in</Height>
+                <Width>6.46974in</Width>
+                <Style>
+                  <Border>
+                    <Style>None</Style>
+                  </Border>
+                </Style>
+              </Rectangle>
+            </ReportItems>
+            <KeepTogether>true</KeepTogether>
+            <Top>4.70625in</Top>
+            <Left>0.35965in</Left>
+            <Height>0.30638in</Height>
+            <Width>6.46974in</Width>
+            <ZIndex>4</ZIndex>
+            <Style>
+              <Border>
+                <Style>None</Style>
+              </Border>
+            </Style>
+          </Rectangle>
         </ReportItems>
-        <Height>8.27in</Height>
+        <Height>8.1in</Height>
         <Style>
           <Border>
             <Style>None</Style>
           </Border>
         </Style>
       </Body>
-      <Width>8.38022in</Width>
+      <Width>7.89908in</Width>
       <Page>
         <PageFooter>
           <Height>0.70455in</Height>
@@ -984,38 +542,41 @@ ORDER BY BillingCompany</CommandText>
     </ReportSection>
   </ReportSections>
   <ReportParameters>
+    <ReportParameter Name="invoice_start_date">
+      <DataType>DateTime</DataType>
+      <Nullable>true</Nullable>
+      <Hidden>true</Hidden>
+    </ReportParameter>
+    <ReportParameter Name="invoice_end_date">
+      <DataType>DateTime</DataType>
+      <Nullable>true</Nullable>
+      <Hidden>true</Hidden>
+    </ReportParameter>
     <ReportParameter Name="report_name">
       <DataType>String</DataType>
-      <Prompt>report name</Prompt>
-    </ReportParameter>
-    <ReportParameter Name="start_date">
-      <DataType>DateTime</DataType>
-      <Prompt>start_date</Prompt>
-    </ReportParameter>
-    <ReportParameter Name="end_date">
-      <DataType>DateTime</DataType>
-      <Prompt>EndDate</Prompt>
+      <Nullable>true</Nullable>
+      <Hidden>true</Hidden>
     </ReportParameter>
   </ReportParameters>
   <ReportParametersLayout>
     <GridLayoutDefinition>
       <NumberOfColumns>1</NumberOfColumns>
-      <NumberOfRows>7</NumberOfRows>
+      <NumberOfRows>3</NumberOfRows>
       <CellDefinitions>
         <CellDefinition>
           <ColumnIndex>0</ColumnIndex>
           <RowIndex>0</RowIndex>
-          <ParameterName>report_name</ParameterName>
+          <ParameterName>invoice_start_date</ParameterName>
         </CellDefinition>
         <CellDefinition>
           <ColumnIndex>0</ColumnIndex>
           <RowIndex>1</RowIndex>
-          <ParameterName>start_date</ParameterName>
+          <ParameterName>invoice_end_date</ParameterName>
         </CellDefinition>
         <CellDefinition>
           <ColumnIndex>0</ColumnIndex>
           <RowIndex>2</RowIndex>
-          <ParameterName>end_date</ParameterName>
+          <ParameterName>report_name</ParameterName>
         </CellDefinition>
       </CellDefinitions>
     </GridLayoutDefinition>

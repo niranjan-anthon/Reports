@@ -52,6 +52,9 @@
     <DataSource Include="AdStdsCMS.rds" />
   </ItemGroup>
   <ItemGroup>
+    <Report Include="ClearanceActivityByService.rdl" />
+    <Report Include="ClearanceActivityByStatus.rdl" />
+    <Report Include="ClearanceActivityReport.rdl" />
     <Report Include="CoverPage.rdl" />
     <Report Include="InvoiceableOrdersByDivisionReport.rdl" />
     <Report Include="InvoiceableOrdersReport.rdl" />
