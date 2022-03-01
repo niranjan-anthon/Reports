@@ -10,7 +10,7 @@
     </DataSource>
   </DataSources>
   <DataSets>
-    <DataSet Name="ClearanceSubmissionSummaryByStatusQuery">
+    <DataSet Name="ClearanceOrderByMediaTypeQuery">
       <Query>
         <DataSourceName>DataSource</DataSourceName>
         <QueryParameters>
@@ -21,23 +21,21 @@
             <Value>=Parameters!to_date.Value</Value>
           </QueryParameter>
         </QueryParameters>
-        <CommandText>SELECT        sub_stat.submission_status, csub.clearance_submission_status_id AS Total, csub.clearance_division_id, cdiv.clearance_division
-FROM            ClearanceOrderSubmissions AS csub LEFT OUTER JOIN
-                         ClearanceOrders AS cord ON cord.clearance_order_id = csub.clearance_order_id LEFT OUTER JOIN
-                         ClearanceDivisions AS cdiv ON csub.clearance_division_id = cdiv.clearance_division_id LEFT OUTER JOIN
-                         ClearanceSubmissionStatuses AS sub_stat ON sub_stat.clearance_submission_status_id = csub.clearance_submission_status_id
-WHERE        (cord.activated = 1) AND (cord.active = 1) AND (csub.active = 1)
-AND cord.created_date &gt;=@from_date AND cord.created_date &lt;=@to_date 
-GROUP BY sub_stat.submission_status, csub.clearance_submission_status_id, csub.clearance_division_id, cdiv.clearance_division
-HAVING        (csub.clearance_submission_status_id IS NOT NULL)
-ORDER BY cdiv.clearance_division</CommandText>
+        <CommandText>SELECT csub.media_type_id,  COUNT(csub.media_type_id) as Total, csub.clearance_division_id, cdiv.clearance_division, medty.media_type
+FROM ClearanceOrderSubmissions csub
+LEFT OUTER JOIN MediaTypes medty ON medty.media_type_id = csub.media_type_id
+LEFT OUTER JOIN ClearanceOrders cord ON cord.clearance_order_id = csub.clearance_order_id
+LEFT OUTER JOIN ClearanceDivisions cdiv ON csub.clearance_division_id = cdiv.clearance_division_id
+LEFT OUTER JOIN ClearanceSubmissionStatuses sub_stat ON sub_stat.clearance_submission_status_id = csub.clearance_submission_status_id
+WHERE cord.activated = 1 AND cord.active =1 AND csub.active =1 AND csub.media_type_id IS NOT NULL AND csub.created_date  &gt;=@from_date AND csub.created_date &lt;=@to_date 
+GROUP BY csub.media_type_id, csub.clearance_division_id, cdiv.clearance_division, medty.media_type</CommandText>
       </Query>
       <Fields>
-        <Field Name="submission_status">
-          <DataField>submission_status</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
+        <Field Name="media_type_id">
+          <DataField>media_type_id</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
         </Field>
-        <Field Name="Total">
+        <Field Name="total">
           <DataField>Total</DataField>
           <rd:TypeName>System.Int32</rd:TypeName>
         </Field>
@@ -49,6 +47,10 @@ ORDER BY cdiv.clearance_division</CommandText>
           <DataField>clearance_division</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
+        <Field Name="media_type">
+          <DataField>media_type</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
       </Fields>
     </DataSet>
   </DataSets>
@@ -56,7 +58,7 @@ ORDER BY cdiv.clearance_division</CommandText>
     <ReportSection>
       <Body>
         <ReportItems>
-          <Tablix Name="tbl_submission_subreport">
+          <Tablix Name="Tablix1">
             <TablixBody>
               <TablixColumns>
                 <TablixColumn>
@@ -82,7 +84,7 @@ ORDER BY cdiv.clearance_division</CommandText>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>Submission Status</Value>
+                                  <Value>Media Type</Value>
                                   <Style>
                                     <FontWeight>Bold</FontWeight>
                                   </Style>
@@ -220,18 +222,18 @@ ORDER BY cdiv.clearance_division</CommandText>
                   </TablixCells>
                 </TablixRow>
                 <TablixRow>
-                  <Height>0.23958in</Height>
+                  <Height>0.25in</Height>
                   <TablixCells>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="submission_status">
+                        <Textbox Name="Textbox10">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Fields!submission_status.Value</Value>
+                                  <Value />
                                   <Style>
                                     <FontWeight>Normal</FontWeight>
                                   </Style>
@@ -242,7 +244,7 @@ ORDER BY cdiv.clearance_division</CommandText>
                               </Style>
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>submission_status</rd:DefaultName>
+                          <rd:DefaultName>Textbox10</rd:DefaultName>
                           <Style>
                             <Border>
                               <Color>LightGrey</Color>
@@ -272,14 +274,14 @@ ORDER BY cdiv.clearance_division</CommandText>
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="Total">
+                        <Textbox Name="Textbox11">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Sum(Fields!Total.Value)</Value>
+                                  <Value />
                                   <Style>
                                     <FontWeight>Normal</FontWeight>
                                   </Style>
@@ -290,7 +292,7 @@ ORDER BY cdiv.clearance_division</CommandText>
                               </Style>
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>Total</rd:DefaultName>
+                          <rd:DefaultName>Textbox11</rd:DefaultName>
                           <Style>
                             <Border>
                               <Color>LightGrey</Color>
@@ -320,14 +322,14 @@ ORDER BY cdiv.clearance_division</CommandText>
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="Textbox29">
+                        <Textbox Name="Textbox13">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=ROUND((Fields!Total.Value/SUM(Fields!Total.Value, "DivisionGroup"))*100,0)</Value>
+                                  <Value />
                                   <Style>
                                     <FontWeight>Normal</FontWeight>
                                   </Style>
@@ -338,7 +340,156 @@ ORDER BY cdiv.clearance_division</CommandText>
                               </Style>
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>Textbox29</rd:DefaultName>
+                          <rd:DefaultName>Textbox13</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Color>LightGrey</Color>
+                              <Style>None</Style>
+                            </Border>
+                            <TopBorder>
+                              <Color>Black</Color>
+                              <Width>2pt</Width>
+                            </TopBorder>
+                            <BottomBorder>
+                              <Color>Black</Color>
+                              <Width>2pt</Width>
+                            </BottomBorder>
+                            <LeftBorder>
+                              <Style>None</Style>
+                            </LeftBorder>
+                            <RightBorder>
+                              <Style>None</Style>
+                            </RightBorder>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                  </TablixCells>
+                </TablixRow>
+                <TablixRow>
+                  <Height>0.23958in</Height>
+                  <TablixCells>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="service">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=Fields!media_type.Value</Value>
+                                  <Style>
+                                    <FontWeight>Normal</FontWeight>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Left</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>service</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Color>LightGrey</Color>
+                              <Style>None</Style>
+                            </Border>
+                            <TopBorder>
+                              <Color>Black</Color>
+                              <Width>2pt</Width>
+                            </TopBorder>
+                            <BottomBorder>
+                              <Color>Black</Color>
+                              <Width>2pt</Width>
+                            </BottomBorder>
+                            <LeftBorder>
+                              <Style>None</Style>
+                            </LeftBorder>
+                            <RightBorder>
+                              <Style>None</Style>
+                            </RightBorder>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="total">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=Sum(Fields!total.Value)</Value>
+                                  <Style>
+                                    <FontWeight>Normal</FontWeight>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Right</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>total</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Color>LightGrey</Color>
+                              <Style>None</Style>
+                            </Border>
+                            <TopBorder>
+                              <Color>Black</Color>
+                              <Width>2pt</Width>
+                            </TopBorder>
+                            <BottomBorder>
+                              <Color>Black</Color>
+                              <Width>2pt</Width>
+                            </BottomBorder>
+                            <LeftBorder>
+                              <Style>None</Style>
+                            </LeftBorder>
+                            <RightBorder>
+                              <Style>None</Style>
+                            </RightBorder>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox15">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=ROUND((Fields!total.Value/SUM(Fields!total.Value, "DivisionGroup"))*100,0)</Value>
+                                  <Style>
+                                    <FontWeight>Normal</FontWeight>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Right</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox15</rd:DefaultName>
                           <Style>
                             <Border>
                               <Color>LightGrey</Color>
@@ -373,7 +524,7 @@ ORDER BY cdiv.clearance_division</CommandText>
                   <TablixCells>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="Textbox20">
+                        <Textbox Name="Textbox18">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
@@ -391,7 +542,7 @@ ORDER BY cdiv.clearance_division</CommandText>
                               </Style>
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>Textbox20</rd:DefaultName>
+                          <rd:DefaultName>Textbox18</rd:DefaultName>
                           <Style>
                             <Border>
                               <Color>LightGrey</Color>
@@ -421,14 +572,14 @@ ORDER BY cdiv.clearance_division</CommandText>
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="txt_submission_total">
+                        <Textbox Name="Textbox19">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Sum(Fields!Total.Value)</Value>
+                                  <Value>=Sum(Fields!total.Value)</Value>
                                   <Style>
                                     <FontWeight>Normal</FontWeight>
                                   </Style>
@@ -439,6 +590,7 @@ ORDER BY cdiv.clearance_division</CommandText>
                               </Style>
                             </Paragraph>
                           </Paragraphs>
+                          <rd:DefaultName>Textbox19</rd:DefaultName>
                           <Style>
                             <Border>
                               <Color>LightGrey</Color>
@@ -469,14 +621,14 @@ ORDER BY cdiv.clearance_division</CommandText>
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="Textbox22">
+                        <Textbox Name="Textbox20">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=SUM(ROUND((Fields!Total.Value/Sum(Fields!Total.Value))*100, 2))</Value>
+                                  <Value>=SUM(ROUND((Fields!total.Value/Sum(Fields!total.Value))*100, 2))</Value>
                                   <Style>
                                     <FontWeight>Normal</FontWeight>
                                   </Style>
@@ -487,7 +639,7 @@ ORDER BY cdiv.clearance_division</CommandText>
                               </Style>
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>Textbox22</rd:DefaultName>
+                          <rd:DefaultName>Textbox20</rd:DefaultName>
                           <Style>
                             <Border>
                               <Color>LightGrey</Color>
@@ -586,18 +738,18 @@ ORDER BY cdiv.clearance_division</CommandText>
                 <TablixMember>
                   <Group Name="DivisionGroup">
                     <GroupExpressions>
-                      <GroupExpression>=Fields!clearance_division_id.Value</GroupExpression>
+                      <GroupExpression>=Fields!clearance_division.Value</GroupExpression>
                     </GroupExpressions>
                   </Group>
                   <SortExpressions>
                     <SortExpression>
-                      <Value>=Fields!clearance_division_id.Value</Value>
+                      <Value>=Fields!clearance_division.Value</Value>
                     </SortExpression>
                   </SortExpressions>
                   <TablixHeader>
                     <Size>1in</Size>
                     <CellContents>
-                      <Textbox Name="clearance_division_id">
+                      <Textbox Name="clearance_division">
                         <CanGrow>true</CanGrow>
                         <KeepTogether>true</KeepTogether>
                         <Paragraphs>
@@ -615,7 +767,7 @@ ORDER BY cdiv.clearance_division</CommandText>
                             </Style>
                           </Paragraph>
                         </Paragraphs>
-                        <rd:DefaultName>clearance_division_id</rd:DefaultName>
+                        <rd:DefaultName>clearance_division</rd:DefaultName>
                         <Style>
                           <Border>
                             <Color>LightGrey</Color>
@@ -645,14 +797,17 @@ ORDER BY cdiv.clearance_division</CommandText>
                   </TablixHeader>
                   <TablixMembers>
                     <TablixMember>
-                      <Group Name="submission_status">
+                      <KeepWithGroup>After</KeepWithGroup>
+                    </TablixMember>
+                    <TablixMember>
+                      <Group Name="MediaTypeGroup">
                         <GroupExpressions>
-                          <GroupExpression>=Fields!submission_status.Value</GroupExpression>
+                          <GroupExpression>=Fields!media_type.Value</GroupExpression>
                         </GroupExpressions>
                       </Group>
                       <SortExpressions>
                         <SortExpression>
-                          <Value>=Fields!submission_status.Value</Value>
+                          <Value>=Fields!media_type.Value</Value>
                         </SortExpression>
                       </SortExpressions>
                     </TablixMember>
@@ -663,10 +818,10 @@ ORDER BY cdiv.clearance_division</CommandText>
                 </TablixMember>
               </TablixMembers>
             </TablixRowHierarchy>
-            <DataSetName>ClearanceSubmissionSummaryByStatusQuery</DataSetName>
+            <DataSetName>ClearanceOrderByMediaTypeQuery</DataSetName>
             <Top>0.51501in</Top>
             <Left>0.92178in</Left>
-            <Height>0.73958in</Height>
+            <Height>0.98958in</Height>
             <Width>4.89677in</Width>
             <Style>
               <Border>
@@ -675,17 +830,17 @@ ORDER BY cdiv.clearance_division</CommandText>
             </Style>
           </Tablix>
         </ReportItems>
-        <Height>2.58958in</Height>
+        <Height>2.0375in</Height>
         <Style>
           <Border>
             <Style>None</Style>
           </Border>
         </Style>
       </Body>
-      <Width>7.472in</Width>
+      <Width>7.39908in</Width>
       <Page>
         <PageFooter>
-          <Height>0.47538in</Height>
+          <Height>0.46497in</Height>
           <PrintOnFirstPage>true</PrintOnFirstPage>
           <PrintOnLastPage>true</PrintOnLastPage>
           <ReportItems>
@@ -709,7 +864,7 @@ ORDER BY cdiv.clearance_division</CommandText>
               </Paragraphs>
               <rd:DefaultName>Textbox61</rd:DefaultName>
               <Top>0.1in</Top>
-              <Left>8.86937cm</Left>
+              <Left>8.23437cm</Left>
               <Height>0.52062cm</Height>
               <Width>4.61667cm</Width>
               <Style>
@@ -742,7 +897,7 @@ ORDER BY cdiv.clearance_division</CommandText>
               </Paragraphs>
               <rd:DefaultName>Textbox61</rd:DefaultName>
               <Top>0.1in</Top>
-              <Left>14.98947cm</Left>
+              <Left>14.67197cm</Left>
               <Height>0.52062cm</Height>
               <Width>3.80419cm</Width>
               <ZIndex>1</ZIndex>
@@ -810,30 +965,38 @@ ORDER BY cdiv.clearance_division</CommandText>
     </ReportSection>
   </ReportSections>
   <ReportParameters>
+    <ReportParameter Name="report_name">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <Hidden>true</Hidden>
+    </ReportParameter>
     <ReportParameter Name="from_date">
-      <DataType>DateTime</DataType>
-      <Prompt>start date</Prompt>
-      <UsedInQuery>True</UsedInQuery>
+      <DataType>String</DataType>
+      <Prompt>from date</Prompt>
     </ReportParameter>
     <ReportParameter Name="to_date">
-      <DataType>DateTime</DataType>
-      <Prompt>end date</Prompt>
-      <UsedInQuery>True</UsedInQuery>
+      <DataType>String</DataType>
+      <Prompt>to date</Prompt>
     </ReportParameter>
   </ReportParameters>
   <ReportParametersLayout>
     <GridLayoutDefinition>
       <NumberOfColumns>1</NumberOfColumns>
-      <NumberOfRows>2</NumberOfRows>
+      <NumberOfRows>3</NumberOfRows>
       <CellDefinitions>
         <CellDefinition>
           <ColumnIndex>0</ColumnIndex>
           <RowIndex>0</RowIndex>
-          <ParameterName>from_date</ParameterName>
+          <ParameterName>report_name</ParameterName>
         </CellDefinition>
         <CellDefinition>
           <ColumnIndex>0</ColumnIndex>
           <RowIndex>1</RowIndex>
+          <ParameterName>from_date</ParameterName>
+        </CellDefinition>
+        <CellDefinition>
+          <ColumnIndex>0</ColumnIndex>
+          <RowIndex>2</RowIndex>
           <ParameterName>to_date</ParameterName>
         </CellDefinition>
       </CellDefinitions>

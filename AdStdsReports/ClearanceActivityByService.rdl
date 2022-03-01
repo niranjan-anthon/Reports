@@ -10,40 +10,17 @@
     </DataSource>
   </DataSources>
   <DataSets>
-    <DataSet Name="ClearanceSubmissionSummaryByStatusQuery">
-      <Query>
-        <DataSourceName>DataSource</DataSourceName>
-        <CommandText>SELECT        sub_stat.submission_status, csub.clearance_submission_status_id AS Total, csub.clearance_division_id, cdiv.clearance_division
-FROM            ClearanceOrderSubmissions AS csub LEFT OUTER JOIN
-                         ClearanceOrders AS cord ON cord.clearance_order_id = csub.clearance_order_id LEFT OUTER JOIN
-                         ClearanceDivisions AS cdiv ON csub.clearance_division_id = cdiv.clearance_division_id LEFT OUTER JOIN
-                         ClearanceSubmissionStatuses AS sub_stat ON sub_stat.clearance_submission_status_id = csub.clearance_submission_status_id
-WHERE        (cord.activated = 1) AND (cord.active = 1) AND (csub.active = 1)
-GROUP BY sub_stat.submission_status, csub.clearance_submission_status_id, csub.clearance_division_id, cdiv.clearance_division
-HAVING        (csub.clearance_submission_status_id IS NOT NULL)</CommandText>
-      </Query>
-      <Fields>
-        <Field Name="submission_status">
-          <DataField>submission_status</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="Total">
-          <DataField>Total</DataField>
-          <rd:TypeName>System.Int32</rd:TypeName>
-        </Field>
-        <Field Name="clearance_division_id">
-          <DataField>clearance_division_id</DataField>
-          <rd:TypeName>System.Int32</rd:TypeName>
-        </Field>
-        <Field Name="clearance_division">
-          <DataField>clearance_division</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-      </Fields>
-    </DataSet>
     <DataSet Name="ClearanceOrderByServiceQuery">
       <Query>
         <DataSourceName>DataSource</DataSourceName>
+        <QueryParameters>
+          <QueryParameter Name="@from_date">
+            <Value>=Parameters!from_date.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="@to_date">
+            <Value>=Parameters!to_date.Value</Value>
+          </QueryParameter>
+        </QueryParameters>
         <CommandText>SELECT ser_lan.clearance_service as service, COUNT(ser_lan.clearance_service) as total, csub.clearance_division_id, cdiv.clearance_division
 FROM ClearanceOrderSubmissions csub
 LEFT OUTER JOIN ClearanceOrders cord ON cord.clearance_order_id = csub.clearance_order_id
@@ -51,8 +28,9 @@ LEFT OUTER JOIN ClearanceServices cser ON cser.clearance_service_id = csub.clear
 LEFT OUTER JOIN ClearanceServiceLanguages ser_lan ON ser_lan.clearance_service_id = cser.clearance_service_id
 LEFT OUTER JOIN Languages lang ON lang.language_id = ser_lan.language_id
 LEFT OUTER JOIN ClearanceDivisions cdiv ON csub.clearance_division_id = cdiv.clearance_division_id
-
 WHERE cord.activated = 1 AND cord.active =1 AND csub.active =1 AND csub.clearance_submission_status_id IS NOT NULL AND lang.language_id=1
+AND 
+csub.created_date &lt;=@from_date AND csub.created_date &gt;=@to_date 
 GROUP BY ser_lan.clearance_service,csub.clearance_division_id, cdiv.clearance_division</CommandText>
       </Query>
       <Fields>
@@ -851,17 +829,17 @@ GROUP BY ser_lan.clearance_service,csub.clearance_division_id, cdiv.clearance_di
             </Style>
           </Tablix>
         </ReportItems>
-        <Height>8.1in</Height>
+        <Height>1.99583in</Height>
         <Style>
           <Border>
             <Style>None</Style>
           </Border>
         </Style>
       </Body>
-      <Width>7.89908in</Width>
+      <Width>7.5345in</Width>
       <Page>
         <PageFooter>
-          <Height>0.70455in</Height>
+          <Height>0.45455in</Height>
           <PrintOnFirstPage>true</PrintOnFirstPage>
           <PrintOnLastPage>true</PrintOnLastPage>
           <ReportItems>
@@ -885,7 +863,7 @@ GROUP BY ser_lan.clearance_service,csub.clearance_division_id, cdiv.clearance_di
               </Paragraphs>
               <rd:DefaultName>Textbox61</rd:DefaultName>
               <Top>0.1in</Top>
-              <Left>9.18687cm</Left>
+              <Left>8.55187cm</Left>
               <Height>0.52062cm</Height>
               <Width>4.61667cm</Width>
               <Style>
@@ -918,7 +896,7 @@ GROUP BY ser_lan.clearance_service,csub.clearance_division_id, cdiv.clearance_di
               </Paragraphs>
               <rd:DefaultName>Textbox61</rd:DefaultName>
               <Top>0.1in</Top>
-              <Left>16.25947cm</Left>
+              <Left>14.98947cm</Left>
               <Height>0.52062cm</Height>
               <Width>3.80419cm</Width>
               <ZIndex>1</ZIndex>
@@ -958,7 +936,7 @@ GROUP BY ser_lan.clearance_service,csub.clearance_division_id, cdiv.clearance_di
               </Paragraphs>
               <rd:DefaultName>Textbox61</rd:DefaultName>
               <Top>0.1in</Top>
-              <Left>0.635in</Left>
+              <Left>0.26in</Left>
               <Height>0.52062cm</Height>
               <Width>5.35283cm</Width>
               <ZIndex>2</ZIndex>
@@ -986,20 +964,18 @@ GROUP BY ser_lan.clearance_service,csub.clearance_division_id, cdiv.clearance_di
     </ReportSection>
   </ReportSections>
   <ReportParameters>
-    <ReportParameter Name="invoice_start_date">
-      <DataType>DateTime</DataType>
-      <Nullable>true</Nullable>
-      <Hidden>true</Hidden>
-    </ReportParameter>
-    <ReportParameter Name="invoice_end_date">
-      <DataType>DateTime</DataType>
-      <Nullable>true</Nullable>
-      <Hidden>true</Hidden>
-    </ReportParameter>
     <ReportParameter Name="report_name">
       <DataType>String</DataType>
       <Nullable>true</Nullable>
       <Hidden>true</Hidden>
+    </ReportParameter>
+    <ReportParameter Name="from_date">
+      <DataType>DateTime</DataType>
+      <Prompt>from date</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="to_date">
+      <DataType>String</DataType>
+      <Prompt>to date</Prompt>
     </ReportParameter>
   </ReportParameters>
   <ReportParametersLayout>
@@ -1010,17 +986,17 @@ GROUP BY ser_lan.clearance_service,csub.clearance_division_id, cdiv.clearance_di
         <CellDefinition>
           <ColumnIndex>0</ColumnIndex>
           <RowIndex>0</RowIndex>
-          <ParameterName>invoice_start_date</ParameterName>
+          <ParameterName>report_name</ParameterName>
         </CellDefinition>
         <CellDefinition>
           <ColumnIndex>0</ColumnIndex>
           <RowIndex>1</RowIndex>
-          <ParameterName>invoice_end_date</ParameterName>
+          <ParameterName>from_date</ParameterName>
         </CellDefinition>
         <CellDefinition>
           <ColumnIndex>0</ColumnIndex>
           <RowIndex>2</RowIndex>
-          <ParameterName>report_name</ParameterName>
+          <ParameterName>to_date</ParameterName>
         </CellDefinition>
       </CellDefinitions>
     </GridLayoutDefinition>

@@ -13,12 +13,21 @@
     <DataSet Name="ClearanceSubmissionSummaryByStatusQuery">
       <Query>
         <DataSourceName>DataSource</DataSourceName>
+        <QueryParameters>
+          <QueryParameter Name="@from_date">
+            <Value>=Parameters!from_date.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="@to_date">
+            <Value>=Parameters!to_date.Value</Value>
+          </QueryParameter>
+        </QueryParameters>
         <CommandText>SELECT        sub_stat.submission_status, csub.clearance_submission_status_id AS Total, csub.clearance_division_id, cdiv.clearance_division
 FROM            ClearanceOrderSubmissions AS csub LEFT OUTER JOIN
                          ClearanceOrders AS cord ON cord.clearance_order_id = csub.clearance_order_id LEFT OUTER JOIN
                          ClearanceDivisions AS cdiv ON csub.clearance_division_id = cdiv.clearance_division_id LEFT OUTER JOIN
                          ClearanceSubmissionStatuses AS sub_stat ON sub_stat.clearance_submission_status_id = csub.clearance_submission_status_id
 WHERE        (cord.activated = 1) AND (cord.active = 1) AND (csub.active = 1)
+AND cord.created_date &gt;=@from_date AND cord.created_date &lt;=@to_date 
 GROUP BY sub_stat.submission_status, csub.clearance_submission_status_id, csub.clearance_division_id, cdiv.clearance_division
 HAVING        (csub.clearance_submission_status_id IS NOT NULL)
 ORDER BY cdiv.clearance_division</CommandText>
@@ -39,138 +48,6 @@ ORDER BY cdiv.clearance_division</CommandText>
         <Field Name="clearance_division">
           <DataField>clearance_division</DataField>
           <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-      </Fields>
-    </DataSet>
-    <DataSet Name="ClearanceOrderByServiceQuery">
-      <Query>
-        <DataSourceName>DataSource</DataSourceName>
-        <CommandText>SELECT * FROM ClearanceOrders</CommandText>
-      </Query>
-      <Fields>
-        <Field Name="clearance_order_id">
-          <DataField>clearance_order_id</DataField>
-          <rd:TypeName>System.Int32</rd:TypeName>
-        </Field>
-        <Field Name="tenant_id">
-          <DataField>tenant_id</DataField>
-          <rd:TypeName>System.Int32</rd:TypeName>
-        </Field>
-        <Field Name="contact_id">
-          <DataField>contact_id</DataField>
-          <rd:TypeName>System.Int32</rd:TypeName>
-        </Field>
-        <Field Name="company_id">
-          <DataField>company_id</DataField>
-          <rd:TypeName>System.Int32</rd:TypeName>
-        </Field>
-        <Field Name="advertiser_id">
-          <DataField>advertiser_id</DataField>
-          <rd:TypeName>System.Int32</rd:TypeName>
-        </Field>
-        <Field Name="clearance_order_status_id">
-          <DataField>clearance_order_status_id</DataField>
-          <rd:TypeName>System.Int32</rd:TypeName>
-        </Field>
-        <Field Name="billing_address_book_id">
-          <DataField>billing_address_book_id</DataField>
-          <rd:TypeName>System.Int32</rd:TypeName>
-        </Field>
-        <Field Name="product_id">
-          <DataField>product_id</DataField>
-          <rd:TypeName>System.Int32</rd:TypeName>
-        </Field>
-        <Field Name="created_by_id">
-          <DataField>created_by_id</DataField>
-          <rd:TypeName>System.Int32</rd:TypeName>
-        </Field>
-        <Field Name="updated_by_id">
-          <DataField>updated_by_id</DataField>
-          <rd:TypeName>System.Int32</rd:TypeName>
-        </Field>
-        <Field Name="currency_id">
-          <DataField>currency_id</DataField>
-          <rd:TypeName>System.Int32</rd:TypeName>
-        </Field>
-        <Field Name="order_amount">
-          <DataField>order_amount</DataField>
-          <rd:TypeName>System.Decimal</rd:TypeName>
-        </Field>
-        <Field Name="order_number">
-          <DataField>order_number</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="po_number">
-          <DataField>po_number</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="reference_number">
-          <DataField>reference_number</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="billing_correspondence">
-          <DataField>billing_correspondence</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="billing_type">
-          <DataField>billing_type</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="date_received">
-          <DataField>date_received</DataField>
-          <rd:TypeName>System.DateTime</rd:TypeName>
-        </Field>
-        <Field Name="due_date">
-          <DataField>due_date</DataField>
-          <rd:TypeName>System.DateTime</rd:TypeName>
-        </Field>
-        <Field Name="created_date">
-          <DataField>created_date</DataField>
-          <rd:TypeName>System.DateTime</rd:TypeName>
-        </Field>
-        <Field Name="updated_date">
-          <DataField>updated_date</DataField>
-          <rd:TypeName>System.DateTime</rd:TypeName>
-        </Field>
-        <Field Name="completed">
-          <DataField>completed</DataField>
-          <rd:TypeName>System.Boolean</rd:TypeName>
-        </Field>
-        <Field Name="incomplete">
-          <DataField>incomplete</DataField>
-          <rd:TypeName>System.Boolean</rd:TypeName>
-        </Field>
-        <Field Name="invoiced">
-          <DataField>invoiced</DataField>
-          <rd:TypeName>System.Boolean</rd:TypeName>
-        </Field>
-        <Field Name="meeting_requested">
-          <DataField>meeting_requested</DataField>
-          <rd:TypeName>System.Boolean</rd:TypeName>
-        </Field>
-        <Field Name="send_confirmation_email">
-          <DataField>send_confirmation_email</DataField>
-          <rd:TypeName>System.Boolean</rd:TypeName>
-        </Field>
-        <Field Name="rush">
-          <DataField>rush</DataField>
-          <rd:TypeName>System.Boolean</rd:TypeName>
-        </Field>
-        <Field Name="activated">
-          <DataField>activated</DataField>
-          <rd:TypeName>System.Boolean</rd:TypeName>
-        </Field>
-        <Field Name="cancelled">
-          <DataField>cancelled</DataField>
-          <rd:TypeName>System.Boolean</rd:TypeName>
-        </Field>
-        <Field Name="order_paid">
-          <DataField>order_paid</DataField>
-          <rd:TypeName>System.Boolean</rd:TypeName>
-        </Field>
-        <Field Name="active">
-          <DataField>active</DataField>
-          <rd:TypeName>System.Boolean</rd:TypeName>
         </Field>
       </Fields>
     </DataSet>
@@ -729,7 +606,7 @@ ORDER BY cdiv.clearance_division</CommandText>
                               <TextRun>
                                 <Value>=Fields!clearance_division.Value</Value>
                                 <Style>
-                                  <FontWeight>Normal</FontWeight>
+                                  <FontWeight>Bold</FontWeight>
                                 </Style>
                               </TextRun>
                             </TextRuns>
@@ -798,17 +675,17 @@ ORDER BY cdiv.clearance_division</CommandText>
             </Style>
           </Tablix>
         </ReportItems>
-        <Height>8.1in</Height>
+        <Height>2.58958in</Height>
         <Style>
           <Border>
             <Style>None</Style>
           </Border>
         </Style>
       </Body>
-      <Width>7.89908in</Width>
+      <Width>7.472in</Width>
       <Page>
         <PageFooter>
-          <Height>0.70455in</Height>
+          <Height>0.47538in</Height>
           <PrintOnFirstPage>true</PrintOnFirstPage>
           <PrintOnLastPage>true</PrintOnLastPage>
           <ReportItems>
@@ -832,7 +709,7 @@ ORDER BY cdiv.clearance_division</CommandText>
               </Paragraphs>
               <rd:DefaultName>Textbox61</rd:DefaultName>
               <Top>0.1in</Top>
-              <Left>9.18687cm</Left>
+              <Left>8.86937cm</Left>
               <Height>0.52062cm</Height>
               <Width>4.61667cm</Width>
               <Style>
@@ -865,7 +742,7 @@ ORDER BY cdiv.clearance_division</CommandText>
               </Paragraphs>
               <rd:DefaultName>Textbox61</rd:DefaultName>
               <Top>0.1in</Top>
-              <Left>16.25947cm</Left>
+              <Left>14.98947cm</Left>
               <Height>0.52062cm</Height>
               <Width>3.80419cm</Width>
               <ZIndex>1</ZIndex>
@@ -905,7 +782,7 @@ ORDER BY cdiv.clearance_division</CommandText>
               </Paragraphs>
               <rd:DefaultName>Textbox61</rd:DefaultName>
               <Top>0.1in</Top>
-              <Left>0.635in</Left>
+              <Left>0.385in</Left>
               <Height>0.52062cm</Height>
               <Width>5.35283cm</Width>
               <ZIndex>2</ZIndex>
@@ -933,41 +810,31 @@ ORDER BY cdiv.clearance_division</CommandText>
     </ReportSection>
   </ReportSections>
   <ReportParameters>
-    <ReportParameter Name="invoice_start_date">
+    <ReportParameter Name="from_date">
       <DataType>DateTime</DataType>
-      <Nullable>true</Nullable>
-      <Hidden>true</Hidden>
+      <Prompt>start date</Prompt>
+      <UsedInQuery>True</UsedInQuery>
     </ReportParameter>
-    <ReportParameter Name="invoice_end_date">
+    <ReportParameter Name="to_date">
       <DataType>DateTime</DataType>
-      <Nullable>true</Nullable>
-      <Hidden>true</Hidden>
-    </ReportParameter>
-    <ReportParameter Name="report_name">
-      <DataType>String</DataType>
-      <Nullable>true</Nullable>
-      <Hidden>true</Hidden>
+      <Prompt>end date</Prompt>
+      <UsedInQuery>True</UsedInQuery>
     </ReportParameter>
   </ReportParameters>
   <ReportParametersLayout>
     <GridLayoutDefinition>
       <NumberOfColumns>1</NumberOfColumns>
-      <NumberOfRows>3</NumberOfRows>
+      <NumberOfRows>2</NumberOfRows>
       <CellDefinitions>
         <CellDefinition>
           <ColumnIndex>0</ColumnIndex>
           <RowIndex>0</RowIndex>
-          <ParameterName>invoice_start_date</ParameterName>
+          <ParameterName>from_date</ParameterName>
         </CellDefinition>
         <CellDefinition>
           <ColumnIndex>0</ColumnIndex>
           <RowIndex>1</RowIndex>
-          <ParameterName>invoice_end_date</ParameterName>
-        </CellDefinition>
-        <CellDefinition>
-          <ColumnIndex>0</ColumnIndex>
-          <RowIndex>2</RowIndex>
-          <ParameterName>report_name</ParameterName>
+          <ParameterName>to_date</ParameterName>
         </CellDefinition>
       </CellDefinitions>
     </GridLayoutDefinition>
