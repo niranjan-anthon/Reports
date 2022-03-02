@@ -60,13 +60,13 @@ ORDER BY cdiv.clearance_division</CommandText>
             <TablixBody>
               <TablixColumns>
                 <TablixColumn>
-                  <Width>1.82063in</Width>
+                  <Width>2.42144in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>1.07614in</Width>
+                  <Width>1.67695in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>1in</Width>
+                  <Width>1.60081in</Width>
                 </TablixColumn>
               </TablixColumns>
               <TablixRows>
@@ -531,7 +531,7 @@ ORDER BY cdiv.clearance_division</CommandText>
               <TablixMembers>
                 <TablixMember>
                   <TablixHeader>
-                    <Size>1in</Size>
+                    <Size>1.60081in</Size>
                     <CellContents>
                       <Textbox Name="Textbox4">
                         <CanGrow>true</CanGrow>
@@ -595,7 +595,7 @@ ORDER BY cdiv.clearance_division</CommandText>
                     </SortExpression>
                   </SortExpressions>
                   <TablixHeader>
-                    <Size>1in</Size>
+                    <Size>1.60081in</Size>
                     <CellContents>
                       <Textbox Name="clearance_division_id">
                         <CanGrow>true</CanGrow>
@@ -663,11 +663,12 @@ ORDER BY cdiv.clearance_division</CommandText>
                 </TablixMember>
               </TablixMembers>
             </TablixRowHierarchy>
+            <KeepTogether>true</KeepTogether>
             <DataSetName>ClearanceSubmissionSummaryByStatusQuery</DataSetName>
-            <Top>0.51501in</Top>
-            <Left>0.92178in</Left>
+            <Top>0.25in</Top>
+            <Left>0.5in</Left>
             <Height>0.73958in</Height>
-            <Width>4.89677in</Width>
+            <Width>7.3in</Width>
             <Style>
               <Border>
                 <Style>None</Style>
@@ -675,17 +676,17 @@ ORDER BY cdiv.clearance_division</CommandText>
             </Style>
           </Tablix>
         </ReportItems>
-        <Height>2.58958in</Height>
+        <Height>1.01667in</Height>
         <Style>
           <Border>
             <Style>None</Style>
           </Border>
         </Style>
       </Body>
-      <Width>7.472in</Width>
+      <Width>7.9in</Width>
       <Page>
         <PageFooter>
-          <Height>0.47538in</Height>
+          <Height>0.39205in</Height>
           <PrintOnFirstPage>true</PrintOnFirstPage>
           <PrintOnLastPage>true</PrintOnLastPage>
           <ReportItems>
@@ -741,10 +742,10 @@ ORDER BY cdiv.clearance_division</CommandText>
                 </Paragraph>
               </Paragraphs>
               <rd:DefaultName>Textbox61</rd:DefaultName>
-              <Top>0.1in</Top>
-              <Left>14.98947cm</Left>
+              <Top>0.06944in</Top>
+              <Left>15.70385cm</Left>
               <Height>0.52062cm</Height>
-              <Width>3.80419cm</Width>
+              <Width>3.99703cm</Width>
               <ZIndex>1</ZIndex>
               <Style>
                 <Border>

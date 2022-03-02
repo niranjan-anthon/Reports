@@ -35,8 +35,8 @@
                   </Paragraph>
                 </Paragraphs>
                 <rd:DefaultName>Textbox13</rd:DefaultName>
-                <Top>1.77819in</Top>
-                <Left>0.21875in</Left>
+                <Top>1.65319in</Top>
+                <Left>0.8284in</Left>
                 <Height>0.47694in</Height>
                 <Width>5.41765in</Width>
                 <Style>
@@ -68,8 +68,8 @@
                   </Paragraph>
                 </Paragraphs>
                 <rd:DefaultName>Textbox13</rd:DefaultName>
-                <Top>2.2968in</Top>
-                <Left>1.05208in</Left>
+                <Top>2.1718in</Top>
+                <Left>1.78673in</Left>
                 <Height>0.3125in</Height>
                 <Width>3.5863in</Width>
                 <ZIndex>1</ZIndex>
@@ -87,7 +87,7 @@
                 <Source>Embedded</Source>
                 <Value>AdStandardsLogo400x117</Value>
                 <Top>0.1in</Top>
-                <Left>0.84375in</Left>
+                <Left>1.4534in</Left>
                 <Height>3.09562cm</Height>
                 <Width>10.58333cm</Width>
                 <ZIndex>2</ZIndex>
@@ -98,14 +98,48 @@
                 </Style>
                 <cl:ComponentMetadata />
               </Image>
+              <Textbox Name="Textbox15">
+                <CanGrow>true</CanGrow>
+                <Paragraphs>
+                  <Paragraph>
+                    <TextRuns>
+                      <TextRun>
+                        <Value>=Parameters!from_date.Value + " To " + Parameters!to_date.Value</Value>
+                        <Style>
+                          <FontFamily>Arial</FontFamily>
+                          <FontSize>15pt</FontSize>
+                        </Style>
+                      </TextRun>
+                    </TextRuns>
+                    <Style>
+                      <TextAlign>Center</TextAlign>
+                    </Style>
+                  </Paragraph>
+                </Paragraphs>
+                <rd:DefaultName>Textbox13</rd:DefaultName>
+                <Top>2.63819in</Top>
+                <Left>1.79181in</Left>
+                <Height>0.3125in</Height>
+                <Width>3.5863in</Width>
+                <ZIndex>3</ZIndex>
+                <Style>
+                  <Border>
+                    <Style>None</Style>
+                  </Border>
+                  <PaddingLeft>2pt</PaddingLeft>
+                  <PaddingRight>2pt</PaddingRight>
+                  <PaddingTop>2pt</PaddingTop>
+                  <PaddingBottom>2pt</PaddingBottom>
+                </Style>
+              </Textbox>
             </ReportItems>
             <PageBreak>
               <BreakLocation>End</BreakLocation>
             </PageBreak>
-            <Top>0.26in</Top>
-            <Left>2.18352cm</Left>
-            <Height>2.81431in</Height>
-            <Width>6.04266in</Width>
+            <Top>0.135in</Top>
+            <Left>1.905cm</Left>
+            <Height>3.08167in</Height>
+            <Width>6.41991in</Width>
             <Style>
               <Border>
                 <Style>None</Style>
@@ -113,89 +147,6 @@
             </Style>
           </Rectangle>
           <Rectangle Name="Rectangle1">
-            <ReportItems>
-              <Rectangle Name="Rectangle3">
-                <ReportItems>
-                  <Subreport Name="ActivityBySubmissionSubReport3">
-                    <ReportName>ClearanceActivityByService</ReportName>
-                    <Parameters>
-                      <Parameter Name="from_date">
-                        <Value>=Parameters!from_date.Value</Value>
-                      </Parameter>
-                      <Parameter Name="to_date">
-                        <Value>=Parameters!to_date.Value</Value>
-                      </Parameter>
-                    </Parameters>
-                    <Top>0.01389in</Top>
-                    <Height>0.1875in</Height>
-                    <Width>6.46974in</Width>
-                    <Style>
-                      <Border>
-                        <Style>None</Style>
-                      </Border>
-                    </Style>
-                  </Subreport>
-                </ReportItems>
-                <KeepTogether>true</KeepTogether>
-                <Height>0.27083in</Height>
-                <Width>6.46974in</Width>
-                <Style>
-                  <Border>
-                    <Style>None</Style>
-                  </Border>
-                </Style>
-              </Rectangle>
-            </ReportItems>
-            <PageBreak>
-              <BreakLocation>End</BreakLocation>
-            </PageBreak>
-            <Top>3.55778in</Top>
-            <Left>0.48465in</Left>
-            <Height>0.27083in</Height>
-            <Width>6.46974in</Width>
-            <ZIndex>1</ZIndex>
-            <Style>
-              <Border>
-                <Style>None</Style>
-              </Border>
-            </Style>
-          </Rectangle>
-          <Rectangle Name="Rectangle5">
-            <ReportItems>
-              <Subreport Name="ActivityBySubmissionSubReport">
-                <ReportName>ClearanceActivityByMediaType</ReportName>
-                <Parameters>
-                  <Parameter Name="from_date">
-                    <Value>=Parameters!from_date.Value</Value>
-                  </Parameter>
-                  <Parameter Name="to_date">
-                    <Value>=Parameters!to_date.Value</Value>
-                  </Parameter>
-                </Parameters>
-                <Height>0.1875in</Height>
-                <Width>6.46974in</Width>
-                <Style>
-                  <Border>
-                    <Style>None</Style>
-                  </Border>
-                </Style>
-              </Subreport>
-            </ReportItems>
-            <PageBreak>
-              <BreakLocation>End</BreakLocation>
-            </PageBreak>
-            <Top>3.91542in</Top>
-            <Left>0.48465in</Left>
-            <Height>0.27083in</Height>
-            <Width>6.46974in</Width>
-            <ZIndex>2</ZIndex>
-            <Style>
-              <Border>
-                <Style>None</Style>
-              </Border>
-            </Style>
-          </Rectangle>
-          <Rectangle Name="Rectangle4">
             <ReportItems>
               <Subreport Name="ActivityBySubmissionSubReport2">
                 <ReportName>ClearanceActivityByStatus</ReportName>
@@ -207,80 +158,82 @@
                     <Value>=Parameters!to_date.Value</Value>
                   </Parameter>
                 </Parameters>
-                <Top>0.04166in</Top>
+                <KeepTogether>true</KeepTogether>
+                <Top>0.04167in</Top>
+                <Left>0.2502cm</Left>
                 <Height>0.1875in</Height>
-                <Width>6.46974in</Width>
+                <Width>3.95208in</Width>
                 <Style>
                   <Border>
                     <Style>None</Style>
                   </Border>
                 </Style>
               </Subreport>
-            </ReportItems>
-            <PageBreak>
-              <BreakLocation>End</BreakLocation>
-            </PageBreak>
-            <Top>3.27306in</Top>
-            <Left>0.48465in</Left>
-            <Height>0.27083in</Height>
-            <Width>6.46974in</Width>
-            <ZIndex>3</ZIndex>
-            <Style>
-              <Border>
-                <Style>None</Style>
-              </Border>
-            </Style>
-          </Rectangle>
-          <Rectangle Name="Rectangle6">
-            <ReportItems>
-              <Rectangle Name="Rectangle7">
-                <ReportItems>
-                  <Subreport Name="ActivityBySubmissionSubReport4">
-                    <ReportName>ClearanceActivityBySubmissionType</ReportName>
-                    <Parameters>
-                      <Parameter Name="from_date">
-                        <Value>=Parameters!from_date.Value</Value>
-                      </Parameter>
-                      <Parameter Name="to_date">
-                        <Value>=Parameters!to_date.Value</Value>
-                      </Parameter>
-                    </Parameters>
-                    <Height>0.1875in</Height>
-                    <Width>6.46974in</Width>
-                    <Style>
-                      <Border>
-                        <Style>None</Style>
-                      </Border>
-                    </Style>
-                  </Subreport>
-                </ReportItems>
-                <PageBreak>
-                  <BreakLocation>End</BreakLocation>
-                </PageBreak>
-                <Top>0.02167in</Top>
-                <Height>0.28471in</Height>
-                <Width>6.46974in</Width>
+              <Subreport Name="ActivityBySubmissionSubReport3">
+                <ReportName>ClearanceActivityByService</ReportName>
+                <Parameters>
+                  <Parameter Name="from_date">
+                    <Value>=Parameters!from_date.Value</Value>
+                  </Parameter>
+                  <Parameter Name="to_date">
+                    <Value>=Parameters!to_date.Value</Value>
+                  </Parameter>
+                </Parameters>
+                <KeepTogether>true</KeepTogether>
+                <Top>0.25695in</Top>
+                <Left>0.2502cm</Left>
+                <Height>0.1875in</Height>
+                <Width>3.95208in</Width>
+                <ZIndex>1</ZIndex>
                 <Style>
                   <Border>
                     <Style>None</Style>
                   </Border>
                 </Style>
-              </Rectangle>
-            </ReportItems>
-            <KeepTogether>true</KeepTogether>
-            <Top>4.20625in</Top>
-            <Left>0.48465in</Left>
-            <Height>0.30638in</Height>
-            <Width>6.46974in</Width>
-            <ZIndex>4</ZIndex>
-            <Style>
-              <Border>
-                <Style>None</Style>
-              </Border>
-            </Style>
-          </Rectangle>
-          <Rectangle Name="Rectangle8">
-            <ReportItems>
+              </Subreport>
+              <Subreport Name="ActivityBySubmissionSubReport">
+                <ReportName>ClearanceActivityByMediaType</ReportName>
+                <Parameters>
+                  <Parameter Name="from_date">
+                    <Value>=Parameters!from_date.Value</Value>
+                  </Parameter>
+                  <Parameter Name="to_date">
+                    <Value>=Parameters!to_date.Value</Value>
+                  </Parameter>
+                </Parameters>
+                <Top>1.19945cm</Top>
+                <Left>0.25018cm</Left>
+                <Height>0.1875in</Height>
+                <Width>3.95209in</Width>
+                <ZIndex>2</ZIndex>
+                <Style>
+                  <Border>
+                    <Style>None</Style>
+                  </Border>
+                </Style>
+              </Subreport>
+              <Subreport Name="ActivityBySubmissionSubReport4">
+                <ReportName>ClearanceActivityBySubmissionType</ReportName>
+                <Parameters>
+                  <Parameter Name="from_date">
+                    <Value>=Parameters!from_date.Value</Value>
+                  </Parameter>
+                  <Parameter Name="to_date">
+                    <Value>=Parameters!to_date.Value</Value>
+                  </Parameter>
+                </Parameters>
+                <KeepTogether>true</KeepTogether>
+                <Top>1.73cm</Top>
+                <Left>0.25018cm</Left>
+                <Height>0.1875in</Height>
+                <Width>3.95209in</Width>
+                <ZIndex>3</ZIndex>
+                <Style>
+                  <Border>
+                    <Style>None</Style>
+                  </Border>
+                </Style>
+              </Subreport>
               <Subreport Name="ActivityBySubmissionSubReport5">
                 <ReportName>ClearanceActivityByScriptLanguage</ReportName>
                 <Parameters>
@@ -291,8 +244,12 @@
                     <Value>=Parameters!to_date.Value</Value>
                   </Parameter>
                 </Parameters>
+                <KeepTogether>true</KeepTogether>
+                <Top>2.28cm</Top>
+                <Left>0.25018cm</Left>
                 <Height>0.1875in</Height>
-                <Width>6.46974in</Width>
+                <Width>3.95209in</Width>
+                <ZIndex>4</ZIndex>
                 <Style>
                   <Border>
                     <Style>None</Style>
@@ -300,14 +257,11 @@
                 </Style>
               </Subreport>
             </ReportItems>
-            <PageBreak>
-              <BreakLocation>End</BreakLocation>
-            </PageBreak>
-            <Top>4.596in</Top>
-            <Left>1.23101cm</Left>
-            <Height>0.28471in</Height>
-            <Width>6.46974in</Width>
-            <ZIndex>5</ZIndex>
+            <Top>3.28611in</Top>
+            <Left>0.16151in</Left>
+            <Height>1.17709in</Height>
+            <Width>8in</Width>
+            <ZIndex>1</ZIndex>
             <Style>
               <Border>
                 <Style>None</Style>
@@ -315,17 +269,17 @@
             </Style>
           </Rectangle>
         </ReportItems>
-        <Height>5.15208in</Height>
+        <Height>4.87375in</Height>
         <Style>
           <Border>
             <Style>None</Style>
           </Border>
         </Style>
       </Body>
-      <Width>7.39908in</Width>
+      <Width>8.3in</Width>
       <Page>
         <PageFooter>
-          <Height>0.50663in</Height>
+          <Height>0.43371in</Height>
           <PrintOnFirstPage>true</PrintOnFirstPage>
           <PrintOnLastPage>true</PrintOnLastPage>
           <ReportItems>
@@ -382,7 +336,7 @@
               </Paragraphs>
               <rd:DefaultName>Textbox61</rd:DefaultName>
               <Top>0.1in</Top>
-              <Left>14.35447cm</Left>
+              <Left>15.30697cm</Left>
               <Height>0.52062cm</Height>
               <Width>3.80419cm</Width>
               <ZIndex>1</ZIndex>
@@ -422,7 +376,7 @@
               </Paragraphs>
               <rd:DefaultName>Textbox61</rd:DefaultName>
               <Top>0.1in</Top>
-              <Left>0.26in</Left>
+              <Left>0.385in</Left>
               <Height>0.52062cm</Height>
               <Width>5.35283cm</Width>
               <ZIndex>2</ZIndex>
@@ -522,6 +476,7 @@ fjNvR4u8gYHIgnJSxiadCNn2OQ8Q0fsxoOUto8w8tW26BgGXdcPielQcn2MRCxIu0orEuEEAsgsX1pQo
 ZkFDKDVx+hA/PgUCRslSprcRJDePYaGZUNAFwurcG8N6/DcdATZduAAkZhJigQNHfyEiklqFlJBbxAAcGyKDwkPChwXPH6Qp8YfDIdLhqowyfEvBWYxNZ6xiyHQTBTYSNVp4KAU4vekMnQkEp21KWPkgOZHhzQkBZWZxUzZQCb6oK+qZaqoKFBuHSaPZCYLLIJhJiWzSfqUAhxD7SmDhSSmlMx0wgtyPZFF43ARMSuKLLAJIEUbQTxNM5v2zphKTzDT0e4wkkC20OzVs3ermoxgVhxdHRL4WHnfmDu1PsPbXkspbTdeCnjHBNpFkUkDGtNMEltJlJmWKwM3pTFvYvv0km/zUVgS46Va3kqGCSWfFC2RfWCBjeG0JnUc0IQWCxcJQ7hUnsWIRvNvxS0IdSYsATsJ71ry1saGAlr2SLkU4aIXMLKd5o9LxVu4tQcQLdukU89MscchHVWZOjCAWpw4rJL4sgGUmV66IvflIM4l3SRMjmV6SJyvIkXxUbfwUJRsehlO2i7LjFQFwmcluSKkEbxFqSlpZubARHZrultc8Kqt0eagh8hlgyrqrKuqv/MR//9k=</ImageData>
     </EmbeddedImage>
   </EmbeddedImages>
+  <ConsumeContainerWhitespace>true</ConsumeContainerWhitespace>
   <rd:ReportUnitType>Inch</rd:ReportUnitType>
   <rd:ReportID>b7c9dd41-839f-4524-ab2c-0cd031be4bd0</rd:ReportID>
 </Report>

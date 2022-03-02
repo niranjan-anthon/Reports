@@ -30,7 +30,7 @@ LEFT OUTER JOIN Languages lang ON lang.language_id = ser_lan.language_id
 LEFT OUTER JOIN ClearanceDivisions cdiv ON csub.clearance_division_id = cdiv.clearance_division_id
 WHERE cord.activated = 1 AND cord.active =1 AND csub.active =1 AND csub.clearance_submission_status_id IS NOT NULL AND lang.language_id=1
 AND 
-csub.created_date &lt;=@from_date AND csub.created_date &gt;=@to_date 
+csub.created_date &gt;=@from_date AND csub.created_date &lt;=@to_date 
 GROUP BY ser_lan.clearance_service,csub.clearance_division_id, cdiv.clearance_division</CommandText>
       </Query>
       <Fields>
@@ -61,13 +61,13 @@ GROUP BY ser_lan.clearance_service,csub.clearance_division_id, cdiv.clearance_di
             <TablixBody>
               <TablixColumns>
                 <TablixColumn>
-                  <Width>1.82063in</Width>
+                  <Width>2.42144in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>1.07614in</Width>
+                  <Width>1.67695in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>1in</Width>
+                  <Width>1.60081in</Width>
                 </TablixColumn>
               </TablixColumns>
               <TablixRows>
@@ -627,7 +627,7 @@ GROUP BY ser_lan.clearance_service,csub.clearance_division_id, cdiv.clearance_di
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value />
+                                  <Value>=SUM(ROUND((Fields!total.Value/Sum(Fields!total.Value))*100, 2))</Value>
                                   <Style>
                                     <FontWeight>Normal</FontWeight>
                                   </Style>
@@ -665,6 +665,7 @@ GROUP BY ser_lan.clearance_service,csub.clearance_division_id, cdiv.clearance_di
                             <PaddingBottom>2pt</PaddingBottom>
                           </Style>
                         </Textbox>
+                        <rd:Selected>true</rd:Selected>
                       </CellContents>
                     </TablixCell>
                   </TablixCells>
@@ -682,7 +683,7 @@ GROUP BY ser_lan.clearance_service,csub.clearance_division_id, cdiv.clearance_di
               <TablixMembers>
                 <TablixMember>
                   <TablixHeader>
-                    <Size>1in</Size>
+                    <Size>1.60081in</Size>
                     <CellContents>
                       <Textbox Name="Textbox4">
                         <CanGrow>true</CanGrow>
@@ -746,7 +747,7 @@ GROUP BY ser_lan.clearance_service,csub.clearance_division_id, cdiv.clearance_di
                     </SortExpression>
                   </SortExpressions>
                   <TablixHeader>
-                    <Size>1in</Size>
+                    <Size>1.60081in</Size>
                     <CellContents>
                       <Textbox Name="clearance_division">
                         <CanGrow>true</CanGrow>
@@ -817,11 +818,12 @@ GROUP BY ser_lan.clearance_service,csub.clearance_division_id, cdiv.clearance_di
                 </TablixMember>
               </TablixMembers>
             </TablixRowHierarchy>
+            <KeepTogether>true</KeepTogether>
             <DataSetName>ClearanceOrderByServiceQuery</DataSetName>
-            <Top>0.51501in</Top>
-            <Left>0.92178in</Left>
+            <Top>0.25in</Top>
+            <Left>0.5in</Left>
             <Height>0.98958in</Height>
-            <Width>4.89677in</Width>
+            <Width>7.3in</Width>
             <Style>
               <Border>
                 <Style>None</Style>
@@ -829,17 +831,17 @@ GROUP BY ser_lan.clearance_service,csub.clearance_division_id, cdiv.clearance_di
             </Style>
           </Tablix>
         </ReportItems>
-        <Height>1.99583in</Height>
+        <Height>1.26666in</Height>
         <Style>
           <Border>
             <Style>None</Style>
           </Border>
         </Style>
       </Body>
-      <Width>7.5345in</Width>
+      <Width>7.9in</Width>
       <Page>
         <PageFooter>
-          <Height>0.45455in</Height>
+          <Height>0.40247in</Height>
           <PrintOnFirstPage>true</PrintOnFirstPage>
           <PrintOnLastPage>true</PrintOnLastPage>
           <ReportItems>
@@ -896,7 +898,7 @@ GROUP BY ser_lan.clearance_service,csub.clearance_division_id, cdiv.clearance_di
               </Paragraphs>
               <rd:DefaultName>Textbox61</rd:DefaultName>
               <Top>0.1in</Top>
-              <Left>14.98947cm</Left>
+              <Left>16.00781cm</Left>
               <Height>0.52062cm</Height>
               <Width>3.80419cm</Width>
               <ZIndex>1</ZIndex>
@@ -974,7 +976,7 @@ GROUP BY ser_lan.clearance_service,csub.clearance_division_id, cdiv.clearance_di
       <Prompt>from date</Prompt>
     </ReportParameter>
     <ReportParameter Name="to_date">
-      <DataType>String</DataType>
+      <DataType>DateTime</DataType>
       <Prompt>to date</Prompt>
     </ReportParameter>
   </ReportParameters>

@@ -28,7 +28,7 @@ LEFT OUTER JOIN ClearanceOrders cord ON cord.clearance_order_id = csub.clearance
 LEFT OUTER JOIN ClearanceDivisions cdiv ON csub.clearance_division_id = cdiv.clearance_division_id
 LEFT OUTER JOIN ClearanceSubmissionStatuses sub_stat ON sub_stat.clearance_submission_status_id = csub.clearance_submission_status_id
 WHERE cord.activated = 1 AND cord.active =1 AND csub.active =1 AND csub.clearance_type_id IS NOT NULL
-AND csub.created_date &lt;=@from_date AND csub.created_date &gt;=@to_date 
+AND csub.created_date &gt;=@from_date AND csub.created_date  &lt;=@to_date 
 GROUP BY csub.clearance_division_id, cdiv.clearance_division, lang.language_id, lang.language</CommandText>
       </Query>
       <Fields>
@@ -63,13 +63,13 @@ GROUP BY csub.clearance_division_id, cdiv.clearance_division, lang.language_id, 
             <TablixBody>
               <TablixColumns>
                 <TablixColumn>
-                  <Width>1.82063in</Width>
+                  <Width>2.51779in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>0.83656in</Width>
+                  <Width>1.53372in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>0.85417in</Width>
+                  <Width>1.55133in</Width>
                 </TablixColumn>
               </TablixColumns>
               <TablixRows>
@@ -684,7 +684,7 @@ GROUP BY csub.clearance_division_id, cdiv.clearance_division, lang.language_id, 
               <TablixMembers>
                 <TablixMember>
                   <TablixHeader>
-                    <Size>1in</Size>
+                    <Size>1.69716in</Size>
                     <CellContents>
                       <Textbox Name="Textbox4">
                         <CanGrow>true</CanGrow>
@@ -748,7 +748,7 @@ GROUP BY csub.clearance_division_id, cdiv.clearance_division, lang.language_id, 
                     </SortExpression>
                   </SortExpressions>
                   <TablixHeader>
-                    <Size>1in</Size>
+                    <Size>1.69716in</Size>
                     <CellContents>
                       <Textbox Name="clearance_division">
                         <CanGrow>true</CanGrow>
@@ -819,11 +819,12 @@ GROUP BY csub.clearance_division_id, cdiv.clearance_division, lang.language_id, 
                 </TablixMember>
               </TablixMembers>
             </TablixRowHierarchy>
+            <KeepTogether>true</KeepTogether>
             <DataSetName>ClearanceOrderByScriptLanguageQuery</DataSetName>
-            <Top>0.51501in</Top>
-            <Left>0.92178in</Left>
+            <Top>0.25in</Top>
+            <Left>0.5in</Left>
             <Height>0.98958in</Height>
-            <Width>4.51136in</Width>
+            <Width>7.3in</Width>
             <Style>
               <Border>
                 <Style>None</Style>
@@ -831,17 +832,17 @@ GROUP BY csub.clearance_division_id, cdiv.clearance_division, lang.language_id, 
             </Style>
           </Tablix>
         </ReportItems>
-        <Height>1.70251in</Height>
+        <Height>1.34834in</Height>
         <Style>
           <Border>
             <Style>None</Style>
           </Border>
         </Style>
       </Body>
-      <Width>7.00325in</Width>
+      <Width>7.9in</Width>
       <Page>
         <PageFooter>
-          <Height>0.4858in</Height>
+          <Height>0.39205in</Height>
           <PrintOnFirstPage>true</PrintOnFirstPage>
           <PrintOnLastPage>true</PrintOnLastPage>
           <ReportItems>
@@ -896,7 +897,7 @@ GROUP BY csub.clearance_division_id, cdiv.clearance_division, lang.language_id, 
               </Paragraphs>
               <rd:DefaultName>Textbox61</rd:DefaultName>
               <Top>0.1in</Top>
-              <Left>13.71947cm</Left>
+              <Left>16.00781cm</Left>
               <Height>0.52062cm</Height>
               <Width>3.80419cm</Width>
               <ZIndex>1</ZIndex>

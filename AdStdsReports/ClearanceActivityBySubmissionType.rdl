@@ -21,14 +21,13 @@
             <Value>=Parameters!to_date.Value</Value>
           </QueryParameter>
         </QueryParameters>
-        <CommandText>SELECT csub.clearance_type_id,   COUNT(csub.clearance_type_id) as Total, csub.clearance_division_id, cdiv.clearance_division, clty.clearance_type, SUM(csub.cost) as total_cost
-FROM ClearanceOrderSubmissions csub
-LEFT OUTER JOIN ClearanceTypes clty ON clty.clearance_type_id = csub.clearance_type_id
-LEFT OUTER JOIN ClearanceOrders cord ON cord.clearance_order_id = csub.clearance_order_id
-LEFT OUTER JOIN ClearanceDivisions cdiv ON csub.clearance_division_id = cdiv.clearance_division_id
-LEFT OUTER JOIN ClearanceSubmissionStatuses sub_stat ON sub_stat.clearance_submission_status_id = csub.clearance_submission_status_id
-WHERE cord.activated = 1 AND cord.active =1 AND csub.active =1 AND csub.clearance_type_id IS NOT NULL
-AND csub.created_date &lt;=@from_date AND csub.created_date &gt;=@to_date 
+        <CommandText>SELECT        csub.clearance_type_id, COUNT(csub.clearance_type_id) AS Total, csub.clearance_division_id, cdiv.clearance_division, clty.clearance_type, SUM(csub.cost) AS total_cost
+FROM            ClearanceOrderSubmissions AS csub LEFT OUTER JOIN
+                         ClearanceTypes AS clty ON clty.clearance_type_id = csub.clearance_type_id LEFT OUTER JOIN
+                         ClearanceOrders AS cord ON cord.clearance_order_id = csub.clearance_order_id LEFT OUTER JOIN
+                         ClearanceDivisions AS cdiv ON csub.clearance_division_id = cdiv.clearance_division_id LEFT OUTER JOIN
+                         ClearanceSubmissionStatuses AS sub_stat ON sub_stat.clearance_submission_status_id = csub.clearance_submission_status_id
+WHERE        (cord.activated = 1) AND (cord.active = 1) AND (csub.active = 1) AND (csub.clearance_type_id IS NOT NULL) AND (csub.created_date &gt;= @from_date) AND (csub.created_date &lt;= @to_date)
 GROUP BY csub.clearance_type_id, csub.clearance_division_id, cdiv.clearance_division, clty.clearance_type</CommandText>
       </Query>
       <Fields>
@@ -67,16 +66,16 @@ GROUP BY csub.clearance_type_id, csub.clearance_division_id, cdiv.clearance_divi
             <TablixBody>
               <TablixColumns>
                 <TablixColumn>
-                  <Width>1.82063in</Width>
+                  <Width>2.38096in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>1.07614in</Width>
+                  <Width>1.4353in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>1in</Width>
+                  <Width>1.18208in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>1in</Width>
+                  <Width>1.15083in</Width>
                 </TablixColumn>
               </TablixColumns>
               <TablixRows>
@@ -886,7 +885,7 @@ GROUP BY csub.clearance_type_id, csub.clearance_division_id, cdiv.clearance_divi
               <TablixMembers>
                 <TablixMember>
                   <TablixHeader>
-                    <Size>1in</Size>
+                    <Size>1.15083in</Size>
                     <CellContents>
                       <Textbox Name="Textbox4">
                         <CanGrow>true</CanGrow>
@@ -950,7 +949,7 @@ GROUP BY csub.clearance_type_id, csub.clearance_division_id, cdiv.clearance_divi
                     </SortExpression>
                   </SortExpressions>
                   <TablixHeader>
-                    <Size>1in</Size>
+                    <Size>1.15083in</Size>
                     <CellContents>
                       <Textbox Name="clearance_division">
                         <CanGrow>true</CanGrow>
@@ -1021,11 +1020,12 @@ GROUP BY csub.clearance_type_id, csub.clearance_division_id, cdiv.clearance_divi
                 </TablixMember>
               </TablixMembers>
             </TablixRowHierarchy>
+            <KeepTogether>true</KeepTogether>
             <DataSetName>ClearanceOrderBySubmissionTypeQuery</DataSetName>
-            <Top>0.51501in</Top>
-            <Left>0.92178in</Left>
+            <Top>0.25in</Top>
+            <Left>0.5in</Left>
             <Height>0.98958in</Height>
-            <Width>5.89677in</Width>
+            <Width>7.3in</Width>
             <Style>
               <Border>
                 <Style>None</Style>
@@ -1033,17 +1033,17 @@ GROUP BY csub.clearance_type_id, csub.clearance_division_id, cdiv.clearance_divi
             </Style>
           </Tablix>
         </ReportItems>
-        <Height>1.95417in</Height>
+        <Height>1.2823in</Height>
         <Style>
           <Border>
             <Style>None</Style>
           </Border>
         </Style>
       </Body>
-      <Width>7.24283in</Width>
+      <Width>7.87917in</Width>
       <Page>
         <PageFooter>
-          <Height>0.46497in</Height>
+          <Height>0.39205in</Height>
           <PrintOnFirstPage>true</PrintOnFirstPage>
           <PrintOnLastPage>true</PrintOnLastPage>
           <ReportItems>
@@ -1067,7 +1067,7 @@ GROUP BY csub.clearance_type_id, csub.clearance_division_id, cdiv.clearance_divi
               </Paragraphs>
               <rd:DefaultName>Textbox61</rd:DefaultName>
               <Top>0.1in</Top>
-              <Left>7.91687cm</Left>
+              <Left>8.23437cm</Left>
               <Height>0.52062cm</Height>
               <Width>4.61667cm</Width>
               <Style>
@@ -1100,7 +1100,7 @@ GROUP BY csub.clearance_type_id, csub.clearance_division_id, cdiv.clearance_divi
               </Paragraphs>
               <rd:DefaultName>Textbox61</rd:DefaultName>
               <Top>0.1in</Top>
-              <Left>14.03697cm</Left>
+              <Left>16.00781cm</Left>
               <Height>0.52062cm</Height>
               <Width>3.80419cm</Width>
               <ZIndex>1</ZIndex>
@@ -1140,7 +1140,7 @@ GROUP BY csub.clearance_type_id, csub.clearance_division_id, cdiv.clearance_divi
               </Paragraphs>
               <rd:DefaultName>Textbox61</rd:DefaultName>
               <Top>0.1in</Top>
-              <Left>0.135in</Left>
+              <Left>0.26in</Left>
               <Height>0.52062cm</Height>
               <Width>5.35283cm</Width>
               <ZIndex>2</ZIndex>
@@ -1178,14 +1178,14 @@ GROUP BY csub.clearance_type_id, csub.clearance_division_id, cdiv.clearance_divi
       <Prompt>from date</Prompt>
     </ReportParameter>
     <ReportParameter Name="to_date">
-      <DataType>String</DataType>
+      <DataType>DateTime</DataType>
       <Prompt>to date</Prompt>
     </ReportParameter>
   </ReportParameters>
   <ReportParametersLayout>
     <GridLayoutDefinition>
       <NumberOfColumns>1</NumberOfColumns>
-      <NumberOfRows>4</NumberOfRows>
+      <NumberOfRows>3</NumberOfRows>
       <CellDefinitions>
         <CellDefinition>
           <ColumnIndex>0</ColumnIndex>
@@ -1199,7 +1199,7 @@ GROUP BY csub.clearance_type_id, csub.clearance_division_id, cdiv.clearance_divi
         </CellDefinition>
         <CellDefinition>
           <ColumnIndex>0</ColumnIndex>
-          <RowIndex>3</RowIndex>
+          <RowIndex>2</RowIndex>
           <ParameterName>to_date</ParameterName>
         </CellDefinition>
       </CellDefinitions>
