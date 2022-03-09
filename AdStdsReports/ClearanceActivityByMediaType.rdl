@@ -14,6 +14,9 @@
       <Query>
         <DataSourceName>DataSource</DataSourceName>
         <QueryParameters>
+          <QueryParameter Name="@division_id">
+            <Value>=Parameters!division_id.Value</Value>
+          </QueryParameter>
           <QueryParameter Name="@from_date">
             <Value>=Parameters!from_date.Value</Value>
           </QueryParameter>
@@ -21,13 +24,24 @@
             <Value>=Parameters!to_date.Value</Value>
           </QueryParameter>
         </QueryParameters>
-        <CommandText>SELECT csub.media_type_id,  COUNT(csub.media_type_id) as Total, csub.clearance_division_id, cdiv.clearance_division, medty.media_type
+        <CommandText>IF @division_id IS NULL
+SELECT csub.media_type_id,  COUNT(csub.media_type_id) as Total, csub.clearance_division_id, cdiv.clearance_division, medty.media_type
 FROM ClearanceOrderSubmissions csub
 LEFT OUTER JOIN MediaTypes medty ON medty.media_type_id = csub.media_type_id
 LEFT OUTER JOIN ClearanceOrders cord ON cord.clearance_order_id = csub.clearance_order_id
 LEFT OUTER JOIN ClearanceDivisions cdiv ON csub.clearance_division_id = cdiv.clearance_division_id
 LEFT OUTER JOIN ClearanceSubmissionStatuses sub_stat ON sub_stat.clearance_submission_status_id = csub.clearance_submission_status_id
 WHERE cord.activated = 1 AND cord.active =1 AND csub.active =1 AND csub.media_type_id IS NOT NULL AND csub.created_date  &gt;=@from_date AND csub.created_date &lt;=@to_date 
+GROUP BY csub.media_type_id, csub.clearance_division_id, cdiv.clearance_division, medty.media_type
+ELSE
+SELECT csub.media_type_id,  COUNT(csub.media_type_id) as Total, csub.clearance_division_id, cdiv.clearance_division, medty.media_type
+FROM ClearanceOrderSubmissions csub
+LEFT OUTER JOIN MediaTypes medty ON medty.media_type_id = csub.media_type_id
+LEFT OUTER JOIN ClearanceOrders cord ON cord.clearance_order_id = csub.clearance_order_id
+LEFT OUTER JOIN ClearanceDivisions cdiv ON csub.clearance_division_id = cdiv.clearance_division_id
+LEFT OUTER JOIN ClearanceSubmissionStatuses sub_stat ON sub_stat.clearance_submission_status_id = csub.clearance_submission_status_id
+WHERE cord.activated = 1 AND cord.active =1 AND csub.active =1 AND csub.media_type_id IS NOT NULL AND csub.created_date  &gt;=@from_date AND csub.created_date &lt;=@to_date  
+AND csub.clearance_division_id =@division_id 
 GROUP BY csub.media_type_id, csub.clearance_division_id, cdiv.clearance_division, medty.media_type</CommandText>
       </Query>
       <Fields>
@@ -979,11 +993,16 @@ GROUP BY csub.media_type_id, csub.clearance_division_id, cdiv.clearance_division
       <DataType>String</DataType>
       <Prompt>to date</Prompt>
     </ReportParameter>
+    <ReportParameter Name="division_id">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <Prompt>DivisionID</Prompt>
+    </ReportParameter>
   </ReportParameters>
   <ReportParametersLayout>
     <GridLayoutDefinition>
       <NumberOfColumns>1</NumberOfColumns>
-      <NumberOfRows>3</NumberOfRows>
+      <NumberOfRows>4</NumberOfRows>
       <CellDefinitions>
         <CellDefinition>
           <ColumnIndex>0</ColumnIndex>
@@ -999,6 +1018,11 @@ GROUP BY csub.media_type_id, csub.clearance_division_id, cdiv.clearance_division
           <ColumnIndex>0</ColumnIndex>
           <RowIndex>2</RowIndex>
           <ParameterName>to_date</ParameterName>
+        </CellDefinition>
+        <CellDefinition>
+          <ColumnIndex>0</ColumnIndex>
+          <RowIndex>3</RowIndex>
+          <ParameterName>division_id</ParameterName>
         </CellDefinition>
       </CellDefinitions>
     </GridLayoutDefinition>

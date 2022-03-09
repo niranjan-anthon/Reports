@@ -157,6 +157,9 @@
                   <Parameter Name="to_date">
                     <Value>=Parameters!to_date.Value</Value>
                   </Parameter>
+                  <Parameter Name="division_id">
+                    <Value>=Parameters!division_id.Value</Value>
+                  </Parameter>
                 </Parameters>
                 <KeepTogether>true</KeepTogether>
                 <Top>0.04167in</Top>
@@ -177,6 +180,9 @@
                   </Parameter>
                   <Parameter Name="to_date">
                     <Value>=Parameters!to_date.Value</Value>
+                  </Parameter>
+                  <Parameter Name="division_id">
+                    <Value>=Parameters!division_id.Value</Value>
                   </Parameter>
                 </Parameters>
                 <KeepTogether>true</KeepTogether>
@@ -200,6 +206,9 @@
                   <Parameter Name="to_date">
                     <Value>=Parameters!to_date.Value</Value>
                   </Parameter>
+                  <Parameter Name="division_id">
+                    <Value>=Parameters!division_id.Value</Value>
+                  </Parameter>
                 </Parameters>
                 <Top>1.19945cm</Top>
                 <Left>0.25018cm</Left>
@@ -220,6 +229,9 @@
                   </Parameter>
                   <Parameter Name="to_date">
                     <Value>=Parameters!to_date.Value</Value>
+                  </Parameter>
+                  <Parameter Name="division_id">
+                    <Value>=Parameters!division_id.Value</Value>
                   </Parameter>
                 </Parameters>
                 <KeepTogether>true</KeepTogether>
@@ -242,6 +254,9 @@
                   </Parameter>
                   <Parameter Name="to_date">
                     <Value>=Parameters!to_date.Value</Value>
+                  </Parameter>
+                  <Parameter Name="division_id">
+                    <Value>=Parameters!division_id.Value</Value>
                   </Parameter>
                 </Parameters>
                 <KeepTogether>true</KeepTogether>
@@ -417,11 +432,16 @@
       <Nullable>true</Nullable>
       <Hidden>true</Hidden>
     </ReportParameter>
+    <ReportParameter Name="division_id">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <Prompt>DivisionID</Prompt>
+    </ReportParameter>
   </ReportParameters>
   <ReportParametersLayout>
     <GridLayoutDefinition>
       <NumberOfColumns>1</NumberOfColumns>
-      <NumberOfRows>3</NumberOfRows>
+      <NumberOfRows>4</NumberOfRows>
       <CellDefinitions>
         <CellDefinition>
           <ColumnIndex>0</ColumnIndex>
@@ -437,6 +457,11 @@
           <ColumnIndex>0</ColumnIndex>
           <RowIndex>2</RowIndex>
           <ParameterName>report_name</ParameterName>
+        </CellDefinition>
+        <CellDefinition>
+          <ColumnIndex>0</ColumnIndex>
+          <RowIndex>3</RowIndex>
+          <ParameterName>division_id</ParameterName>
         </CellDefinition>
       </CellDefinitions>
     </GridLayoutDefinition>
