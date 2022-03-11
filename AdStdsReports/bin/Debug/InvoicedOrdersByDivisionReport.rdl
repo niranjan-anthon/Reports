@@ -14,35 +14,24 @@
       <Query>
         <DataSourceName>DataSource</DataSourceName>
         <QueryParameters>
-          <QueryParameter Name="@invoice_start_date">
-            <Value>=Parameters!invoice_start_date.Value</Value>
+          <QueryParameter Name="@from_date">
+            <Value>=Parameters!from_date.Value</Value>
           </QueryParameter>
-          <QueryParameter Name="@invoice_end_date">
-            <Value>=Parameters!invoice_end_date.Value</Value>
+          <QueryParameter Name="@to_date">
+            <Value>=Parameters!to_date.Value</Value>
           </QueryParameter>
         </QueryParameters>
-        <CommandText>SELECT        cod.clearance_order_division_id, cd.clearance_division, inv.invoice_number, inv.qb_invoice_number, inv.clearance_order_id, inv.invoice_id, inv.created_date, inv.total, inv.sent, inv.sent_date, co.date_received,
-CASE co.billing_type
-	WHEN 'company' THEN bill_comp.company_name
-	WHEN 'contact' THEN cont_comp.company_name
-	ELSE ab.company_name
-	END as BillingCompany,
-cd.clearance_division
-FROM            Invoices AS inv 
-LEFT OUTER JOIN
-                         ClearanceOrders AS co ON co.clearance_order_id = inv.clearance_order_id 
-						 LEFT OUTER JOIN
-                         ClearanceOrderDivisions AS cod ON cod.clearance_order_id = co.clearance_order_id 
-						 LEFT OUTER JOIN
-                         ClearanceDivisions AS cd ON cd.clearance_division_id = cod.clearance_division_id 
-						 
-                         LEFT OUTER JOIN Companies bill_comp ON bill_comp.company_id = co.company_id
-LEFT OUTER JOIN Contacts con ON con.contact_id = co.contact_id
-LEFT OUTER JOIN Companies cont_comp ON cont_comp.company_id = con.company_id
-LEFT OUTER JOIN BillingAddressBook ab ON ab.billing_address_book_id = co.billing_address_book_id 
-
-						 
-WHERE        (inv.active = 1) AND (inv.created_date &gt; @invoice_start_date) AND (inv.created_date &lt;= @invoice_end_date)</CommandText>
+        <CommandText>SELECT        cod.clearance_order_division_id, cd.clearance_division, inv.invoice_number, inv.qb_invoice_number, inv.clearance_order_id, inv.invoice_id, inv.created_date, inv.total, inv.sent, inv.sent_date, co.date_received, 
+                         CASE co.billing_type WHEN 'company' THEN bill_comp.company_name WHEN 'contact' THEN cont_comp.company_name ELSE ab.company_name END AS BillingCompany, cd.clearance_division AS Expr1
+FROM            Invoices AS inv LEFT OUTER JOIN
+                         ClearanceOrders AS co ON co.clearance_order_id = inv.clearance_order_id LEFT OUTER JOIN
+                         ClearanceOrderDivisions AS cod ON cod.clearance_order_id = co.clearance_order_id LEFT OUTER JOIN
+                         ClearanceDivisions AS cd ON cd.clearance_division_id = cod.clearance_division_id LEFT OUTER JOIN
+                         Companies AS bill_comp ON bill_comp.company_id = co.company_id LEFT OUTER JOIN
+                         Contacts AS con ON con.contact_id = co.contact_id LEFT OUTER JOIN
+                         Companies AS cont_comp ON cont_comp.company_id = con.company_id LEFT OUTER JOIN
+                         BillingAddressBook AS ab ON ab.billing_address_book_id = co.billing_address_book_id
+WHERE        (inv.active = 1) AND (inv.created_date &gt;= @from_date) AND (inv.created_date &lt;= @to_date)</CommandText>
       </Query>
       <Fields>
         <Field Name="clearance_order_division_id">
@@ -91,6 +80,10 @@ WHERE        (inv.active = 1) AND (inv.created_date &gt; @invoice_start_date) AN
         </Field>
         <Field Name="BillingCompany">
           <DataField>BillingCompany</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Expr1">
+          <DataField>Expr1</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
       </Fields>
@@ -3272,13 +3265,15 @@ WHERE        (inv.active = 1) AND (inv.created_date &gt; @invoice_start_date) AN
     </ReportSection>
   </ReportSections>
   <ReportParameters>
-    <ReportParameter Name="invoice_start_date">
+    <ReportParameter Name="from_date">
       <DataType>DateTime</DataType>
       <Prompt>Invoice Start Date:</Prompt>
+      <Hidden>true</Hidden>
     </ReportParameter>
-    <ReportParameter Name="invoice_end_date">
+    <ReportParameter Name="to_date">
       <DataType>DateTime</DataType>
       <Prompt>Invoice End Date</Prompt>
+      <Hidden>true</Hidden>
     </ReportParameter>
     <ReportParameter Name="report_name">
       <DataType>String</DataType>
@@ -3289,21 +3284,21 @@ WHERE        (inv.active = 1) AND (inv.created_date &gt; @invoice_start_date) AN
   <ReportParametersLayout>
     <GridLayoutDefinition>
       <NumberOfColumns>1</NumberOfColumns>
-      <NumberOfRows>8</NumberOfRows>
+      <NumberOfRows>5</NumberOfRows>
       <CellDefinitions>
         <CellDefinition>
           <ColumnIndex>0</ColumnIndex>
-          <RowIndex>5</RowIndex>
-          <ParameterName>invoice_start_date</ParameterName>
+          <RowIndex>0</RowIndex>
+          <ParameterName>from_date</ParameterName>
         </CellDefinition>
         <CellDefinition>
           <ColumnIndex>0</ColumnIndex>
-          <RowIndex>6</RowIndex>
-          <ParameterName>invoice_end_date</ParameterName>
+          <RowIndex>1</RowIndex>
+          <ParameterName>to_date</ParameterName>
         </CellDefinition>
         <CellDefinition>
           <ColumnIndex>0</ColumnIndex>
-          <RowIndex>7</RowIndex>
+          <RowIndex>2</RowIndex>
           <ParameterName>report_name</ParameterName>
         </CellDefinition>
       </CellDefinitions>

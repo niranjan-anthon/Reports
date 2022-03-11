@@ -421,21 +421,27 @@
   <ReportParameters>
     <ReportParameter Name="from_date">
       <DataType>DateTime</DataType>
+      <Nullable>true</Nullable>
       <Prompt>StartDate</Prompt>
+      <Hidden>true</Hidden>
     </ReportParameter>
     <ReportParameter Name="to_date">
       <DataType>DateTime</DataType>
-      <Prompt>EndDate</Prompt>
-    </ReportParameter>
-    <ReportParameter Name="report_name">
-      <DataType>String</DataType>
       <Nullable>true</Nullable>
+      <Prompt>EndDate</Prompt>
       <Hidden>true</Hidden>
     </ReportParameter>
     <ReportParameter Name="division_id">
       <DataType>String</DataType>
       <Nullable>true</Nullable>
       <Prompt>DivisionID</Prompt>
+      <Hidden>true</Hidden>
+    </ReportParameter>
+    <ReportParameter Name="report_name">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <Prompt>Report Name</Prompt>
+      <Hidden>true</Hidden>
     </ReportParameter>
   </ReportParameters>
   <ReportParametersLayout>
@@ -456,12 +462,12 @@
         <CellDefinition>
           <ColumnIndex>0</ColumnIndex>
           <RowIndex>2</RowIndex>
-          <ParameterName>report_name</ParameterName>
+          <ParameterName>division_id</ParameterName>
         </CellDefinition>
         <CellDefinition>
           <ColumnIndex>0</ColumnIndex>
           <RowIndex>3</RowIndex>
-          <ParameterName>division_id</ParameterName>
+          <ParameterName>report_name</ParameterName>
         </CellDefinition>
       </CellDefinitions>
     </GridLayoutDefinition>

@@ -24,16 +24,8 @@
             <Value>=Parameters!to_date.Value</Value>
           </QueryParameter>
         </QueryParameters>
-        <CommandText>IF @division_id IS NULL
-SELECT csub.media_type_id,  COUNT(csub.media_type_id) as Total, csub.clearance_division_id, cdiv.clearance_division, medty.media_type
-FROM ClearanceOrderSubmissions csub
-LEFT OUTER JOIN MediaTypes medty ON medty.media_type_id = csub.media_type_id
-LEFT OUTER JOIN ClearanceOrders cord ON cord.clearance_order_id = csub.clearance_order_id
-LEFT OUTER JOIN ClearanceDivisions cdiv ON csub.clearance_division_id = cdiv.clearance_division_id
-LEFT OUTER JOIN ClearanceSubmissionStatuses sub_stat ON sub_stat.clearance_submission_status_id = csub.clearance_submission_status_id
-WHERE cord.activated = 1 AND cord.active =1 AND csub.active =1 AND csub.media_type_id IS NOT NULL AND csub.created_date  &gt;=@from_date AND csub.created_date &lt;=@to_date 
-GROUP BY csub.media_type_id, csub.clearance_division_id, cdiv.clearance_division, medty.media_type
-ELSE
+        <CommandText>IF @division_id &gt; 0
+
 SELECT csub.media_type_id,  COUNT(csub.media_type_id) as Total, csub.clearance_division_id, cdiv.clearance_division, medty.media_type
 FROM ClearanceOrderSubmissions csub
 LEFT OUTER JOIN MediaTypes medty ON medty.media_type_id = csub.media_type_id
@@ -42,6 +34,15 @@ LEFT OUTER JOIN ClearanceDivisions cdiv ON csub.clearance_division_id = cdiv.cle
 LEFT OUTER JOIN ClearanceSubmissionStatuses sub_stat ON sub_stat.clearance_submission_status_id = csub.clearance_submission_status_id
 WHERE cord.activated = 1 AND cord.active =1 AND csub.active =1 AND csub.media_type_id IS NOT NULL AND csub.created_date  &gt;=@from_date AND csub.created_date &lt;=@to_date  
 AND csub.clearance_division_id =@division_id 
+GROUP BY csub.media_type_id, csub.clearance_division_id, cdiv.clearance_division, medty.media_type
+ELSE
+SELECT csub.media_type_id,  COUNT(csub.media_type_id) as Total, csub.clearance_division_id, cdiv.clearance_division, medty.media_type
+FROM ClearanceOrderSubmissions csub
+LEFT OUTER JOIN MediaTypes medty ON medty.media_type_id = csub.media_type_id
+LEFT OUTER JOIN ClearanceOrders cord ON cord.clearance_order_id = csub.clearance_order_id
+LEFT OUTER JOIN ClearanceDivisions cdiv ON csub.clearance_division_id = cdiv.clearance_division_id
+LEFT OUTER JOIN ClearanceSubmissionStatuses sub_stat ON sub_stat.clearance_submission_status_id = csub.clearance_submission_status_id
+WHERE cord.activated = 1 AND cord.active =1 AND csub.active =1 AND csub.media_type_id IS NOT NULL AND csub.created_date  &gt;=@from_date AND csub.created_date &lt;=@to_date 
 GROUP BY csub.media_type_id, csub.clearance_division_id, cdiv.clearance_division, medty.media_type</CommandText>
       </Query>
       <Fields>
@@ -837,7 +838,7 @@ GROUP BY csub.media_type_id, csub.clearance_division_id, cdiv.clearance_division
             <Top>0.25in</Top>
             <Left>0.5in</Left>
             <Height>0.98958in</Height>
-            <Width>7.3in</Width>
+            <Width>7.30001in</Width>
             <Style>
               <Border>
                 <Style>None</Style>
@@ -980,11 +981,6 @@ GROUP BY csub.media_type_id, csub.clearance_division_id, cdiv.clearance_division
     </ReportSection>
   </ReportSections>
   <ReportParameters>
-    <ReportParameter Name="report_name">
-      <DataType>String</DataType>
-      <Nullable>true</Nullable>
-      <Hidden>true</Hidden>
-    </ReportParameter>
     <ReportParameter Name="from_date">
       <DataType>String</DataType>
       <Prompt>from date</Prompt>
@@ -997,6 +993,7 @@ GROUP BY csub.media_type_id, csub.clearance_division_id, cdiv.clearance_division
       <DataType>String</DataType>
       <Nullable>true</Nullable>
       <Prompt>DivisionID</Prompt>
+      <Hidden>true</Hidden>
     </ReportParameter>
   </ReportParameters>
   <ReportParametersLayout>
@@ -1004,11 +1001,6 @@ GROUP BY csub.media_type_id, csub.clearance_division_id, cdiv.clearance_division
       <NumberOfColumns>1</NumberOfColumns>
       <NumberOfRows>4</NumberOfRows>
       <CellDefinitions>
-        <CellDefinition>
-          <ColumnIndex>0</ColumnIndex>
-          <RowIndex>0</RowIndex>
-          <ParameterName>report_name</ParameterName>
-        </CellDefinition>
         <CellDefinition>
           <ColumnIndex>0</ColumnIndex>
           <RowIndex>1</RowIndex>

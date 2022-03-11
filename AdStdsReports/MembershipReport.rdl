@@ -1180,6 +1180,7 @@ ORDER BY com.company_name</CommandText>
     <ReportParameter Name="report_name">
       <DataType>String</DataType>
       <Prompt>report name</Prompt>
+      <Hidden>true</Hidden>
     </ReportParameter>
   </ReportParameters>
   <ReportParametersLayout>

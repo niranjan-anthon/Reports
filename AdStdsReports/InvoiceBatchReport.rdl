@@ -1194,7 +1194,9 @@ WHERE        (i.invoice_batch_id = @batch_id)</CommandText>
   <ReportParameters>
     <ReportParameter Name="batch_id">
       <DataType>String</DataType>
+      <Nullable>true</Nullable>
       <Prompt>batch id</Prompt>
+      <Hidden>true</Hidden>
     </ReportParameter>
     <ReportParameter Name="report_name">
       <DataType>String</DataType>
@@ -1205,16 +1207,16 @@ WHERE        (i.invoice_batch_id = @batch_id)</CommandText>
   <ReportParametersLayout>
     <GridLayoutDefinition>
       <NumberOfColumns>1</NumberOfColumns>
-      <NumberOfRows>7</NumberOfRows>
+      <NumberOfRows>2</NumberOfRows>
       <CellDefinitions>
         <CellDefinition>
           <ColumnIndex>0</ColumnIndex>
-          <RowIndex>2</RowIndex>
+          <RowIndex>0</RowIndex>
           <ParameterName>batch_id</ParameterName>
         </CellDefinition>
         <CellDefinition>
           <ColumnIndex>0</ColumnIndex>
-          <RowIndex>4</RowIndex>
+          <RowIndex>1</RowIndex>
           <ParameterName>report_name</ParameterName>
         </CellDefinition>
       </CellDefinitions>

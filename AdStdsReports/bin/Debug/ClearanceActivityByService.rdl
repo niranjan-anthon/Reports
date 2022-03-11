@@ -24,19 +24,8 @@
             <Value>=Parameters!to_date.Value</Value>
           </QueryParameter>
         </QueryParameters>
-        <CommandText>IF @division_id IS NULL
-SELECT ser_lan.clearance_service as service, COUNT(ser_lan.clearance_service) as total, csub.clearance_division_id, cdiv.clearance_division
-FROM ClearanceOrderSubmissions csub
-LEFT OUTER JOIN ClearanceOrders cord ON cord.clearance_order_id = csub.clearance_order_id
-LEFT OUTER JOIN ClearanceServices cser ON cser.clearance_service_id = csub.clearance_service_id
-LEFT OUTER JOIN ClearanceServiceLanguages ser_lan ON ser_lan.clearance_service_id = cser.clearance_service_id
-LEFT OUTER JOIN Languages lang ON lang.language_id = ser_lan.language_id
-LEFT OUTER JOIN ClearanceDivisions cdiv ON csub.clearance_division_id = cdiv.clearance_division_id
-WHERE cord.activated = 1 AND cord.active =1 AND csub.active =1 AND csub.clearance_submission_status_id IS NOT NULL AND lang.language_id=1
-AND 
-csub.created_date &gt;=@from_date AND csub.created_date &lt;=@to_date 
-GROUP BY ser_lan.clearance_service,csub.clearance_division_id, cdiv.clearance_division
-ELSE
+        <CommandText>IF @division_id IS NOT NULL
+
 SELECT ser_lan.clearance_service as service, COUNT(ser_lan.clearance_service) as total, csub.clearance_division_id, cdiv.clearance_division
 FROM ClearanceOrderSubmissions csub
 LEFT OUTER JOIN ClearanceOrders cord ON cord.clearance_order_id = csub.clearance_order_id
@@ -48,7 +37,23 @@ WHERE cord.activated = 1 AND cord.active =1 AND csub.active =1 AND csub.clearanc
 AND 
 csub.created_date &gt;=@from_date AND csub.created_date &lt;=@to_date 
 AND csub.clearance_division_id =@division_id 
-GROUP BY ser_lan.clearance_service,csub.clearance_division_id, cdiv.clearance_division</CommandText>
+GROUP BY ser_lan.clearance_service,csub.clearance_division_id, cdiv.clearance_division
+
+ELSE
+SELECT ser_lan.clearance_service as service, COUNT(ser_lan.clearance_service) as total, csub.clearance_division_id, cdiv.clearance_division
+FROM ClearanceOrderSubmissions csub
+LEFT OUTER JOIN ClearanceOrders cord ON cord.clearance_order_id = csub.clearance_order_id
+LEFT OUTER JOIN ClearanceServices cser ON cser.clearance_service_id = csub.clearance_service_id
+LEFT OUTER JOIN ClearanceServiceLanguages ser_lan ON ser_lan.clearance_service_id = cser.clearance_service_id
+LEFT OUTER JOIN Languages lang ON lang.language_id = ser_lan.language_id
+LEFT OUTER JOIN ClearanceDivisions cdiv ON csub.clearance_division_id = cdiv.clearance_division_id
+WHERE cord.activated = 1 AND cord.active =1 AND csub.active =1 AND csub.clearance_submission_status_id IS NOT NULL AND lang.language_id=1
+AND 
+csub.created_date &gt;=@from_date AND csub.created_date &lt;=@to_date 
+GROUP BY ser_lan.clearance_service,csub.clearance_division_id, cdiv.clearance_division
+
+
+</CommandText>
       </Query>
       <Fields>
         <Field Name="service">
@@ -682,7 +687,6 @@ GROUP BY ser_lan.clearance_service,csub.clearance_division_id, cdiv.clearance_di
                             <PaddingBottom>2pt</PaddingBottom>
                           </Style>
                         </Textbox>
-                        <rd:Selected>true</rd:Selected>
                       </CellContents>
                     </TablixCell>
                   </TablixCells>
@@ -840,7 +844,7 @@ GROUP BY ser_lan.clearance_service,csub.clearance_division_id, cdiv.clearance_di
             <Top>0.25in</Top>
             <Left>0.5in</Left>
             <Height>0.98958in</Height>
-            <Width>7.3in</Width>
+            <Width>7.30001in</Width>
             <Style>
               <Border>
                 <Style>None</Style>
@@ -983,11 +987,6 @@ GROUP BY ser_lan.clearance_service,csub.clearance_division_id, cdiv.clearance_di
     </ReportSection>
   </ReportSections>
   <ReportParameters>
-    <ReportParameter Name="report_name">
-      <DataType>String</DataType>
-      <Nullable>true</Nullable>
-      <Hidden>true</Hidden>
-    </ReportParameter>
     <ReportParameter Name="from_date">
       <DataType>DateTime</DataType>
       <Prompt>from date</Prompt>
@@ -1006,26 +1005,21 @@ GROUP BY ser_lan.clearance_service,csub.clearance_division_id, cdiv.clearance_di
   <ReportParametersLayout>
     <GridLayoutDefinition>
       <NumberOfColumns>1</NumberOfColumns>
-      <NumberOfRows>4</NumberOfRows>
+      <NumberOfRows>3</NumberOfRows>
       <CellDefinitions>
         <CellDefinition>
           <ColumnIndex>0</ColumnIndex>
           <RowIndex>0</RowIndex>
-          <ParameterName>report_name</ParameterName>
-        </CellDefinition>
-        <CellDefinition>
-          <ColumnIndex>0</ColumnIndex>
-          <RowIndex>1</RowIndex>
           <ParameterName>from_date</ParameterName>
         </CellDefinition>
         <CellDefinition>
           <ColumnIndex>0</ColumnIndex>
-          <RowIndex>2</RowIndex>
+          <RowIndex>1</RowIndex>
           <ParameterName>to_date</ParameterName>
         </CellDefinition>
         <CellDefinition>
           <ColumnIndex>0</ColumnIndex>
-          <RowIndex>3</RowIndex>
+          <RowIndex>2</RowIndex>
           <ParameterName>division_id</ParameterName>
         </CellDefinition>
       </CellDefinitions>

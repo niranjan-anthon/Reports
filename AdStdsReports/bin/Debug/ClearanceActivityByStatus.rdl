@@ -24,15 +24,8 @@
             <Value>=Parameters!to_date.Value</Value>
           </QueryParameter>
         </QueryParameters>
-        <CommandText>IF @division_id IS NULL SELECT        sub_stat.submission_status, csub.clearance_submission_status_id AS Total, csub.clearance_division_id, cdiv.clearance_division
-                                                      FROM            ClearanceOrderSubmissions AS csub LEFT OUTER JOIN
-                                                                               ClearanceOrders AS cord ON cord.clearance_order_id = csub.clearance_order_id LEFT OUTER JOIN
-                                                                               ClearanceDivisions AS cdiv ON csub.clearance_division_id = cdiv.clearance_division_id LEFT OUTER JOIN
-                                                                               ClearanceSubmissionStatuses AS sub_stat ON sub_stat.clearance_submission_status_id = csub.clearance_submission_status_id
-                                                      WHERE        (cord.activated = 1) AND (cord.active = 1) AND (csub.active = 1) AND cord.created_date &gt;= @from_date AND cord.created_date &lt;= @to_date
-                                                      GROUP BY sub_stat.submission_status, csub.clearance_submission_status_id, csub.clearance_division_id, cdiv.clearance_division
-                                                      HAVING         (csub.clearance_submission_status_id IS NOT NULL)
-                                                      ORDER BY cdiv.clearance_division ELSE
+        <CommandText>IF @division_id IS NOT NULL
+
                                                                                    SELECT        sub_stat.submission_status, csub.clearance_submission_status_id AS Total, csub.clearance_division_id, cdiv.clearance_division
                                                                                     FROM            ClearanceOrderSubmissions AS csub LEFT OUTER JOIN
                                                                                                              ClearanceOrders AS cord ON cord.clearance_order_id = csub.clearance_order_id LEFT OUTER JOIN
@@ -42,7 +35,19 @@
                                                                                                              cord.created_date &lt;= @to_date
                                                                                     GROUP BY sub_stat.submission_status, csub.clearance_submission_status_id, csub.clearance_division_id, cdiv.clearance_division
                                                                                     HAVING         (csub.clearance_submission_status_id IS NOT NULL)
-                                                                                    ORDER BY cdiv.clearance_division</CommandText>
+                                                                                    ORDER BY cdiv.clearance_division 
+ELSE
+SELECT        sub_stat.submission_status, csub.clearance_submission_status_id AS Total, csub.clearance_division_id, cdiv.clearance_division
+                                                      FROM            ClearanceOrderSubmissions AS csub LEFT OUTER JOIN
+                                                                               ClearanceOrders AS cord ON cord.clearance_order_id = csub.clearance_order_id LEFT OUTER JOIN
+                                                                               ClearanceDivisions AS cdiv ON csub.clearance_division_id = cdiv.clearance_division_id LEFT OUTER JOIN
+                                                                               ClearanceSubmissionStatuses AS sub_stat ON sub_stat.clearance_submission_status_id = csub.clearance_submission_status_id
+                                                      WHERE        (cord.activated = 1) AND (cord.active = 1) AND (csub.active = 1) AND cord.created_date &gt;= @from_date AND cord.created_date &lt;= @to_date
+                                                      GROUP BY sub_stat.submission_status, csub.clearance_submission_status_id, csub.clearance_division_id, cdiv.clearance_division
+                                                      HAVING         (csub.clearance_submission_status_id IS NOT NULL)
+                                                      ORDER BY cdiv.clearance_division 
+
+</CommandText>
         <rd:UseGenericDesigner>true</rd:UseGenericDesigner>
       </Query>
       <Fields>
@@ -681,7 +686,7 @@
             <Top>0.25in</Top>
             <Left>0.5in</Left>
             <Height>0.73958in</Height>
-            <Width>7.3in</Width>
+            <Width>7.30001in</Width>
             <Style>
               <Border>
                 <Style>None</Style>
@@ -838,6 +843,7 @@
       <DataType>String</DataType>
       <Nullable>true</Nullable>
       <Prompt>DivisionID</Prompt>
+      <Hidden>true</Hidden>
     </ReportParameter>
   </ReportParameters>
   <ReportParametersLayout>

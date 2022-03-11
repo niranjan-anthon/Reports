@@ -24,16 +24,8 @@
             <Value>=Parameters!to_date.Value</Value>
           </QueryParameter>
         </QueryParameters>
-        <CommandText>IF @division_id IS NULL
-SELECT        csub.clearance_type_id, COUNT(csub.clearance_type_id) AS Total, csub.clearance_division_id, cdiv.clearance_division, clty.clearance_type, SUM(csub.cost) AS total_cost
-FROM            ClearanceOrderSubmissions AS csub LEFT OUTER JOIN
-                         ClearanceTypes AS clty ON clty.clearance_type_id = csub.clearance_type_id LEFT OUTER JOIN
-                         ClearanceOrders AS cord ON cord.clearance_order_id = csub.clearance_order_id LEFT OUTER JOIN
-                         ClearanceDivisions AS cdiv ON csub.clearance_division_id = cdiv.clearance_division_id LEFT OUTER JOIN
-                         ClearanceSubmissionStatuses AS sub_stat ON sub_stat.clearance_submission_status_id = csub.clearance_submission_status_id
-WHERE        (cord.activated = 1) AND (cord.active = 1) AND (csub.active = 1) AND (csub.clearance_type_id IS NOT NULL) AND (csub.created_date &gt;= @from_date) AND (csub.created_date &lt;= @to_date)
-GROUP BY csub.clearance_type_id, csub.clearance_division_id, cdiv.clearance_division, clty.clearance_type
-ELSE
+        <CommandText>IF @division_id IS NOT NULL
+
 SELECT        csub.clearance_type_id, COUNT(csub.clearance_type_id) AS Total, csub.clearance_division_id, cdiv.clearance_division, clty.clearance_type, SUM(csub.cost) AS total_cost
 FROM            ClearanceOrderSubmissions AS csub LEFT OUTER JOIN
                          ClearanceTypes AS clty ON clty.clearance_type_id = csub.clearance_type_id LEFT OUTER JOIN
@@ -42,7 +34,17 @@ FROM            ClearanceOrderSubmissions AS csub LEFT OUTER JOIN
                          ClearanceSubmissionStatuses AS sub_stat ON sub_stat.clearance_submission_status_id = csub.clearance_submission_status_id
 WHERE        (cord.activated = 1) AND (cord.active = 1) AND (csub.active = 1) AND (csub.clearance_type_id IS NOT NULL) AND (csub.created_date &gt;= @from_date) AND (csub.created_date &lt;= @to_date) 
 AND csub.clearance_division_id =@division_id 
-GROUP BY csub.clearance_type_id, csub.clearance_division_id, cdiv.clearance_division, clty.clearance_type</CommandText>
+GROUP BY csub.clearance_type_id, csub.clearance_division_id, cdiv.clearance_division, clty.clearance_type 
+ELSE
+SELECT        csub.clearance_type_id, COUNT(csub.clearance_type_id) AS Total, csub.clearance_division_id, cdiv.clearance_division, clty.clearance_type, SUM(csub.cost) AS total_cost
+FROM            ClearanceOrderSubmissions AS csub LEFT OUTER JOIN
+                         ClearanceTypes AS clty ON clty.clearance_type_id = csub.clearance_type_id LEFT OUTER JOIN
+                         ClearanceOrders AS cord ON cord.clearance_order_id = csub.clearance_order_id LEFT OUTER JOIN
+                         ClearanceDivisions AS cdiv ON csub.clearance_division_id = cdiv.clearance_division_id LEFT OUTER JOIN
+                         ClearanceSubmissionStatuses AS sub_stat ON sub_stat.clearance_submission_status_id = csub.clearance_submission_status_id
+WHERE        (cord.activated = 1) AND (cord.active = 1) AND (csub.active = 1) AND (csub.clearance_type_id IS NOT NULL) AND (csub.created_date &gt;= @from_date) AND (csub.created_date &lt;= @to_date)
+GROUP BY csub.clearance_type_id, csub.clearance_division_id, cdiv.clearance_division, clty.clearance_type
+</CommandText>
       </Query>
       <Fields>
         <Field Name="clearance_type_id">
@@ -1182,11 +1184,6 @@ GROUP BY csub.clearance_type_id, csub.clearance_division_id, cdiv.clearance_divi
     </ReportSection>
   </ReportSections>
   <ReportParameters>
-    <ReportParameter Name="report_name">
-      <DataType>String</DataType>
-      <Nullable>true</Nullable>
-      <Hidden>true</Hidden>
-    </ReportParameter>
     <ReportParameter Name="from_date">
       <DataType>DateTime</DataType>
       <Prompt>from date</Prompt>
@@ -1205,26 +1202,21 @@ GROUP BY csub.clearance_type_id, csub.clearance_division_id, cdiv.clearance_divi
   <ReportParametersLayout>
     <GridLayoutDefinition>
       <NumberOfColumns>1</NumberOfColumns>
-      <NumberOfRows>4</NumberOfRows>
+      <NumberOfRows>3</NumberOfRows>
       <CellDefinitions>
         <CellDefinition>
           <ColumnIndex>0</ColumnIndex>
           <RowIndex>0</RowIndex>
-          <ParameterName>report_name</ParameterName>
-        </CellDefinition>
-        <CellDefinition>
-          <ColumnIndex>0</ColumnIndex>
-          <RowIndex>1</RowIndex>
           <ParameterName>from_date</ParameterName>
         </CellDefinition>
         <CellDefinition>
           <ColumnIndex>0</ColumnIndex>
-          <RowIndex>2</RowIndex>
+          <RowIndex>1</RowIndex>
           <ParameterName>to_date</ParameterName>
         </CellDefinition>
         <CellDefinition>
           <ColumnIndex>0</ColumnIndex>
-          <RowIndex>3</RowIndex>
+          <RowIndex>2</RowIndex>
           <ParameterName>division_id</ParameterName>
         </CellDefinition>
       </CellDefinitions>
