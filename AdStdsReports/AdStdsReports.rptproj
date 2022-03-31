@@ -59,13 +59,18 @@
     <Report Include="ClearanceActivityBySubmissionType.rdl" />
     <Report Include="ClearanceActivityReport.rdl" />
     <Report Include="CoverPage.rdl" />
-    <Report Include="InvoiceableOrdersByDivisionReport.rdl" />
-    <Report Include="InvoiceableOrdersReport.rdl" />
     <Report Include="InvoiceBatchReport.rdl" />
     <Report Include="InvoicedOrders.rdl" />
     <Report Include="InvoicedOrdersByDivisionReport.rdl" />
     <Report Include="MembershipReport.rdl" />
+    <Report Include="OrderAmountReportByAdvertiser.rdl" />
+    <Report Include="SalesReportByAdvertiser.rdl" />
+    <Report Include="SubmissionsByAdvertiser.rdl" />
+    <Report Include="SubmissionsByAgency.rdl" />
+    <Report Include="SubmissionsByMonth.rdl" />
     <Report Include="VotePaymentReport.rdl" />
+    <Report Include="WorkInProgressByDivisionReport.rdl" />
+    <Report Include="WorkInProgressReport.rdl" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Reporting Services\Microsoft.ReportingServices.MSBuilder.targets" />
 </Project>

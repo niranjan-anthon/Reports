@@ -1353,7 +1353,6 @@ ORDER BY BillingCompany</CommandText>
     <ReportParameter Name="report_name">
       <DataType>String</DataType>
       <Prompt>report name</Prompt>
-      <Hidden>true</Hidden>
     </ReportParameter>
   </ReportParameters>
   <ReportParametersLayout>

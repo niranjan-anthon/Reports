@@ -107,7 +107,7 @@ ORDER BY BillingCompany</CommandText>
                   <Paragraph>
                     <TextRuns>
                       <TextRun>
-                        <Value>Invoice Ready Orders</Value>
+                        <Value>Work In Progress Report</Value>
                         <Style>
                           <FontFamily>Arial</FontFamily>
                           <FontSize>20pt</FontSize>
@@ -570,7 +570,7 @@ ORDER BY BillingCompany</CommandText>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Round(Fields!taxes.Value,2)</Value>
+                                  <Value>=FormatCurrency(Fields!taxes.Value,2)</Value>
                                   <Style />
                                 </TextRun>
                               </TextRuns>
@@ -601,14 +601,14 @@ ORDER BY BillingCompany</CommandText>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=ROUND(Fields!Total.Value,2)</Value>
+                                  <Value>=FormatCurrency(Fields!Total.Value,2)</Value>
                                   <Style>
                                     <FontFamily>Arial</FontFamily>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
                               <Style>
-                                <TextAlign>Center</TextAlign>
+                                <TextAlign>Right</TextAlign>
                               </Style>
                             </Paragraph>
                           </Paragraphs>
@@ -781,7 +781,7 @@ ORDER BY BillingCompany</CommandText>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Round(sum(Fields!Total.Value), 2)</Value>
+                                  <Value>=FormatCurrency(sum(Fields!Total.Value), 2)</Value>
                                   <Style>
                                     <FontFamily>Arial</FontFamily>
                                     <FontWeight>Bold</FontWeight>
@@ -789,7 +789,7 @@ ORDER BY BillingCompany</CommandText>
                                 </TextRun>
                               </TextRuns>
                               <Style>
-                                <TextAlign>Center</TextAlign>
+                                <TextAlign>Right</TextAlign>
                               </Style>
                             </Paragraph>
                           </Paragraphs>

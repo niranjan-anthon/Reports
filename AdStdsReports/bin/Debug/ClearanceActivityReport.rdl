@@ -35,8 +35,8 @@
                   </Paragraph>
                 </Paragraphs>
                 <rd:DefaultName>Textbox13</rd:DefaultName>
-                <Top>1.65319in</Top>
-                <Left>0.8284in</Left>
+                <Top>1.6393in</Top>
+                <Left>0.8398in</Left>
                 <Height>0.47694in</Height>
                 <Width>5.41765in</Width>
                 <Style>
@@ -69,7 +69,7 @@
                 </Paragraphs>
                 <rd:DefaultName>Textbox13</rd:DefaultName>
                 <Top>2.1718in</Top>
-                <Left>1.78673in</Left>
+                <Left>1.75548in</Left>
                 <Height>0.3125in</Height>
                 <Width>3.5863in</Width>
                 <ZIndex>1</ZIndex>
@@ -86,8 +86,8 @@
               <Image Name="Image1">
                 <Source>Embedded</Source>
                 <Value>AdStandardsLogo400x117</Value>
-                <Top>0.1in</Top>
-                <Left>1.4534in</Left>
+                <Top>0.07917in</Top>
+                <Left>1.4653in</Left>
                 <Height>3.09562cm</Height>
                 <Width>10.58333cm</Width>
                 <ZIndex>2</ZIndex>
@@ -117,8 +117,8 @@
                   </Paragraph>
                 </Paragraphs>
                 <rd:DefaultName>Textbox13</rd:DefaultName>
-                <Top>2.63819in</Top>
-                <Left>1.79181in</Left>
+                <Top>2.61736in</Top>
+                <Left>1.75548in</Left>
                 <Height>0.3125in</Height>
                 <Width>3.5863in</Width>
                 <ZIndex>3</ZIndex>
@@ -136,8 +136,8 @@
             <PageBreak>
               <BreakLocation>End</BreakLocation>
             </PageBreak>
-            <Top>0.135in</Top>
-            <Left>1.905cm</Left>
+            <Top>3.95917in</Top>
+            <Left>2.64171cm</Left>
             <Height>3.08167in</Height>
             <Width>6.41991in</Width>
             <Style>
@@ -272,8 +272,8 @@
                 </Style>
               </Subreport>
             </ReportItems>
-            <Top>3.28611in</Top>
-            <Left>0.16151in</Left>
+            <Top>7.16111in</Top>
+            <Left>0.25in</Left>
             <Height>1.17709in</Height>
             <Width>8in</Width>
             <ZIndex>1</ZIndex>
@@ -284,17 +284,17 @@
             </Style>
           </Rectangle>
         </ReportItems>
-        <Height>4.87375in</Height>
+        <Height>11in</Height>
         <Style>
           <Border>
             <Style>None</Style>
           </Border>
         </Style>
       </Body>
-      <Width>8.3in</Width>
+      <Width>8.5in</Width>
       <Page>
         <PageFooter>
-          <Height>0.43371in</Height>
+          <Height>0.38163in</Height>
           <PrintOnFirstPage>true</PrintOnFirstPage>
           <PrintOnLastPage>true</PrintOnLastPage>
           <ReportItems>
@@ -351,7 +351,7 @@
               </Paragraphs>
               <rd:DefaultName>Textbox61</rd:DefaultName>
               <Top>0.1in</Top>
-              <Left>15.30697cm</Left>
+              <Left>16.89447cm</Left>
               <Height>0.52062cm</Height>
               <Width>3.80419cm</Width>
               <ZIndex>1</ZIndex>
@@ -423,13 +423,11 @@
       <DataType>DateTime</DataType>
       <Nullable>true</Nullable>
       <Prompt>StartDate</Prompt>
-      <Hidden>true</Hidden>
     </ReportParameter>
     <ReportParameter Name="to_date">
       <DataType>DateTime</DataType>
       <Nullable>true</Nullable>
       <Prompt>EndDate</Prompt>
-      <Hidden>true</Hidden>
     </ReportParameter>
     <ReportParameter Name="division_id">
       <DataType>String</DataType>

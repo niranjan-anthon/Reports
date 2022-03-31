@@ -646,7 +646,7 @@ GROUP BY csub.clearance_type_id, csub.clearance_division_id, cdiv.clearance_divi
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Fields!total_cost.Value</Value>
+                                  <Value>=FormatCurrency(Fields!total_cost.Value,2)</Value>
                                   <Style>
                                     <FontWeight>Normal</FontWeight>
                                   </Style>
@@ -845,7 +845,7 @@ GROUP BY csub.clearance_type_id, csub.clearance_division_id, cdiv.clearance_divi
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=SUM(Fields!total_cost.Value)</Value>
+                                  <Value>=FormatCurrency(SUM(Fields!total_cost.Value),2)</Value>
                                   <Style>
                                     <FontWeight>Normal</FontWeight>
                                   </Style>
