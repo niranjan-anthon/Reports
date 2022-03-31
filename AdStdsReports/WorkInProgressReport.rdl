@@ -122,7 +122,7 @@ ORDER BY BillingCompany</CommandText>
                 </Paragraphs>
                 <rd:DefaultName>Textbox13</rd:DefaultName>
                 <Top>1.77819in</Top>
-                <Left>2.23143in</Left>
+                <Left>2.03139in</Left>
                 <Height>0.47694in</Height>
                 <Width>3.5863in</Width>
                 <Style>
@@ -156,7 +156,7 @@ ORDER BY BillingCompany</CommandText>
                 </Paragraphs>
                 <rd:DefaultName>Textbox13</rd:DefaultName>
                 <Top>2.2968in</Top>
-                <Left>2.23142in</Left>
+                <Left>2.03139in</Left>
                 <Height>0.3125in</Height>
                 <Width>3.5863in</Width>
                 <ZIndex>1</ZIndex>
@@ -174,7 +174,7 @@ ORDER BY BillingCompany</CommandText>
                 <Source>Embedded</Source>
                 <Value>AdStandardsLogo400x117</Value>
                 <Top>0.1in</Top>
-                <Left>2.02309in</Left>
+                <Left>1.74121in</Left>
                 <Height>3.09562cm</Height>
                 <Width>10.58333cm</Width>
                 <ZIndex>2</ZIndex>
@@ -184,13 +184,47 @@ ORDER BY BillingCompany</CommandText>
                   </Border>
                 </Style>
               </Image>
+              <Textbox Name="Textbox15">
+                <CanGrow>true</CanGrow>
+                <Paragraphs>
+                  <Paragraph>
+                    <TextRuns>
+                      <TextRun>
+                        <Value>=Parameters!from_date.Value + " To " + Parameters!to_date.Value</Value>
+                        <Style>
+                          <FontFamily>Arial</FontFamily>
+                          <FontSize>15pt</FontSize>
+                        </Style>
+                      </TextRun>
+                    </TextRuns>
+                    <Style>
+                      <TextAlign>Center</TextAlign>
+                    </Style>
+                  </Paragraph>
+                </Paragraphs>
+                <rd:DefaultName>Textbox13</rd:DefaultName>
+                <Top>2.6884in</Top>
+                <Left>2.03139in</Left>
+                <Height>0.3125in</Height>
+                <Width>3.5863in</Width>
+                <ZIndex>3</ZIndex>
+                <Style>
+                  <Border>
+                    <Style>None</Style>
+                  </Border>
+                  <PaddingLeft>2pt</PaddingLeft>
+                  <PaddingRight>2pt</PaddingRight>
+                  <PaddingTop>2pt</PaddingTop>
+                  <PaddingBottom>2pt</PaddingBottom>
+                </Style>
+              </Textbox>
             </ReportItems>
             <PageBreak>
               <BreakLocation>End</BreakLocation>
             </PageBreak>
             <KeepTogether>true</KeepTogether>
-            <Top>0.635in</Top>
-            <Left>0.635cm</Left>
+            <Top>2.54035in</Top>
+            <Left>0.92855cm</Left>
             <Height>3.18931in</Height>
             <Width>7.64908in</Width>
             <Style>
@@ -744,7 +778,7 @@ ORDER BY BillingCompany</CommandText>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>Total</Value>
+                                  <Value>=FormatCurrency(sum(Fields!taxes.Value), 2)</Value>
                                   <Style>
                                     <FontWeight>Bold</FontWeight>
                                   </Style>
@@ -837,8 +871,8 @@ ORDER BY BillingCompany</CommandText>
               </TablixMembers>
             </TablixRowHierarchy>
             <DataSetName>InvoiceableOrdersReportQuery</DataSetName>
-            <Top>4.08792in</Top>
-            <Left>0.74705in</Left>
+            <Top>5.96292in</Top>
+            <Left>0.43229in</Left>
             <Height>0.75in</Height>
             <Width>7.51563in</Width>
             <ZIndex>1</ZIndex>
@@ -849,7 +883,7 @@ ORDER BY BillingCompany</CommandText>
             </Style>
           </Tablix>
         </ReportItems>
-        <Height>8.27in</Height>
+        <Height>6.895in</Height>
         <Style>
           <Border>
             <Style>None</Style>
@@ -859,7 +893,7 @@ ORDER BY BillingCompany</CommandText>
       <Width>8.38022in</Width>
       <Page>
         <PageFooter>
-          <Height>0.70455in</Height>
+          <Height>0.38163in</Height>
           <PrintOnFirstPage>true</PrintOnFirstPage>
           <PrintOnLastPage>true</PrintOnLastPage>
           <ReportItems>
@@ -883,7 +917,7 @@ ORDER BY BillingCompany</CommandText>
               </Paragraphs>
               <rd:DefaultName>Textbox61</rd:DefaultName>
               <Top>0.1in</Top>
-              <Left>9.18687cm</Left>
+              <Left>8.33454cm</Left>
               <Height>0.52062cm</Height>
               <Width>4.61667cm</Width>
               <Style>
@@ -916,7 +950,7 @@ ORDER BY BillingCompany</CommandText>
               </Paragraphs>
               <rd:DefaultName>Textbox61</rd:DefaultName>
               <Top>0.1in</Top>
-              <Left>16.25947cm</Left>
+              <Left>16.57697cm</Left>
               <Height>0.52062cm</Height>
               <Width>3.80419cm</Width>
               <ZIndex>1</ZIndex>
@@ -956,7 +990,7 @@ ORDER BY BillingCompany</CommandText>
               </Paragraphs>
               <rd:DefaultName>Textbox61</rd:DefaultName>
               <Top>0.1in</Top>
-              <Left>0.635in</Left>
+              <Left>0.385in</Left>
               <Height>0.52062cm</Height>
               <Width>5.35283cm</Width>
               <ZIndex>2</ZIndex>

@@ -779,7 +779,7 @@ WHERE co.completed = 1 and co.invoiced is null AND sub.created_date &gt;=@from_d
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Round(Fields!taxes.Value,2)</Value>
+                                  <Value>=FormatCurrency(Fields!taxes.Value,2)</Value>
                                   <Style />
                                 </TextRun>
                               </TextRuns>
@@ -810,7 +810,7 @@ WHERE co.completed = 1 and co.invoiced is null AND sub.created_date &gt;=@from_d
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=ROUND(Fields!Total.Value,2)</Value>
+                                  <Value>=FormatCurrency(Fields!Total.Value,2)</Value>
                                   <Style>
                                     <FontFamily>Arial</FontFamily>
                                   </Style>
@@ -948,7 +948,7 @@ WHERE co.completed = 1 and co.invoiced is null AND sub.created_date &gt;=@from_d
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value />
+                                  <Value>=FormatCurrency(SUM(Fields!taxes.Value), 2)</Value>
                                   <Style />
                                 </TextRun>
                               </TextRuns>
@@ -988,7 +988,7 @@ WHERE co.completed = 1 and co.invoiced is null AND sub.created_date &gt;=@from_d
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Round(SUM(Fields!Total.Value), 2)</Value>
+                                  <Value>=FormatCurrency(SUM(Fields!Total.Value), 2)</Value>
                                   <Style>
                                     <FontFamily>Arial</FontFamily>
                                   </Style>
@@ -1483,7 +1483,7 @@ WHERE co.completed = 1 and co.invoiced is null AND sub.created_date &gt;=@from_d
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value />
+                                  <Value>=formatCurrency(SUM(Fields!taxes.Value),2)</Value>
                                   <Style>
                                     <FontWeight>Bold</FontWeight>
                                   </Style>
@@ -1520,7 +1520,7 @@ WHERE co.completed = 1 and co.invoiced is null AND sub.created_date &gt;=@from_d
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Round(SUM(Fields!Total.Value),2)</Value>
+                                  <Value>=formatCurrency(SUM(Fields!Total.Value),2)</Value>
                                   <Style>
                                     <FontFamily>Arial</FontFamily>
                                     <FontWeight>Bold</FontWeight>
@@ -1933,6 +1933,7 @@ WHERE co.completed = 1 and co.invoiced is null AND sub.created_date &gt;=@from_d
         <PageHeight>8.5in</PageHeight>
         <PageWidth>11in</PageWidth>
         <InteractiveHeight>0in</InteractiveHeight>
+        <TopMargin>0.25in</TopMargin>
         <ColumnSpacing>0.05118in</ColumnSpacing>
         <Style />
       </Page>
