@@ -836,7 +836,7 @@ GROUP BY csub.media_type_id, csub.clearance_division_id, cdiv.clearance_division
             <KeepTogether>true</KeepTogether>
             <DataSetName>ClearanceOrderByMediaTypeQuery</DataSetName>
             <Top>0.25in</Top>
-            <Left>0.5in</Left>
+            <Left>0.27499in</Left>
             <Height>0.98958in</Height>
             <Width>7.30001in</Width>
             <Style>
@@ -856,7 +856,7 @@ GROUP BY csub.media_type_id, csub.clearance_division_id, cdiv.clearance_division
       <Width>7.85in</Width>
       <Page>
         <PageFooter>
-          <Height>0.38164in</Height>
+          <Height>0.45456in</Height>
           <PrintOnFirstPage>true</PrintOnFirstPage>
           <PrintOnLastPage>true</PrintOnLastPage>
           <ReportItems>
@@ -880,7 +880,7 @@ GROUP BY csub.media_type_id, csub.clearance_division_id, cdiv.clearance_division
               </Paragraphs>
               <rd:DefaultName>Textbox61</rd:DefaultName>
               <Top>0.1in</Top>
-              <Left>8.23437cm</Left>
+              <Left>7.66116cm</Left>
               <Height>0.52062cm</Height>
               <Width>4.61667cm</Width>
               <Style>
@@ -913,7 +913,7 @@ GROUP BY csub.media_type_id, csub.clearance_division_id, cdiv.clearance_division
               </Paragraphs>
               <rd:DefaultName>Textbox61</rd:DefaultName>
               <Top>0.1in</Top>
-              <Left>16.00781cm</Left>
+              <Left>15.69031cm</Left>
               <Height>0.52062cm</Height>
               <Width>3.80419cm</Width>
               <ZIndex>1</ZIndex>
@@ -953,7 +953,7 @@ GROUP BY csub.media_type_id, csub.clearance_division_id, cdiv.clearance_division
               </Paragraphs>
               <rd:DefaultName>Textbox61</rd:DefaultName>
               <Top>0.1in</Top>
-              <Left>0.385in</Left>
+              <Left>0.26in</Left>
               <Height>0.52062cm</Height>
               <Width>5.35283cm</Width>
               <ZIndex>2</ZIndex>

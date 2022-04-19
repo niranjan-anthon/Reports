@@ -26,7 +26,15 @@
         </QueryParameters>
         <CommandText>IF @division_id IS NOT NULL
 
-SELECT ser_lan.clearance_service as service, COUNT(ser_lan.clearance_service) as total, csub.clearance_division_id, cdiv.clearance_division
+SELECT csub.clearance_division_id, cdiv.clearance_division,
+CASE WHEN cser.regular = 1 THEN  COUNT(cser.regular)
+	 WHEN cser.express =1 THEN COUNT(cser.express)
+	 ELSE COUNT(cser.priority)
+END as serv_count,
+CASE WHEN cser.regular = 1 THEN  'Regular'
+	 WHEN cser.express =1 THEN 'Express'
+	 ELSE 'Priority'
+END as ser_type
 FROM ClearanceOrderSubmissions csub
 LEFT OUTER JOIN ClearanceOrders cord ON cord.clearance_order_id = csub.clearance_order_id
 LEFT OUTER JOIN ClearanceServices cser ON cser.clearance_service_id = csub.clearance_service_id
@@ -37,10 +45,18 @@ WHERE cord.activated = 1 AND cord.active =1 AND csub.active =1 AND csub.clearanc
 AND 
 csub.created_date &gt;=@from_date AND csub.created_date &lt;=@to_date 
 AND csub.clearance_division_id =@division_id 
-GROUP BY ser_lan.clearance_service,csub.clearance_division_id, cdiv.clearance_division
+GROUP BY cser.express, cser.regular, cser.priority,csub.clearance_division_id, cdiv.clearance_division
 
 ELSE
-SELECT ser_lan.clearance_service as service, COUNT(ser_lan.clearance_service) as total, csub.clearance_division_id, cdiv.clearance_division
+SELECT csub.clearance_division_id, cdiv.clearance_division,
+CASE WHEN cser.regular = 1 THEN  COUNT(cser.regular)
+	 WHEN cser.express =1 THEN COUNT(cser.express)
+	 ELSE COUNT(cser.priority)
+END as serv_count,
+CASE WHEN cser.regular = 1 THEN  'Regular'
+	 WHEN cser.express =1 THEN 'Express'
+	 ELSE 'Priority'
+END as ser_type
 FROM ClearanceOrderSubmissions csub
 LEFT OUTER JOIN ClearanceOrders cord ON cord.clearance_order_id = csub.clearance_order_id
 LEFT OUTER JOIN ClearanceServices cser ON cser.clearance_service_id = csub.clearance_service_id
@@ -50,26 +66,23 @@ LEFT OUTER JOIN ClearanceDivisions cdiv ON csub.clearance_division_id = cdiv.cle
 WHERE cord.activated = 1 AND cord.active =1 AND csub.active =1 AND csub.clearance_submission_status_id IS NOT NULL AND lang.language_id=1
 AND 
 csub.created_date &gt;=@from_date AND csub.created_date &lt;=@to_date 
-GROUP BY ser_lan.clearance_service,csub.clearance_division_id, cdiv.clearance_division
-
-
-</CommandText>
+GROUP BY csub.clearance_division_id, cdiv.clearance_division, cser.regular, cser.express, cser.priority</CommandText>
       </Query>
       <Fields>
-        <Field Name="service">
-          <DataField>service</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="total">
-          <DataField>total</DataField>
-          <rd:TypeName>System.Int32</rd:TypeName>
-        </Field>
         <Field Name="clearance_division_id">
           <DataField>clearance_division_id</DataField>
           <rd:TypeName>System.Int32</rd:TypeName>
         </Field>
         <Field Name="clearance_division">
           <DataField>clearance_division</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="serv_count">
+          <DataField>serv_count</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="ser_type">
+          <DataField>ser_type</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
       </Fields>
@@ -396,14 +409,14 @@ GROUP BY ser_lan.clearance_service,csub.clearance_division_id, cdiv.clearance_di
                   <TablixCells>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="service">
+                        <Textbox Name="ser_type">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Fields!service.Value</Value>
+                                  <Value>=Fields!ser_type.Value</Value>
                                   <Style>
                                     <FontWeight>Normal</FontWeight>
                                   </Style>
@@ -414,7 +427,7 @@ GROUP BY ser_lan.clearance_service,csub.clearance_division_id, cdiv.clearance_di
                               </Style>
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>service</rd:DefaultName>
+                          <rd:DefaultName>ser_type</rd:DefaultName>
                           <Style>
                             <Border>
                               <Color>LightGrey</Color>
@@ -451,7 +464,7 @@ GROUP BY ser_lan.clearance_service,csub.clearance_division_id, cdiv.clearance_di
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Sum(Fields!total.Value)</Value>
+                                  <Value>=Sum(Fields!serv_count.Value)</Value>
                                   <Style>
                                     <FontWeight>Normal</FontWeight>
                                   </Style>
@@ -499,7 +512,7 @@ GROUP BY ser_lan.clearance_service,csub.clearance_division_id, cdiv.clearance_di
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=ROUND((Fields!total.Value/SUM(Fields!total.Value, "DivisionGroup"))*100,0)</Value>
+                                  <Value>=ROUND((Fields!serv_count.Value/SUM(Fields!serv_count.Value, "DivisionGroup"))*100,0)</Value>
                                   <Style>
                                     <FontWeight>Normal</FontWeight>
                                   </Style>
@@ -600,7 +613,7 @@ GROUP BY ser_lan.clearance_service,csub.clearance_division_id, cdiv.clearance_di
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Sum(Fields!total.Value)</Value>
+                                  <Value>=Sum(Fields!serv_count.Value)</Value>
                                   <Style>
                                     <FontWeight>Normal</FontWeight>
                                   </Style>
@@ -649,7 +662,7 @@ GROUP BY ser_lan.clearance_service,csub.clearance_division_id, cdiv.clearance_di
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=SUM(ROUND((Fields!total.Value/Sum(Fields!total.Value))*100, 2))</Value>
+                                  <Value>=SUM(ROUND((Fields!serv_count.Value/Sum(Fields!serv_count.Value))*100, 2))</Value>
                                   <Style>
                                     <FontWeight>Normal</FontWeight>
                                   </Style>
@@ -779,7 +792,7 @@ GROUP BY ser_lan.clearance_service,csub.clearance_division_id, cdiv.clearance_di
                               <TextRun>
                                 <Value>=Fields!clearance_division.Value</Value>
                                 <Style>
-                                  <FontWeight>Normal</FontWeight>
+                                  <FontWeight>Bold</FontWeight>
                                 </Style>
                               </TextRun>
                             </TextRuns>
@@ -823,12 +836,12 @@ GROUP BY ser_lan.clearance_service,csub.clearance_division_id, cdiv.clearance_di
                     <TablixMember>
                       <Group Name="ServiceGroup">
                         <GroupExpressions>
-                          <GroupExpression>=Fields!service.Value</GroupExpression>
+                          <GroupExpression>=Fields!ser_type.Value</GroupExpression>
                         </GroupExpressions>
                       </Group>
                       <SortExpressions>
                         <SortExpression>
-                          <Value>=Fields!service.Value</Value>
+                          <Value>=Fields!ser_type.Value</Value>
                         </SortExpression>
                       </SortExpressions>
                     </TablixMember>
@@ -842,7 +855,7 @@ GROUP BY ser_lan.clearance_service,csub.clearance_division_id, cdiv.clearance_di
             <KeepTogether>true</KeepTogether>
             <DataSetName>ClearanceOrderByServiceQuery</DataSetName>
             <Top>0.25in</Top>
-            <Left>0.5in</Left>
+            <Left>0.3in</Left>
             <Height>0.98958in</Height>
             <Width>7.30001in</Width>
             <Style>
@@ -862,7 +875,7 @@ GROUP BY ser_lan.clearance_service,csub.clearance_division_id, cdiv.clearance_di
       <Width>7.9in</Width>
       <Page>
         <PageFooter>
-          <Height>0.40247in</Height>
+          <Height>0.43372in</Height>
           <PrintOnFirstPage>true</PrintOnFirstPage>
           <PrintOnLastPage>true</PrintOnLastPage>
           <ReportItems>
@@ -886,7 +899,7 @@ GROUP BY ser_lan.clearance_service,csub.clearance_division_id, cdiv.clearance_di
               </Paragraphs>
               <rd:DefaultName>Textbox61</rd:DefaultName>
               <Top>0.1in</Top>
-              <Left>8.55187cm</Left>
+              <Left>7.72467cm</Left>
               <Height>0.52062cm</Height>
               <Width>4.61667cm</Width>
               <Style>
@@ -959,7 +972,7 @@ GROUP BY ser_lan.clearance_service,csub.clearance_division_id, cdiv.clearance_di
               </Paragraphs>
               <rd:DefaultName>Textbox61</rd:DefaultName>
               <Top>0.1in</Top>
-              <Left>0.26in</Left>
+              <Left>0.135in</Left>
               <Height>0.52062cm</Height>
               <Width>5.35283cm</Width>
               <ZIndex>2</ZIndex>

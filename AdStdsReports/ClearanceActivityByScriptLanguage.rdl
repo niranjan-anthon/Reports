@@ -840,7 +840,7 @@ GROUP BY csub.clearance_division_id, cdiv.clearance_division, lang.language_id, 
             <KeepTogether>true</KeepTogether>
             <DataSetName>ClearanceOrderByScriptLanguageQuery</DataSetName>
             <Top>0.25in</Top>
-            <Left>0.5in</Left>
+            <Left>0.3in</Left>
             <Height>0.98958in</Height>
             <Width>7.3in</Width>
             <Style>
@@ -883,7 +883,7 @@ GROUP BY csub.clearance_division_id, cdiv.clearance_division, lang.language_id, 
               </Paragraphs>
               <rd:DefaultName>Textbox61</rd:DefaultName>
               <Top>0.1in</Top>
-              <Left>7.59937cm</Left>
+              <Left>7.72467cm</Left>
               <Height>0.52062cm</Height>
               <Width>4.61667cm</Width>
               <Style>

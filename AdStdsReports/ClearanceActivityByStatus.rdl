@@ -26,8 +26,8 @@
         </QueryParameters>
         <CommandText>IF @division_id IS NOT NULL
 
-                                                                                   SELECT        sub_stat.submission_status, csub.clearance_submission_status_id AS Total, csub.clearance_division_id, cdiv.clearance_division
-                                                                                    FROM            ClearanceOrderSubmissions AS csub LEFT OUTER JOIN
+                                                                                   SELECT        sub_stat.submission_status, COUNT(csub.clearance_submission_status_id) AS Total, csub.clearance_division_id, cdiv.clearance_division 
+FROM            ClearanceOrderSubmissions AS csub LEFT OUTER JOIN
                                                                                                              ClearanceOrders AS cord ON cord.clearance_order_id = csub.clearance_order_id LEFT OUTER JOIN
                                                                                                              ClearanceDivisions AS cdiv ON csub.clearance_division_id = cdiv.clearance_division_id LEFT OUTER JOIN
                                                                                                              ClearanceSubmissionStatuses AS sub_stat ON sub_stat.clearance_submission_status_id = csub.clearance_submission_status_id
@@ -37,17 +37,15 @@
                                                                                     HAVING         (csub.clearance_submission_status_id IS NOT NULL)
                                                                                     ORDER BY cdiv.clearance_division 
 ELSE
-SELECT        sub_stat.submission_status, csub.clearance_submission_status_id AS Total, csub.clearance_division_id, cdiv.clearance_division
+SELECT        sub_stat.submission_status, COUNT(csub.clearance_submission_status_id) AS Total, csub.clearance_division_id, cdiv.clearance_division
                                                       FROM            ClearanceOrderSubmissions AS csub LEFT OUTER JOIN
                                                                                ClearanceOrders AS cord ON cord.clearance_order_id = csub.clearance_order_id LEFT OUTER JOIN
                                                                                ClearanceDivisions AS cdiv ON csub.clearance_division_id = cdiv.clearance_division_id LEFT OUTER JOIN
                                                                                ClearanceSubmissionStatuses AS sub_stat ON sub_stat.clearance_submission_status_id = csub.clearance_submission_status_id
-                                                      WHERE        (cord.activated = 1) AND (cord.active = 1) AND (csub.active = 1) AND cord.created_date &gt;= @from_date AND cord.created_date &lt;= @to_date
+                                                      WHERE       (cord.active = 1) AND (csub.active = 1) AND cord.created_date &gt;= @from_date AND cord.created_date &lt;= @to_date
                                                       GROUP BY sub_stat.submission_status, csub.clearance_submission_status_id, csub.clearance_division_id, cdiv.clearance_division
                                                       HAVING         (csub.clearance_submission_status_id IS NOT NULL)
-                                                      ORDER BY cdiv.clearance_division 
-
-</CommandText>
+                                                      ORDER BY cdiv.clearance_division </CommandText>
         <rd:UseGenericDesigner>true</rd:UseGenericDesigner>
       </Query>
       <Fields>
@@ -494,7 +492,7 @@ SELECT        sub_stat.submission_status, csub.clearance_submission_status_id AS
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=SUM(ROUND((Fields!Total.Value/Sum(Fields!Total.Value))*100, 2))</Value>
+                                  <Value>=ROUND(SUM((Fields!Total.Value/Sum(Fields!Total.Value))*100),2)</Value>
                                   <Style>
                                     <FontWeight>Normal</FontWeight>
                                   </Style>
@@ -558,7 +556,7 @@ SELECT        sub_stat.submission_status, csub.clearance_submission_status_id AS
                           <Paragraph>
                             <TextRuns>
                               <TextRun>
-                                <Value>Division</Value>
+                                <Value>Division </Value>
                                 <Style>
                                   <FontWeight>Bold</FontWeight>
                                 </Style>
@@ -684,7 +682,7 @@ SELECT        sub_stat.submission_status, csub.clearance_submission_status_id AS
             <KeepTogether>true</KeepTogether>
             <DataSetName>ClearanceSubmissionSummaryByStatusQuery</DataSetName>
             <Top>0.25in</Top>
-            <Left>0.5in</Left>
+            <Left>0.3in</Left>
             <Height>0.73958in</Height>
             <Width>7.30001in</Width>
             <Style>
@@ -728,7 +726,7 @@ SELECT        sub_stat.submission_status, csub.clearance_submission_status_id AS
               </Paragraphs>
               <rd:DefaultName>Textbox61</rd:DefaultName>
               <Top>0.1in</Top>
-              <Left>8.86937cm</Left>
+              <Left>7.72467cm</Left>
               <Height>0.52062cm</Height>
               <Width>4.61667cm</Width>
               <Style>
@@ -801,7 +799,7 @@ SELECT        sub_stat.submission_status, csub.clearance_submission_status_id AS
               </Paragraphs>
               <rd:DefaultName>Textbox61</rd:DefaultName>
               <Top>0.1in</Top>
-              <Left>0.385in</Left>
+              <Left>0.26in</Left>
               <Height>0.52062cm</Height>
               <Width>5.35283cm</Width>
               <ZIndex>2</ZIndex>

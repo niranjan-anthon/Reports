@@ -35,8 +35,8 @@
                   </Paragraph>
                 </Paragraphs>
                 <rd:DefaultName>Textbox13</rd:DefaultName>
-                <Top>1.6393in</Top>
-                <Left>0.8398in</Left>
+                <Top>1.62888in</Top>
+                <Left>0.83981in</Left>
                 <Height>0.47694in</Height>
                 <Width>5.41765in</Width>
                 <Style>
@@ -86,7 +86,7 @@
               <Image Name="Image1">
                 <Source>Embedded</Source>
                 <Value>AdStandardsLogo400x117</Value>
-                <Top>0.07917in</Top>
+                <Top>0.06875in</Top>
                 <Left>1.4653in</Left>
                 <Height>3.09562cm</Height>
                 <Width>10.58333cm</Width>
@@ -137,9 +137,9 @@
               <BreakLocation>End</BreakLocation>
             </PageBreak>
             <Top>3.95917in</Top>
-            <Left>2.64171cm</Left>
+            <Left>2.05365cm</Left>
             <Height>3.08167in</Height>
-            <Width>6.41991in</Width>
+            <Width>6.88295in</Width>
             <Style>
               <Border>
                 <Style>None</Style>
@@ -211,7 +211,7 @@
                   </Parameter>
                 </Parameters>
                 <Top>1.19945cm</Top>
-                <Left>0.25018cm</Left>
+                <Left>0.25019cm</Left>
                 <Height>0.1875in</Height>
                 <Width>3.95209in</Width>
                 <ZIndex>2</ZIndex>
@@ -236,7 +236,7 @@
                 </Parameters>
                 <KeepTogether>true</KeepTogether>
                 <Top>1.73cm</Top>
-                <Left>0.25018cm</Left>
+                <Left>0.25019cm</Left>
                 <Height>0.1875in</Height>
                 <Width>3.95209in</Width>
                 <ZIndex>3</ZIndex>
@@ -261,7 +261,7 @@
                 </Parameters>
                 <KeepTogether>true</KeepTogether>
                 <Top>2.28cm</Top>
-                <Left>0.25018cm</Left>
+                <Left>0.25019cm</Left>
                 <Height>0.1875in</Height>
                 <Width>3.95209in</Width>
                 <ZIndex>4</ZIndex>
@@ -413,6 +413,8 @@
           </Style>
         </PageFooter>
         <InteractiveHeight>0in</InteractiveHeight>
+        <TopMargin>0.25in</TopMargin>
+        <BottomMargin>0.25in</BottomMargin>
         <ColumnSpacing>0.05118in</ColumnSpacing>
         <Style />
       </Page>

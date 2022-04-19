@@ -20,8 +20,13 @@
           <QueryParameter Name="@to_date">
             <Value>=Parameters!to_date.Value</Value>
           </QueryParameter>
+          <QueryParameter Name="@advertiser_id">
+            <Value>=Parameters!advertiser_id.Value</Value>
+          </QueryParameter>
         </QueryParameters>
-        <CommandText>SELECT inv.created_date, inv.invoice_number,  prod.product_name,adv_comp.company_name,
+        <CommandText>if @advertiser_id &gt; 0
+SELECT inv.created_date, inv.invoice_number,  
+prod.product_name,adv_comp.company_name,
 SUM(inv.sub_total) as sub_total, sum(inv.total) as total
  FROM Invoices inv
 LEFT OUTER JOIN Companies adv_comp ON adv_comp.company_id = inv.advertiser_id
@@ -29,9 +34,23 @@ LEFT OUTER JOIN ClearanceOrders ord ON ord.clearance_order_id = inv.clearance_or
 LEFT OUTER JOIN ClearanceOrderSubmissions sub ON sub.clearance_order_id = inv.clearance_order_id
 LEFT OUTER JOIN Products prod ON Prod.product_id = sub.product_id 
 WHERE inv.created_date &gt;= @from_date AND inv.created_date &lt;=@to_date 
-AND inv.cancelled IS NULL AND inv.advertiser_id IS NOT NULL AND inv.sub_total &gt; 0 AND inv.total&gt; 0
+AND inv.cancelled IS NULL AND inv.advertiser_id IS NOT NULL AND inv.sub_total &gt; 0 AND inv.total&gt; 0 AND inv.advertiser_id = @advertiser_id 
 GROUP BY  inv.created_date, inv.invoice_number,  prod.product_id, prod.product_name, adv_comp.company_name
-ORDER BY inv.created_date </CommandText>
+ORDER BY inv.created_date 
+ELSE
+SELECT inv.created_date, inv.invoice_number,  
+prod.product_name,adv_comp.company_name,
+SUM(inv.sub_total) as sub_total, sum(inv.total) as total
+ FROM Invoices inv
+LEFT OUTER JOIN Companies adv_comp ON adv_comp.company_id = inv.advertiser_id
+LEFT OUTER JOIN ClearanceOrders ord ON ord.clearance_order_id = inv.clearance_order_id
+LEFT OUTER JOIN ClearanceOrderSubmissions sub ON sub.clearance_order_id = inv.clearance_order_id
+LEFT OUTER JOIN Products prod ON Prod.product_id = sub.product_id 
+WHERE inv.created_date &gt;= @from_date AND inv.created_date &lt;=@to_date 
+AND inv.cancelled IS NULL AND inv.advertiser_id IS NOT NULL AND inv.sub_total &gt; 0 AND inv.total&gt; 0 
+GROUP BY  inv.created_date, inv.invoice_number,  prod.product_id, prod.product_name, adv_comp.company_name
+ORDER BY inv.created_date 
+</CommandText>
       </Query>
       <Fields>
         <Field Name="created_date">
@@ -191,8 +210,8 @@ ORDER BY inv.created_date </CommandText>
               <BreakLocation>End</BreakLocation>
             </PageBreak>
             <KeepTogether>true</KeepTogether>
-            <Top>3.92142in</Top>
-            <Left>3.12083cm</Left>
+            <Top>2.67142in</Top>
+            <Left>6.29582cm</Left>
             <Height>3.15715in</Height>
             <Width>6.04266in</Width>
             <Style>
@@ -205,7 +224,7 @@ ORDER BY inv.created_date </CommandText>
             <TablixBody>
               <TablixColumns>
                 <TablixColumn>
-                  <Width>1.27926in</Width>
+                  <Width>1.60597in</Width>
                 </TablixColumn>
               </TablixColumns>
               <TablixRows>
@@ -352,7 +371,7 @@ ORDER BY inv.created_date </CommandText>
               <TablixMembers>
                 <TablixMember>
                   <TablixHeader>
-                    <Size>1in</Size>
+                    <Size>1.32975in</Size>
                     <CellContents>
                       <Textbox Name="Textbox5">
                         <CanGrow>true</CanGrow>
@@ -403,7 +422,7 @@ ORDER BY inv.created_date </CommandText>
                   <TablixMembers>
                     <TablixMember>
                       <TablixHeader>
-                        <Size>1.10218in</Size>
+                        <Size>1.16837in</Size>
                         <CellContents>
                           <Textbox Name="Textbox11">
                             <CanGrow>true</CanGrow>
@@ -454,7 +473,7 @@ ORDER BY inv.created_date </CommandText>
                       <TablixMembers>
                         <TablixMember>
                           <TablixHeader>
-                            <Size>2.75in</Size>
+                            <Size>2.72538in</Size>
                             <CellContents>
                               <Textbox Name="Textbox201">
                                 <CanGrow>true</CanGrow>
@@ -505,27 +524,27 @@ ORDER BY inv.created_date </CommandText>
                           <TablixMembers>
                             <TablixMember>
                               <TablixHeader>
-                                <Size>1.36557in</Size>
+                                <Size>2.20644in</Size>
                                 <CellContents>
-                                  <Textbox Name="Textbox1">
+                                  <Textbox Name="Textbox2">
                                     <CanGrow>true</CanGrow>
                                     <KeepTogether>true</KeepTogether>
                                     <Paragraphs>
                                       <Paragraph>
                                         <TextRuns>
                                           <TextRun>
-                                            <Value>Sub Total</Value>
+                                            <Value>Product Name</Value>
                                             <Style>
                                               <FontWeight>Bold</FontWeight>
                                             </Style>
                                           </TextRun>
                                         </TextRuns>
                                         <Style>
-                                          <TextAlign>Right</TextAlign>
+                                          <TextAlign>Left</TextAlign>
                                         </Style>
                                       </Paragraph>
                                     </Paragraphs>
-                                    <rd:DefaultName>Textbox1</rd:DefaultName>
+                                    <rd:DefaultName>Textbox2</rd:DefaultName>
                                     <Style>
                                       <Border>
                                         <Color>LightGrey</Color>
@@ -554,7 +573,60 @@ ORDER BY inv.created_date </CommandText>
                                 </CellContents>
                               </TablixHeader>
                               <TablixMembers>
-                                <TablixMember />
+                                <TablixMember>
+                                  <TablixHeader>
+                                    <Size>1.48395in</Size>
+                                    <CellContents>
+                                      <Textbox Name="Textbox1">
+                                        <CanGrow>true</CanGrow>
+                                        <KeepTogether>true</KeepTogether>
+                                        <Paragraphs>
+                                          <Paragraph>
+                                            <TextRuns>
+                                              <TextRun>
+                                                <Value>Sub Total</Value>
+                                                <Style>
+                                                  <FontWeight>Bold</FontWeight>
+                                                </Style>
+                                              </TextRun>
+                                            </TextRuns>
+                                            <Style>
+                                              <TextAlign>Right</TextAlign>
+                                            </Style>
+                                          </Paragraph>
+                                        </Paragraphs>
+                                        <rd:DefaultName>Textbox1</rd:DefaultName>
+                                        <Style>
+                                          <Border>
+                                            <Color>LightGrey</Color>
+                                            <Style>Solid</Style>
+                                          </Border>
+                                          <TopBorder>
+                                            <Color>Black</Color>
+                                            <Width>2pt</Width>
+                                          </TopBorder>
+                                          <BottomBorder>
+                                            <Color>Black</Color>
+                                            <Width>2pt</Width>
+                                          </BottomBorder>
+                                          <LeftBorder>
+                                            <Style>None</Style>
+                                          </LeftBorder>
+                                          <RightBorder>
+                                            <Style>None</Style>
+                                          </RightBorder>
+                                          <PaddingLeft>2pt</PaddingLeft>
+                                          <PaddingRight>2pt</PaddingRight>
+                                          <PaddingTop>2pt</PaddingTop>
+                                          <PaddingBottom>2pt</PaddingBottom>
+                                        </Style>
+                                      </Textbox>
+                                    </CellContents>
+                                  </TablixHeader>
+                                  <TablixMembers>
+                                    <TablixMember />
+                                  </TablixMembers>
+                                </TablixMember>
                               </TablixMembers>
                             </TablixMember>
                           </TablixMembers>
@@ -580,7 +652,7 @@ ORDER BY inv.created_date </CommandText>
                     </SortExpression>
                   </SortExpressions>
                   <TablixHeader>
-                    <Size>1in</Size>
+                    <Size>1.32975in</Size>
                     <CellContents>
                       <Textbox Name="invoice_number1">
                         <CanGrow>true</CanGrow>
@@ -616,7 +688,7 @@ ORDER BY inv.created_date </CommandText>
                   <TablixMembers>
                     <TablixMember>
                       <TablixHeader>
-                        <Size>1.10218in</Size>
+                        <Size>1.16837in</Size>
                         <CellContents>
                           <Textbox Name="invoice_number2">
                             <CanGrow>true</CanGrow>
@@ -652,7 +724,7 @@ ORDER BY inv.created_date </CommandText>
                       <TablixMembers>
                         <TablixMember>
                           <TablixHeader>
-                            <Size>2.75in</Size>
+                            <Size>2.72538in</Size>
                             <CellContents>
                               <Textbox Name="company_name1">
                                 <CanGrow>true</CanGrow>
@@ -688,27 +760,27 @@ ORDER BY inv.created_date </CommandText>
                           <TablixMembers>
                             <TablixMember>
                               <TablixHeader>
-                                <Size>1.36557in</Size>
+                                <Size>2.20644in</Size>
                                 <CellContents>
-                                  <Textbox Name="Textbox19">
+                                  <Textbox Name="product_name">
                                     <CanGrow>true</CanGrow>
                                     <KeepTogether>true</KeepTogether>
                                     <Paragraphs>
                                       <Paragraph>
                                         <TextRuns>
                                           <TextRun>
-                                            <Value>=FormatCurrency(Sum(Fields!sub_total.Value),2)</Value>
+                                            <Value>=Fields!product_name.Value</Value>
                                             <Style>
                                               <FontWeight>Normal</FontWeight>
                                             </Style>
                                           </TextRun>
                                         </TextRuns>
                                         <Style>
-                                          <TextAlign>Right</TextAlign>
+                                          <TextAlign>Left</TextAlign>
                                         </Style>
                                       </Paragraph>
                                     </Paragraphs>
-                                    <rd:DefaultName>Textbox19</rd:DefaultName>
+                                    <rd:DefaultName>product_name</rd:DefaultName>
                                     <Style>
                                       <Border>
                                         <Style>None</Style>
@@ -721,6 +793,44 @@ ORDER BY inv.created_date </CommandText>
                                   </Textbox>
                                 </CellContents>
                               </TablixHeader>
+                              <TablixMembers>
+                                <TablixMember>
+                                  <TablixHeader>
+                                    <Size>1.48395in</Size>
+                                    <CellContents>
+                                      <Textbox Name="Textbox19">
+                                        <CanGrow>true</CanGrow>
+                                        <KeepTogether>true</KeepTogether>
+                                        <Paragraphs>
+                                          <Paragraph>
+                                            <TextRuns>
+                                              <TextRun>
+                                                <Value>=FormatCurrency(Sum(Fields!sub_total.Value),2)</Value>
+                                                <Style>
+                                                  <FontWeight>Normal</FontWeight>
+                                                </Style>
+                                              </TextRun>
+                                            </TextRuns>
+                                            <Style>
+                                              <TextAlign>Right</TextAlign>
+                                            </Style>
+                                          </Paragraph>
+                                        </Paragraphs>
+                                        <rd:DefaultName>Textbox19</rd:DefaultName>
+                                        <Style>
+                                          <Border>
+                                            <Style>None</Style>
+                                          </Border>
+                                          <PaddingLeft>2pt</PaddingLeft>
+                                          <PaddingRight>2pt</PaddingRight>
+                                          <PaddingTop>2pt</PaddingTop>
+                                          <PaddingBottom>2pt</PaddingBottom>
+                                        </Style>
+                                      </Textbox>
+                                    </CellContents>
+                                  </TablixHeader>
+                                </TablixMember>
+                              </TablixMembers>
                             </TablixMember>
                           </TablixMembers>
                         </TablixMember>
@@ -730,7 +840,7 @@ ORDER BY inv.created_date </CommandText>
                 </TablixMember>
                 <TablixMember>
                   <TablixHeader>
-                    <Size>4.85218in</Size>
+                    <Size>5.2235in</Size>
                     <CellContents>
                       <Textbox Name="Textbox21">
                         <CanGrow>true</CanGrow>
@@ -769,27 +879,27 @@ ORDER BY inv.created_date </CommandText>
                   <TablixMembers>
                     <TablixMember>
                       <TablixHeader>
-                        <Size>1.36557in</Size>
+                        <Size>2.20644in</Size>
                         <CellContents>
-                          <Textbox Name="Textbox24">
+                          <Textbox Name="Textbox4">
                             <CanGrow>true</CanGrow>
                             <KeepTogether>true</KeepTogether>
                             <Paragraphs>
                               <Paragraph>
                                 <TextRuns>
                                   <TextRun>
-                                    <Value>=FormatCurrency(Sum(Fields!sub_total.Value, "SalesReportByAdvertiserQuery"), 2)</Value>
+                                    <Value />
                                     <Style>
                                       <FontWeight>Bold</FontWeight>
                                     </Style>
                                   </TextRun>
                                 </TextRuns>
                                 <Style>
-                                  <TextAlign>Right</TextAlign>
+                                  <TextAlign>Left</TextAlign>
                                 </Style>
                               </Paragraph>
                             </Paragraphs>
-                            <rd:DefaultName>Textbox24</rd:DefaultName>
+                            <rd:DefaultName>Textbox4</rd:DefaultName>
                             <Style>
                               <Border>
                                 <Style>None</Style>
@@ -805,6 +915,47 @@ ORDER BY inv.created_date </CommandText>
                           </Textbox>
                         </CellContents>
                       </TablixHeader>
+                      <TablixMembers>
+                        <TablixMember>
+                          <TablixHeader>
+                            <Size>1.48395in</Size>
+                            <CellContents>
+                              <Textbox Name="Textbox24">
+                                <CanGrow>true</CanGrow>
+                                <KeepTogether>true</KeepTogether>
+                                <Paragraphs>
+                                  <Paragraph>
+                                    <TextRuns>
+                                      <TextRun>
+                                        <Value>=FormatCurrency(Sum(Fields!sub_total.Value, "SalesReportByAdvertiserQuery"), 2)</Value>
+                                        <Style>
+                                          <FontWeight>Bold</FontWeight>
+                                        </Style>
+                                      </TextRun>
+                                    </TextRuns>
+                                    <Style>
+                                      <TextAlign>Right</TextAlign>
+                                    </Style>
+                                  </Paragraph>
+                                </Paragraphs>
+                                <rd:DefaultName>Textbox24</rd:DefaultName>
+                                <Style>
+                                  <Border>
+                                    <Style>None</Style>
+                                  </Border>
+                                  <TopBorder>
+                                    <Style>Solid</Style>
+                                  </TopBorder>
+                                  <PaddingLeft>2pt</PaddingLeft>
+                                  <PaddingRight>2pt</PaddingRight>
+                                  <PaddingTop>2pt</PaddingTop>
+                                  <PaddingBottom>2pt</PaddingBottom>
+                                </Style>
+                              </Textbox>
+                            </CellContents>
+                          </TablixHeader>
+                        </TablixMember>
+                      </TablixMembers>
                     </TablixMember>
                   </TablixMembers>
                   <KeepWithGroup>Before</KeepWithGroup>
@@ -812,10 +963,10 @@ ORDER BY inv.created_date </CommandText>
               </TablixMembers>
             </TablixRowHierarchy>
             <DataSetName>SalesReportByAdvertiserQuery</DataSetName>
-            <Top>7.39458in</Top>
-            <Left>0.50149in</Left>
+            <Top>6.01958in</Top>
+            <Left>0.25422in</Left>
             <Height>0.75in</Height>
-            <Width>7.49701in</Width>
+            <Width>10.51985in</Width>
             <ZIndex>1</ZIndex>
             <Style>
               <Border>
@@ -826,17 +977,17 @@ ORDER BY inv.created_date </CommandText>
             </Style>
           </Tablix>
         </ReportItems>
-        <Height>11in</Height>
+        <Height>7.375in</Height>
         <Style>
           <Border>
             <Style>None</Style>
           </Border>
         </Style>
       </Body>
-      <Width>8.5in</Width>
+      <Width>11in</Width>
       <Page>
         <PageFooter>
-          <Height>0.70455in</Height>
+          <Height>0.41288in</Height>
           <PrintOnFirstPage>true</PrintOnFirstPage>
           <PrintOnLastPage>true</PrintOnLastPage>
           <ReportItems>
@@ -859,8 +1010,8 @@ ORDER BY inv.created_date </CommandText>
                 </Paragraph>
               </Paragraphs>
               <rd:DefaultName>Textbox61</rd:DefaultName>
-              <Top>0.24979in</Top>
-              <Left>8.48667cm</Left>
+              <Top>0.12479in</Top>
+              <Left>11.66166cm</Left>
               <Height>0.52062cm</Height>
               <Width>4.61667cm</Width>
               <Style>
@@ -892,8 +1043,8 @@ ORDER BY inv.created_date </CommandText>
                 </Paragraph>
               </Paragraphs>
               <rd:DefaultName>Textbox61</rd:DefaultName>
-              <Top>0.24979in</Top>
-              <Left>16.89447cm</Left>
+              <Top>0.12479in</Top>
+              <Left>23.56197cm</Left>
               <Height>0.52062cm</Height>
               <Width>3.80419cm</Width>
               <ZIndex>1</ZIndex>
@@ -932,7 +1083,7 @@ ORDER BY inv.created_date </CommandText>
                 </Paragraph>
               </Paragraphs>
               <rd:DefaultName>Textbox61</rd:DefaultName>
-              <Top>0.24979in</Top>
+              <Top>0.12479in</Top>
               <Left>0.26in</Left>
               <Height>0.52062cm</Height>
               <Width>5.35283cm</Width>
@@ -954,7 +1105,11 @@ ORDER BY inv.created_date </CommandText>
             </Border>
           </Style>
         </PageFooter>
+        <PageHeight>8.5in</PageHeight>
+        <PageWidth>11in</PageWidth>
         <InteractiveHeight>0in</InteractiveHeight>
+        <TopMargin>0.25in</TopMargin>
+        <BottomMargin>0.25in</BottomMargin>
         <ColumnSpacing>0.05118in</ColumnSpacing>
         <Style />
       </Page>
@@ -973,11 +1128,16 @@ ORDER BY inv.created_date </CommandText>
       <DataType>String</DataType>
       <Prompt>report name</Prompt>
     </ReportParameter>
+    <ReportParameter Name="advertiser_id">
+      <DataType>Integer</DataType>
+      <Nullable>true</Nullable>
+      <Prompt>advertiser_id</Prompt>
+    </ReportParameter>
   </ReportParameters>
   <ReportParametersLayout>
     <GridLayoutDefinition>
       <NumberOfColumns>1</NumberOfColumns>
-      <NumberOfRows>3</NumberOfRows>
+      <NumberOfRows>4</NumberOfRows>
       <CellDefinitions>
         <CellDefinition>
           <ColumnIndex>0</ColumnIndex>
@@ -993,6 +1153,11 @@ ORDER BY inv.created_date </CommandText>
           <ColumnIndex>0</ColumnIndex>
           <RowIndex>2</RowIndex>
           <ParameterName>report_name</ParameterName>
+        </CellDefinition>
+        <CellDefinition>
+          <ColumnIndex>0</ColumnIndex>
+          <RowIndex>3</RowIndex>
+          <ParameterName>advertiser_id</ParameterName>
         </CellDefinition>
       </CellDefinitions>
     </GridLayoutDefinition>

@@ -1039,7 +1039,7 @@ GROUP BY csub.clearance_type_id, csub.clearance_division_id, cdiv.clearance_divi
             <KeepTogether>true</KeepTogether>
             <DataSetName>ClearanceOrderBySubmissionTypeQuery</DataSetName>
             <Top>0.25in</Top>
-            <Left>0.5in</Left>
+            <Left>0.28959in</Left>
             <Height>0.98958in</Height>
             <Width>7.3in</Width>
             <Style>
@@ -1083,7 +1083,7 @@ GROUP BY csub.clearance_type_id, csub.clearance_division_id, cdiv.clearance_divi
               </Paragraphs>
               <rd:DefaultName>Textbox61</rd:DefaultName>
               <Top>0.1in</Top>
-              <Left>8.23437cm</Left>
+              <Left>7.69821cm</Left>
               <Height>0.52062cm</Height>
               <Width>4.61667cm</Width>
               <Style>
@@ -1156,7 +1156,7 @@ GROUP BY csub.clearance_type_id, csub.clearance_division_id, cdiv.clearance_divi
               </Paragraphs>
               <rd:DefaultName>Textbox61</rd:DefaultName>
               <Top>0.1in</Top>
-              <Left>0.26in</Left>
+              <Left>0.135in</Left>
               <Height>0.52062cm</Height>
               <Width>5.35283cm</Width>
               <ZIndex>2</ZIndex>
