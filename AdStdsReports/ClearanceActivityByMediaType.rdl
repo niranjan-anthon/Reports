@@ -995,11 +995,18 @@ GROUP BY csub.media_type_id, csub.clearance_division_id, cdiv.clearance_division
       <Prompt>DivisionID</Prompt>
       <Hidden>true</Hidden>
     </ReportParameter>
+    <ReportParameter Name="report_name">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>report_name</Prompt>
+      <Hidden>true</Hidden>
+    </ReportParameter>
   </ReportParameters>
   <ReportParametersLayout>
     <GridLayoutDefinition>
       <NumberOfColumns>1</NumberOfColumns>
-      <NumberOfRows>4</NumberOfRows>
+      <NumberOfRows>5</NumberOfRows>
       <CellDefinitions>
         <CellDefinition>
           <ColumnIndex>0</ColumnIndex>
@@ -1015,6 +1022,11 @@ GROUP BY csub.media_type_id, csub.clearance_division_id, cdiv.clearance_division
           <ColumnIndex>0</ColumnIndex>
           <RowIndex>3</RowIndex>
           <ParameterName>division_id</ParameterName>
+        </CellDefinition>
+        <CellDefinition>
+          <ColumnIndex>0</ColumnIndex>
+          <RowIndex>4</RowIndex>
+          <ParameterName>report_name</ParameterName>
         </CellDefinition>
       </CellDefinitions>
     </GridLayoutDefinition>

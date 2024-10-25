@@ -21,17 +21,15 @@
             <Value>=Parameters!to_date.Value</Value>
           </QueryParameter>
         </QueryParameters>
-        <CommandText>
-          SELECT        contact_id, first_name, last_name, company_name, email_address, direct_number, COUNT(contact_id) AS vote_counts
-          FROM            (SELECT        sv.clearance_submission_id, sv.clearance_order_id, sv.contact_id, con.first_name, con.last_name, com.company_name, con.email_address, con.direct_number
-          FROM            ClearanceSubmissionVotes AS sv LEFT OUTER JOIN
-          ClearanceContactGroupAssignments AS ga ON sv.contact_id = ga.contact_id LEFT OUTER JOIN
-          Contacts AS con ON sv.contact_id = con.contact_id LEFT OUTER JOIN
-          Companies AS com ON com.company_id = con.company_id
-          WHERE        (ga.paid_voter = 'TRUE') AND (sv.created_date &gt;= @from_date) AND (sv.created_date &lt;= @to_date)
-          GROUP BY sv.clearance_submission_id, sv.clearance_order_id, sv.contact_id, con.first_name, con.last_name, com.company_name, con.email_address, con.direct_number) AS X
-          GROUP BY contact_id, first_name, last_name, company_name, email_address, direct_number
-        </CommandText>
+        <CommandText>SELECT        contact_id, first_name, last_name, company_name, email_address, direct_number, COUNT(contact_id) AS vote_counts
+FROM            (SELECT        sv.clearance_submission_id, sv.clearance_order_id, sv.contact_id, con.first_name, con.last_name, com.company_name, con.email_address, con.direct_number
+                          FROM            ClearanceSubmissionVotes AS sv LEFT OUTER JOIN
+                                                    ContactGroupAssignments AS ga ON sv.contact_id = ga.contact_id LEFT OUTER JOIN
+                                                    Contacts AS con ON sv.contact_id = con.contact_id LEFT OUTER JOIN
+                                                    Companies AS com ON com.company_id = con.company_id
+                          WHERE        (ga.paid_voter = 'TRUE') AND (sv.created_date &gt;= @from_date) AND (sv.created_date &lt;= @to_date)
+                          GROUP BY sv.clearance_submission_id, sv.clearance_order_id, sv.contact_id, con.first_name, con.last_name, com.company_name, con.email_address, con.direct_number) AS X
+GROUP BY contact_id, first_name, last_name, company_name, email_address, direct_number</CommandText>
       </Query>
       <Fields>
         <Field Name="contact_id">
@@ -69,41 +67,6 @@
     <ReportSection>
       <Body>
         <ReportItems>
-          <Rectangle Name="Rectangle2">
-            <ReportItems>
-              <Subreport Name="Subreport1">
-                <ReportName>CoverPage</ReportName>
-                <Parameters>
-                  <Parameter Name="from_date">
-                    <Value>=Parameters!from_date.Value</Value>
-                  </Parameter>
-                  <Parameter Name="to_date">
-                    <Value>=Parameters!to_date.Value</Value>
-                  </Parameter>
-                </Parameters>
-                <KeepTogether>true</KeepTogether>
-                <Height>0.12278in</Height>
-                <Width>7.75in</Width>
-                <Style>
-                  <Border>
-                    <Style>None</Style>
-                  </Border>
-                  <VerticalAlign>Top</VerticalAlign>
-                </Style>
-              </Subreport>
-            </ReportItems>
-            <PageBreak>
-              <BreakLocation>End</BreakLocation>
-            </PageBreak>
-            <KeepTogether>true</KeepTogether>
-            <Height>0.25in</Height>
-            <Width>7.75in</Width>
-            <Style>
-              <Border>
-                <Style>None</Style>
-              </Border>
-            </Style>
-          </Rectangle>
           <Tablix Name="Tablix1">
             <TablixBody>
               <TablixColumns>
@@ -312,7 +275,6 @@
             <Top>0.37496in</Top>
             <Height>0.21458in</Height>
             <Width>7.19203in</Width>
-            <ZIndex>1</ZIndex>
             <Style>
               <Border>
                 <Color>LightGrey</Color>
@@ -339,7 +301,7 @@
             <Left>0.04013in</Left>
             <Height>0.25in</Height>
             <Width>1.73701in</Width>
-            <ZIndex>2</ZIndex>
+            <ZIndex>1</ZIndex>
             <Style>
               <Border>
                 <Style>None</Style>
@@ -369,7 +331,7 @@
             <Left>1.81881in</Left>
             <Height>0.25in</Height>
             <Width>1.7098in</Width>
-            <ZIndex>3</ZIndex>
+            <ZIndex>2</ZIndex>
             <Style>
               <Border>
                 <Style>None</Style>
@@ -399,7 +361,7 @@
             <Left>3.58417in</Left>
             <Height>0.25in</Height>
             <Width>2.22245in</Width>
-            <ZIndex>4</ZIndex>
+            <ZIndex>3</ZIndex>
             <Style>
               <Border>
                 <Style>None</Style>
@@ -431,7 +393,7 @@
             <Left>5.86217in</Left>
             <Height>0.23611in</Height>
             <Width>1.32986in</Width>
-            <ZIndex>5</ZIndex>
+            <ZIndex>4</ZIndex>
             <Style>
               <Border>
                 <Style>None</Style>
@@ -590,6 +552,13 @@
       <DataType>String</DataType>
       <Prompt>To Date:</Prompt>
     </ReportParameter>
+    <ReportParameter Name="report_name">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>report_name</Prompt>
+      <Hidden>true</Hidden>
+    </ReportParameter>
   </ReportParameters>
   <ReportParametersLayout>
     <GridLayoutDefinition>
@@ -605,6 +574,11 @@
           <ColumnIndex>0</ColumnIndex>
           <RowIndex>1</RowIndex>
           <ParameterName>to_date</ParameterName>
+        </CellDefinition>
+        <CellDefinition>
+          <ColumnIndex>0</ColumnIndex>
+          <RowIndex>2</RowIndex>
+          <ParameterName>report_name</ParameterName>
         </CellDefinition>
       </CellDefinitions>
     </GridLayoutDefinition>

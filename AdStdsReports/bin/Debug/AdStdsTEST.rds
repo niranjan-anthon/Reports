@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<RptDataSource xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" Name="AdStdsTEST">
+  <ConnectionProperties>
+    <Extension>OLEDB-MD</Extension>
+    <ConnectString>Data Source=app1-adstandards.mobinet.ca\MSSQLSERVER19;Initial Catalog=AdStdsBMS</ConnectString>
+  </ConnectionProperties>
+  <DataSourceID>9d3001a9-b16d-4c9d-abec-d06d3c13b67e</DataSourceID>
+</RptDataSource>

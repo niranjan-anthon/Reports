@@ -1,0 +1,712 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Report MustUnderstand="df" xmlns="http://schemas.microsoft.com/sqlserver/reporting/2016/01/reportdefinition" xmlns:rd="http://schemas.microsoft.com/SQLServer/reporting/reportdesigner" xmlns:df="http://schemas.microsoft.com/sqlserver/reporting/2016/01/reportdefinition/defaultfontfamily">
+  <df:DefaultFontFamily>Segoe UI</df:DefaultFontFamily>
+  <AutoRefresh>0</AutoRefresh>
+  <ReportSections>
+    <ReportSection>
+      <Body>
+        <ReportItems>
+          <Subreport Name="Subreport2">
+            <ReportName>ComplaintsTotalByProvincesSubReport</ReportName>
+            <Parameters>
+              <Parameter Name="start_date">
+                <Value>=Parameters!start_date.Value</Value>
+              </Parameter>
+              <Parameter Name="end_date">
+                <Value>=Parameters!end_date.Value</Value>
+              </Parameter>
+            </Parameters>
+            <Top>2.89458in</Top>
+            <Left>2.20834in</Left>
+            <Height>1.65625in</Height>
+            <Width>3.19792in</Width>
+            <Style>
+              <Border>
+                <Style>None</Style>
+              </Border>
+            </Style>
+          </Subreport>
+          <Subreport Name="ComplaintsTotalComplaints">
+            <ReportName>ComplaintsTotalComplaintsSubReport</ReportName>
+            <Parameters>
+              <Parameter Name="start_date">
+                <Value>=Parameters!start_date.Value</Value>
+              </Parameter>
+              <Parameter Name="end_date">
+                <Value>=Parameters!end_date.Value</Value>
+              </Parameter>
+            </Parameters>
+            <Top>0.80083in</Top>
+            <Left>2.20834in</Left>
+            <Height>1.5625in</Height>
+            <Width>3.19792in</Width>
+            <ZIndex>1</ZIndex>
+            <Style>
+              <Border>
+                <Style>None</Style>
+              </Border>
+            </Style>
+          </Subreport>
+          <Subreport Name="ComplaintsCaseIndustryTotal">
+            <ReportName>ComplaintsCaseIndustryTotalSubReport</ReportName>
+            <Parameters>
+              <Parameter Name="start_date">
+                <Value>=Parameters!start_date.Value</Value>
+              </Parameter>
+              <Parameter Name="end_date">
+                <Value>=Parameters!end_date.Value</Value>
+              </Parameter>
+            </Parameters>
+            <Top>4.95708in</Top>
+            <Left>2.20834in</Left>
+            <Height>1.25in</Height>
+            <Width>6.72917in</Width>
+            <ZIndex>2</ZIndex>
+            <Style>
+              <Border>
+                <Style>None</Style>
+              </Border>
+            </Style>
+          </Subreport>
+          <Textbox Name="Textbox3">
+            <CanGrow>true</CanGrow>
+            <KeepTogether>true</KeepTogether>
+            <Paragraphs>
+              <Paragraph>
+                <TextRuns>
+                  <TextRun>
+                    <Value>Total Complaints</Value>
+                    <Style />
+                  </TextRun>
+                </TextRuns>
+                <Style />
+              </Paragraph>
+            </Paragraphs>
+            <rd:DefaultName>Textbox3</rd:DefaultName>
+            <Top>0.49528in</Top>
+            <Left>2.20834in</Left>
+            <Height>0.25in</Height>
+            <Width>2.01042in</Width>
+            <ZIndex>3</ZIndex>
+            <Style>
+              <Border>
+                <Style>None</Style>
+              </Border>
+              <PaddingLeft>2pt</PaddingLeft>
+              <PaddingRight>2pt</PaddingRight>
+              <PaddingTop>2pt</PaddingTop>
+              <PaddingBottom>2pt</PaddingBottom>
+            </Style>
+          </Textbox>
+          <Textbox Name="Textbox7">
+            <CanGrow>true</CanGrow>
+            <KeepTogether>true</KeepTogether>
+            <Paragraphs>
+              <Paragraph>
+                <TextRuns>
+                  <TextRun>
+                    <Value>Complaints by Province</Value>
+                    <Style />
+                  </TextRun>
+                </TextRuns>
+                <Style />
+              </Paragraph>
+            </Paragraphs>
+            <rd:DefaultName>Textbox7</rd:DefaultName>
+            <Top>2.63069in</Top>
+            <Left>2.20833in</Left>
+            <Height>0.25in</Height>
+            <Width>2.01042in</Width>
+            <ZIndex>4</ZIndex>
+            <Style>
+              <Border>
+                <Style>None</Style>
+              </Border>
+              <PaddingLeft>2pt</PaddingLeft>
+              <PaddingRight>2pt</PaddingRight>
+              <PaddingTop>2pt</PaddingTop>
+              <PaddingBottom>2pt</PaddingBottom>
+            </Style>
+          </Textbox>
+          <Textbox Name="Textbox8">
+            <CanGrow>true</CanGrow>
+            <KeepTogether>true</KeepTogether>
+            <Paragraphs>
+              <Paragraph>
+                <TextRuns>
+                  <TextRun>
+                    <Value>Cases by Industry</Value>
+                    <Style />
+                  </TextRun>
+                </TextRuns>
+                <Style />
+              </Paragraph>
+            </Paragraphs>
+            <rd:DefaultName>Textbox7</rd:DefaultName>
+            <Top>4.69319in</Top>
+            <Left>2.20833in</Left>
+            <Height>0.25in</Height>
+            <Width>2.01042in</Width>
+            <ZIndex>5</ZIndex>
+            <Style>
+              <Border>
+                <Style>None</Style>
+              </Border>
+              <PaddingLeft>2pt</PaddingLeft>
+              <PaddingRight>2pt</PaddingRight>
+              <PaddingTop>2pt</PaddingTop>
+              <PaddingBottom>2pt</PaddingBottom>
+            </Style>
+          </Textbox>
+          <Subreport Name="ComplaintsTotalCasesSubReport">
+            <ReportName>ComplaintsTotalCasesSubReport</ReportName>
+            <Parameters>
+              <Parameter Name="start_date">
+                <Value>=Parameters!start_date.Value</Value>
+              </Parameter>
+              <Parameter Name="end_date">
+                <Value>=Parameters!end_date.Value</Value>
+              </Parameter>
+            </Parameters>
+            <Top>0.80083in</Top>
+            <Left>5.5925in</Left>
+            <Height>1.5625in</Height>
+            <Width>3.345in</Width>
+            <ZIndex>6</ZIndex>
+            <Style>
+              <Border>
+                <Style>None</Style>
+                <Width>2pt</Width>
+              </Border>
+            </Style>
+          </Subreport>
+          <Textbox Name="Textbox4">
+            <CanGrow>true</CanGrow>
+            <KeepTogether>true</KeepTogether>
+            <Paragraphs>
+              <Paragraph>
+                <TextRuns>
+                  <TextRun>
+                    <Value>Total Cases</Value>
+                    <Style />
+                  </TextRun>
+                </TextRuns>
+                <Style />
+              </Paragraph>
+            </Paragraphs>
+            <rd:DefaultName>Textbox3</rd:DefaultName>
+            <Top>0.50917in</Top>
+            <Left>5.5925in</Left>
+            <Height>0.25in</Height>
+            <Width>2.01042in</Width>
+            <ZIndex>7</ZIndex>
+            <Style>
+              <Border>
+                <Style>None</Style>
+              </Border>
+              <PaddingLeft>2pt</PaddingLeft>
+              <PaddingRight>2pt</PaddingRight>
+              <PaddingTop>2pt</PaddingTop>
+              <PaddingBottom>2pt</PaddingBottom>
+            </Style>
+          </Textbox>
+          <Textbox Name="Textbox9">
+            <CanGrow>true</CanGrow>
+            <KeepTogether>true</KeepTogether>
+            <Paragraphs>
+              <Paragraph>
+                <TextRuns>
+                  <TextRun>
+                    <Value>Cases by Province</Value>
+                    <Style />
+                  </TextRun>
+                </TextRuns>
+                <Style />
+              </Paragraph>
+            </Paragraphs>
+            <rd:DefaultName>Textbox7</rd:DefaultName>
+            <Top>2.63069in</Top>
+            <Left>5.5925in</Left>
+            <Height>0.25in</Height>
+            <Width>2.01042in</Width>
+            <ZIndex>8</ZIndex>
+            <Style>
+              <Border>
+                <Style>None</Style>
+              </Border>
+              <PaddingLeft>2pt</PaddingLeft>
+              <PaddingRight>2pt</PaddingRight>
+              <PaddingTop>2pt</PaddingTop>
+              <PaddingBottom>2pt</PaddingBottom>
+            </Style>
+          </Textbox>
+          <Textbox Name="Textbox10">
+            <CanGrow>true</CanGrow>
+            <KeepTogether>true</KeepTogether>
+            <Paragraphs>
+              <Paragraph>
+                <TextRuns>
+                  <TextRun>
+                    <Value>Complaints by Status</Value>
+                    <Style />
+                  </TextRun>
+                </TextRuns>
+                <Style />
+              </Paragraph>
+            </Paragraphs>
+            <rd:DefaultName>Textbox7</rd:DefaultName>
+            <Top>6.48201in</Top>
+            <Left>2.20834in</Left>
+            <Height>0.25in</Height>
+            <Width>2.01042in</Width>
+            <ZIndex>9</ZIndex>
+            <Style>
+              <Border>
+                <Style>None</Style>
+              </Border>
+              <PaddingLeft>2pt</PaddingLeft>
+              <PaddingRight>2pt</PaddingRight>
+              <PaddingTop>2pt</PaddingTop>
+              <PaddingBottom>2pt</PaddingBottom>
+            </Style>
+          </Textbox>
+          <Subreport Name="eport">
+            <ReportName>ComplaintsTotalComplaintsByStatusSubReport</ReportName>
+            <Parameters>
+              <Parameter Name="start_date">
+                <Value>=Parameters!start_date.Value</Value>
+              </Parameter>
+              <Parameter Name="end_date">
+                <Value>=Parameters!end_date.Value</Value>
+              </Parameter>
+            </Parameters>
+            <Top>6.7459in</Top>
+            <Left>2.20835in</Left>
+            <Height>1.25in</Height>
+            <Width>6.72917in</Width>
+            <ZIndex>10</ZIndex>
+            <Style>
+              <Border>
+                <Style>None</Style>
+              </Border>
+            </Style>
+          </Subreport>
+          <Subreport Name="Subreport3">
+            <ReportName>ComplaintsTotalCasesByProvinceSubReport</ReportName>
+            <Parameters>
+              <Parameter Name="start_date">
+                <Value>=Parameters!start_date.Value</Value>
+              </Parameter>
+              <Parameter Name="end_date">
+                <Value>=Parameters!end_date.Value</Value>
+              </Parameter>
+            </Parameters>
+            <Top>2.88069in</Top>
+            <Left>5.5925in</Left>
+            <Height>1.65625in</Height>
+            <Width>3.19792in</Width>
+            <ZIndex>11</ZIndex>
+            <Style>
+              <Border>
+                <Style>None</Style>
+              </Border>
+            </Style>
+          </Subreport>
+          <Subreport Name="eport2">
+            <ReportName>ComplaintsTotalCasesByStatusSubReport</ReportName>
+            <Parameters>
+              <Parameter Name="start_date">
+                <Value>=Parameters!start_date.Value</Value>
+              </Parameter>
+              <Parameter Name="end_date">
+                <Value>=Parameters!end_date.Value</Value>
+              </Parameter>
+            </Parameters>
+            <Top>8.44382in</Top>
+            <Left>2.20833in</Left>
+            <Height>1.25in</Height>
+            <Width>6.72917in</Width>
+            <ZIndex>12</ZIndex>
+            <Style>
+              <Border>
+                <Style>None</Style>
+              </Border>
+            </Style>
+          </Subreport>
+          <Textbox Name="Textbox11">
+            <CanGrow>true</CanGrow>
+            <KeepTogether>true</KeepTogether>
+            <Paragraphs>
+              <Paragraph>
+                <TextRuns>
+                  <TextRun>
+                    <Value>Cases by Status</Value>
+                    <Style />
+                  </TextRun>
+                </TextRuns>
+                <Style />
+              </Paragraph>
+            </Paragraphs>
+            <rd:DefaultName>Textbox7</rd:DefaultName>
+            <Top>8.17993in</Top>
+            <Left>2.20832in</Left>
+            <Height>0.25in</Height>
+            <Width>2.01042in</Width>
+            <ZIndex>13</ZIndex>
+            <Style>
+              <Border>
+                <Style>None</Style>
+              </Border>
+              <PaddingLeft>2pt</PaddingLeft>
+              <PaddingRight>2pt</PaddingRight>
+              <PaddingTop>2pt</PaddingTop>
+              <PaddingBottom>2pt</PaddingBottom>
+            </Style>
+          </Textbox>
+          <Subreport Name="eport3">
+            <ReportName>ComplaintsCasesByCampaignSubReport</ReportName>
+            <Parameters>
+              <Parameter Name="start_date">
+                <Value>=Parameters!start_date.Value</Value>
+              </Parameter>
+              <Parameter Name="end_date">
+                <Value>=Parameters!end_date.Value</Value>
+              </Parameter>
+            </Parameters>
+            <Top>17.1348in</Top>
+            <Left>2.20836in</Left>
+            <Height>1.25in</Height>
+            <Width>6.72917in</Width>
+            <ZIndex>14</ZIndex>
+            <Style>
+              <Border>
+                <Style>None</Style>
+              </Border>
+            </Style>
+          </Subreport>
+          <Textbox Name="Textbox12">
+            <CanGrow>true</CanGrow>
+            <KeepTogether>true</KeepTogether>
+            <Paragraphs>
+              <Paragraph>
+                <TextRuns>
+                  <TextRun>
+                    <Value>Cases by Campaign</Value>
+                    <Style />
+                  </TextRun>
+                </TextRuns>
+                <Style />
+              </Paragraph>
+            </Paragraphs>
+            <rd:DefaultName>Textbox7</rd:DefaultName>
+            <Top>16.87091in</Top>
+            <Left>2.20835in</Left>
+            <Height>0.25in</Height>
+            <Width>2.01042in</Width>
+            <ZIndex>15</ZIndex>
+            <Style>
+              <Border>
+                <Style>None</Style>
+              </Border>
+              <PaddingLeft>2pt</PaddingLeft>
+              <PaddingRight>2pt</PaddingRight>
+              <PaddingTop>2pt</PaddingTop>
+              <PaddingBottom>2pt</PaddingBottom>
+            </Style>
+          </Textbox>
+          <Textbox Name="Textbox13">
+            <CanGrow>true</CanGrow>
+            <KeepTogether>true</KeepTogether>
+            <Paragraphs>
+              <Paragraph>
+                <TextRuns>
+                  <TextRun>
+                    <Value>Complaints by Media Type</Value>
+                    <Style />
+                  </TextRun>
+                </TextRuns>
+                <Style />
+              </Paragraph>
+            </Paragraphs>
+            <rd:DefaultName>Textbox7</rd:DefaultName>
+            <Top>9.89205in</Top>
+            <Left>2.20838in</Left>
+            <Height>0.25in</Height>
+            <Width>2.01042in</Width>
+            <ZIndex>16</ZIndex>
+            <Style>
+              <Border>
+                <Style>None</Style>
+              </Border>
+              <PaddingLeft>2pt</PaddingLeft>
+              <PaddingRight>2pt</PaddingRight>
+              <PaddingTop>2pt</PaddingTop>
+              <PaddingBottom>2pt</PaddingBottom>
+            </Style>
+          </Textbox>
+          <Subreport Name="eport4">
+            <ReportName>ComplaintsTotalByMediaTypeSubReport</ReportName>
+            <Parameters>
+              <Parameter Name="start_date">
+                <Value>=Parameters!start_date.Value</Value>
+              </Parameter>
+              <Parameter Name="end_date">
+                <Value>=Parameters!end_date.Value</Value>
+              </Parameter>
+            </Parameters>
+            <Top>10.15594in</Top>
+            <Left>2.20839in</Left>
+            <Height>1.25in</Height>
+            <Width>6.72917in</Width>
+            <ZIndex>17</ZIndex>
+            <Style>
+              <Border>
+                <Style>None</Style>
+              </Border>
+            </Style>
+          </Subreport>
+          <Textbox Name="Textbox14">
+            <CanGrow>true</CanGrow>
+            <KeepTogether>true</KeepTogether>
+            <Paragraphs>
+              <Paragraph>
+                <TextRuns>
+                  <TextRun>
+                    <Value>Cases by Media Type</Value>
+                    <Style />
+                  </TextRun>
+                </TextRuns>
+                <Style />
+              </Paragraph>
+            </Paragraphs>
+            <rd:DefaultName>Textbox7</rd:DefaultName>
+            <Top>11.58997in</Top>
+            <Left>2.20836in</Left>
+            <Height>0.25in</Height>
+            <Width>2.01042in</Width>
+            <ZIndex>18</ZIndex>
+            <Style>
+              <Border>
+                <Style>None</Style>
+              </Border>
+              <PaddingLeft>2pt</PaddingLeft>
+              <PaddingRight>2pt</PaddingRight>
+              <PaddingTop>2pt</PaddingTop>
+              <PaddingBottom>2pt</PaddingBottom>
+            </Style>
+          </Textbox>
+          <Subreport Name="eport5">
+            <ReportName>ComplaintsCasesByMediaTypeSubReport</ReportName>
+            <Parameters>
+              <Parameter Name="start_date">
+                <Value>=Parameters!start_date.Value</Value>
+              </Parameter>
+              <Parameter Name="end_date">
+                <Value>=Parameters!end_date.Value</Value>
+              </Parameter>
+            </Parameters>
+            <Top>11.85386in</Top>
+            <Left>2.20837in</Left>
+            <Height>1.25in</Height>
+            <Width>6.72917in</Width>
+            <ZIndex>19</ZIndex>
+            <Style>
+              <Border>
+                <Style>None</Style>
+              </Border>
+            </Style>
+          </Subreport>
+          <Textbox Name="Textbox15">
+            <CanGrow>true</CanGrow>
+            <KeepTogether>true</KeepTogether>
+            <Paragraphs>
+              <Paragraph>
+                <TextRuns>
+                  <TextRun>
+                    <Value>Cases by IG</Value>
+                    <Style />
+                  </TextRun>
+                </TextRuns>
+                <Style />
+              </Paragraph>
+            </Paragraphs>
+            <rd:DefaultName>Textbox7</rd:DefaultName>
+            <Top>13.2983in</Top>
+            <Left>2.20839in</Left>
+            <Height>0.25in</Height>
+            <Width>2.01042in</Width>
+            <ZIndex>20</ZIndex>
+            <Style>
+              <Border>
+                <Style>None</Style>
+              </Border>
+              <PaddingLeft>2pt</PaddingLeft>
+              <PaddingRight>2pt</PaddingRight>
+              <PaddingTop>2pt</PaddingTop>
+              <PaddingBottom>2pt</PaddingBottom>
+            </Style>
+          </Textbox>
+          <Subreport Name="eport6">
+            <ReportName>ComplaintsCasesByIGSubReport</ReportName>
+            <Parameters>
+              <Parameter Name="start_date">
+                <Value>=Parameters!start_date.Value</Value>
+              </Parameter>
+              <Parameter Name="end_date">
+                <Value>=Parameters!end_date.Value</Value>
+              </Parameter>
+            </Parameters>
+            <Top>13.56219in</Top>
+            <Left>2.2084in</Left>
+            <Height>1.25in</Height>
+            <Width>6.72917in</Width>
+            <ZIndex>21</ZIndex>
+            <Style>
+              <Border>
+                <Style>None</Style>
+              </Border>
+            </Style>
+          </Subreport>
+          <Textbox Name="Textbox16">
+            <CanGrow>true</CanGrow>
+            <KeepTogether>true</KeepTogether>
+            <Paragraphs>
+              <Paragraph>
+                <TextRuns>
+                  <TextRun>
+                    <Value>Cases by Clauses</Value>
+                    <Style />
+                  </TextRun>
+                </TextRuns>
+                <Style />
+              </Paragraph>
+            </Paragraphs>
+            <rd:DefaultName>Textbox7</rd:DefaultName>
+            <Top>14.97539in</Top>
+            <Left>2.20831in</Left>
+            <Height>0.25in</Height>
+            <Width>2.01042in</Width>
+            <ZIndex>22</ZIndex>
+            <Style>
+              <Border>
+                <Style>None</Style>
+              </Border>
+              <PaddingLeft>2pt</PaddingLeft>
+              <PaddingRight>2pt</PaddingRight>
+              <PaddingTop>2pt</PaddingTop>
+              <PaddingBottom>2pt</PaddingBottom>
+            </Style>
+          </Textbox>
+          <Subreport Name="eport7">
+            <ReportName>ComplaintsTotalCasesByClauseSubReport</ReportName>
+            <Parameters>
+              <Parameter Name="start_date">
+                <Value>=Parameters!start_date.Value</Value>
+              </Parameter>
+              <Parameter Name="end_date">
+                <Value>=Parameters!end_date.Value</Value>
+              </Parameter>
+            </Parameters>
+            <Top>15.23928in</Top>
+            <Left>2.20832in</Left>
+            <Height>1.25in</Height>
+            <Width>6.72917in</Width>
+            <ZIndex>23</ZIndex>
+            <Style>
+              <Border>
+                <Style>None</Style>
+              </Border>
+            </Style>
+          </Subreport>
+          <Subreport Name="Subreport1">
+            <ReportName>ComplaintsTotalByProvincesSubReport</ReportName>
+            <Parameters>
+              <Parameter Name="start_date">
+                <Value>=Parameters!start_date.Value</Value>
+              </Parameter>
+              <Parameter Name="end_date">
+                <Value>=Parameters!end_date.Value</Value>
+              </Parameter>
+            </Parameters>
+            <Top>18.74875in</Top>
+            <Left>2.20831in</Left>
+            <Height>3in</Height>
+            <Width>6.72918in</Width>
+            <ZIndex>24</ZIndex>
+            <Style>
+              <Border>
+                <Style>None</Style>
+              </Border>
+            </Style>
+          </Subreport>
+        </ReportItems>
+        <Height>21.74875in</Height>
+        <Style />
+      </Body>
+      <Width>12.24875in</Width>
+      <Page>
+        <LeftMargin>1in</LeftMargin>
+        <RightMargin>1in</RightMargin>
+        <TopMargin>1in</TopMargin>
+        <BottomMargin>1in</BottomMargin>
+        <Style />
+      </Page>
+    </ReportSection>
+  </ReportSections>
+  <ReportParameters>
+    <ReportParameter Name="start_date">
+      <DataType>DateTime</DataType>
+      <Prompt>start_date</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="end_date">
+      <DataType>DateTime</DataType>
+      <Prompt>end_date</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="report_name">
+      <DataType>String</DataType>
+      <Prompt>report_name</Prompt>
+    </ReportParameter>
+  </ReportParameters>
+  <ReportParametersLayout>
+    <GridLayoutDefinition>
+      <NumberOfColumns>4</NumberOfColumns>
+      <NumberOfRows>2</NumberOfRows>
+      <CellDefinitions>
+        <CellDefinition>
+          <ColumnIndex>0</ColumnIndex>
+          <RowIndex>0</RowIndex>
+          <ParameterName>start_date</ParameterName>
+        </CellDefinition>
+        <CellDefinition>
+          <ColumnIndex>1</ColumnIndex>
+          <RowIndex>0</RowIndex>
+          <ParameterName>end_date</ParameterName>
+        </CellDefinition>
+        <CellDefinition>
+          <ColumnIndex>2</ColumnIndex>
+          <RowIndex>0</RowIndex>
+          <ParameterName>report_name</ParameterName>
+        </CellDefinition>
+      </CellDefinitions>
+    </GridLayoutDefinition>
+  </ReportParametersLayout>
+  <EmbeddedImages>
+    <EmbeddedImage Name="AdStandardsLogo400x117">
+      <MIMEType>image/jpeg</MIMEType>
+      <ImageData>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</ImageData>
+    </EmbeddedImage>
+  </EmbeddedImages>
+  <rd:ReportUnitType>Inch</rd:ReportUnitType>
+  <rd:ReportID>5d09a32b-8c54-4f98-b2b0-4b4f73ee5c03</rd:ReportID>
+</Report>

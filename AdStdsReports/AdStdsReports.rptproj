@@ -4,15 +4,15 @@
     <FullPath>Debug</FullPath>
     <OutputPath>bin\Debug</OutputPath>
     <ErrorLevel>2</ErrorLevel>
-    <OverwriteDatasets>False</OverwriteDatasets>
-    <OverwriteDataSources>False</OverwriteDataSources>
+    <OverwriteDatasets>True</OverwriteDatasets>
+    <OverwriteDataSources>True</OverwriteDataSources>
     <TargetServerVersion>SSRS2016</TargetServerVersion>
     <Platform>Win32</Platform>
     <TargetReportFolder />
     <TargetDatasetFolder>Datasets</TargetDatasetFolder>
     <TargetDatasourceFolder>Data Sources</TargetDatasourceFolder>
     <TargetReportPartFolder />
-    <TargetServerURL>http://app1-adstandards.mobinet.ca/AdStdsReports</TargetServerURL>
+    <TargetServerURL>http://adstds-app1/Reports</TargetServerURL>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'DebugLocal' ">
     <FullPath>DebugLocal</FullPath>
@@ -50,6 +50,7 @@
   </PropertyGroup>
   <ItemGroup>
     <DataSource Include="AdStdsCMS.rds" />
+    <DataSource Include="AdStdsTEST.rds" />
   </ItemGroup>
   <ItemGroup>
     <Report Include="ClearanceActivityByMediaType.rdl" />
@@ -58,6 +59,27 @@
     <Report Include="ClearanceActivityByStatus.rdl" />
     <Report Include="ClearanceActivityBySubmissionType.rdl" />
     <Report Include="ClearanceActivityReport.rdl" />
+    <Report Include="ComplaintsByMediaTypeSubReport.rdl" />
+    <Report Include="ComplaintsByProvincesSubReport.rdl" />
+    <Report Include="ComplaintsByStatusSubReport.rdl" />
+    <Report Include="ComplaintsCasesByAdvertiserCampaignSubReport.rdl" />
+    <Report Include="ComplaintsCasesByCampaignSubReport.rdl" />
+    <Report Include="ComplaintsCasesByClauseSubReport.rdl" />
+    <Report Include="ComplaintsCasesByCodeStatusSubReport.rdl" />
+    <Report Include="ComplaintsCasesByIGSubReport.rdl" />
+    <Report Include="ComplaintsCasesByIndustryStatusSubReport.rdl" />
+    <Report Include="ComplaintsCasesByIndustrySubReport.rdl" />
+    <Report Include="ComplaintsCasesByIndustryTagStatusSubReport.rdl" />
+    <Report Include="ComplaintsCasesByMediaTypeStatusSubReport.rdl" />
+    <Report Include="ComplaintsCasesByMediaTypeSubReport.rdl" />
+    <Report Include="ComplaintsCasesByProvinceIndustrySubReport.rdl" />
+    <Report Include="ComplaintsCasesByProvinceSubReport.rdl" />
+    <Report Include="ComplaintsCasesByProvinceTagSubReport.rdl" />
+    <Report Include="ComplaintsCasesByStatusSubReport.rdl" />
+    <Report Include="ComplaintsSummaryReport.rdl" />
+    <Report Include="ComplaintsTotalCases.rdl" />
+    <Report Include="ComplaintsTotalComplaints.rdl" />
+    <Report Include="ComplaintsTotalComplaintsCases.rdl" />
     <Report Include="CoverPage.rdl" />
     <Report Include="InvoiceBatchReport.rdl" />
     <Report Include="InvoicedOrders.rdl" />
