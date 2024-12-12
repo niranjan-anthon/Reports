@@ -68,142 +68,6 @@ ORDER BY DATEPART(MONTH, sub.created_date) </CommandText>
     <ReportSection>
       <Body>
         <ReportItems>
-          <Rectangle Name="Rectangle2">
-            <ReportItems>
-              <Textbox Name="Textbox13">
-                <CanGrow>true</CanGrow>
-                <KeepTogether>true</KeepTogether>
-                <Paragraphs>
-                  <Paragraph>
-                    <TextRuns>
-                      <TextRun>
-                        <Value>Submissions By Month</Value>
-                        <Style>
-                          <FontFamily>Arial</FontFamily>
-                          <FontSize>20pt</FontSize>
-                          <FontWeight>Bold</FontWeight>
-                        </Style>
-                      </TextRun>
-                    </TextRuns>
-                    <Style>
-                      <TextAlign>Center</TextAlign>
-                    </Style>
-                  </Paragraph>
-                </Paragraphs>
-                <rd:DefaultName>Textbox13</rd:DefaultName>
-                <Top>1.77819in</Top>
-                <Left>0.21826in</Left>
-                <Height>0.47694in</Height>
-                <Width>5.41765in</Width>
-                <Style>
-                  <Border>
-                    <Style>None</Style>
-                  </Border>
-                  <PaddingLeft>2pt</PaddingLeft>
-                  <PaddingRight>2pt</PaddingRight>
-                  <PaddingTop>2pt</PaddingTop>
-                  <PaddingBottom>2pt</PaddingBottom>
-                </Style>
-              </Textbox>
-              <Textbox Name="Textbox14">
-                <CanGrow>true</CanGrow>
-                <KeepTogether>true</KeepTogether>
-                <Paragraphs>
-                  <Paragraph>
-                    <TextRuns>
-                      <TextRun>
-                        <Value>="Executed at: " + Globals!ExecutionTime</Value>
-                        <Style>
-                          <FontFamily>Arial</FontFamily>
-                          <FontSize>15pt</FontSize>
-                        </Style>
-                      </TextRun>
-                    </TextRuns>
-                    <Style>
-                      <TextAlign>Center</TextAlign>
-                    </Style>
-                  </Paragraph>
-                </Paragraphs>
-                <rd:DefaultName>Textbox13</rd:DefaultName>
-                <Top>2.2968in</Top>
-                <Left>1.13393in</Left>
-                <Height>0.3125in</Height>
-                <Width>3.5863in</Width>
-                <ZIndex>1</ZIndex>
-                <Style>
-                  <Border>
-                    <Style>None</Style>
-                  </Border>
-                  <PaddingLeft>2pt</PaddingLeft>
-                  <PaddingRight>2pt</PaddingRight>
-                  <PaddingTop>2pt</PaddingTop>
-                  <PaddingBottom>2pt</PaddingBottom>
-                </Style>
-              </Textbox>
-              <Image Name="Image1">
-                <Source>Embedded</Source>
-                <Value>AdStandardsLogo400x117</Value>
-                <Top>0.1in</Top>
-                <Left>0.84375in</Left>
-                <Height>3.09562cm</Height>
-                <Width>10.58333cm</Width>
-                <ZIndex>2</ZIndex>
-                <Style>
-                  <Border>
-                    <Style>None</Style>
-                  </Border>
-                </Style>
-              </Image>
-              <Textbox Name="Textbox15">
-                <CanGrow>true</CanGrow>
-                <KeepTogether>true</KeepTogether>
-                <Paragraphs>
-                  <Paragraph>
-                    <TextRuns>
-                      <TextRun>
-                        <Value>="From : " + Parameters!from_date.Value + " To " + Parameters!to_date.Value</Value>
-                        <Style>
-                          <FontFamily>Arial</FontFamily>
-                          <FontSize>15pt</FontSize>
-                        </Style>
-                      </TextRun>
-                    </TextRuns>
-                    <Style>
-                      <TextAlign>Center</TextAlign>
-                    </Style>
-                  </Paragraph>
-                </Paragraphs>
-                <rd:DefaultName>Textbox13</rd:DefaultName>
-                <Top>2.7509in</Top>
-                <Left>1.13393in</Left>
-                <Height>0.3125in</Height>
-                <Width>3.5863in</Width>
-                <ZIndex>3</ZIndex>
-                <Style>
-                  <Border>
-                    <Style>None</Style>
-                  </Border>
-                  <PaddingLeft>2pt</PaddingLeft>
-                  <PaddingRight>2pt</PaddingRight>
-                  <PaddingTop>2pt</PaddingTop>
-                  <PaddingBottom>2pt</PaddingBottom>
-                </Style>
-              </Textbox>
-            </ReportItems>
-            <PageBreak>
-              <BreakLocation>End</BreakLocation>
-            </PageBreak>
-            <KeepTogether>true</KeepTogether>
-            <Top>3.90059in</Top>
-            <Left>3.12493cm</Left>
-            <Height>3.19882in</Height>
-            <Width>6.03943in</Width>
-            <Style>
-              <Border>
-                <Style>None</Style>
-              </Border>
-            </Style>
-          </Rectangle>
           <Tablix Name="Tablix1">
             <TablixBody>
               <TablixColumns>
@@ -1044,11 +908,10 @@ ORDER BY DATEPART(MONTH, sub.created_date) </CommandText>
               </TablixMembers>
             </TablixRowHierarchy>
             <DataSetName>ScriptSubmissionByPeriodQuery</DataSetName>
-            <Top>7.64458in</Top>
+            <Top>0.26958in</Top>
             <Left>0.63167in</Left>
             <Height>1.25in</Height>
             <Width>7.46583in</Width>
-            <ZIndex>1</ZIndex>
             <Style>
               <Border>
                 <Style>None</Style>

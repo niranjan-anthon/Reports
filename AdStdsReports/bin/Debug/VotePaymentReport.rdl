@@ -405,7 +405,7 @@ GROUP BY contact_id, first_name, last_name, company_name, email_address, direct_
             </Style>
           </Textbox>
         </ReportItems>
-        <Height>5.06385in</Height>
+        <Height>1.55691in</Height>
         <Style>
           <Border>
             <Style>None</Style>
@@ -426,7 +426,7 @@ GROUP BY contact_id, first_name, last_name, company_name, email_address, direct_
                 <Paragraph>
                   <TextRuns>
                     <TextRun>
-                      <Value>AdStandards</Value>
+                      <Value>=Parameters!report_name.Value</Value>
                       <Style>
                         <FontSize>9pt</FontSize>
                       </Style>
@@ -472,7 +472,7 @@ GROUP BY contact_id, first_name, last_name, company_name, email_address, direct_
               </Paragraphs>
               <rd:DefaultName>Textbox61</rd:DefaultName>
               <Top>0.14111cm</Top>
-              <Left>15.88081cm</Left>
+              <Left>15.56331cm</Left>
               <Height>0.52062cm</Height>
               <Width>3.80419cm</Width>
               <ZIndex>1</ZIndex>

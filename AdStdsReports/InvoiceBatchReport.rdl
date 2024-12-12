@@ -180,107 +180,6 @@ WHERE        (i.invoice_batch_id = @batch_id)</CommandText>
     <ReportSection>
       <Body>
         <ReportItems>
-          <Rectangle Name="Rectangle2">
-            <ReportItems>
-              <Textbox Name="Textbox13">
-                <CanGrow>true</CanGrow>
-                <KeepTogether>true</KeepTogether>
-                <Paragraphs>
-                  <Paragraph>
-                    <TextRuns>
-                      <TextRun>
-                        <Value>=Parameters!report_name.Value</Value>
-                        <Style>
-                          <FontFamily>Arial</FontFamily>
-                          <FontSize>20pt</FontSize>
-                          <FontWeight>Bold</FontWeight>
-                        </Style>
-                      </TextRun>
-                    </TextRuns>
-                    <Style>
-                      <TextAlign>Center</TextAlign>
-                    </Style>
-                  </Paragraph>
-                </Paragraphs>
-                <rd:DefaultName>Textbox13</rd:DefaultName>
-                <Top>1.77819in</Top>
-                <Left>2.23143in</Left>
-                <Height>0.47694in</Height>
-                <Width>3.5863in</Width>
-                <Style>
-                  <Border>
-                    <Style>None</Style>
-                  </Border>
-                  <PaddingLeft>2pt</PaddingLeft>
-                  <PaddingRight>2pt</PaddingRight>
-                  <PaddingTop>2pt</PaddingTop>
-                  <PaddingBottom>2pt</PaddingBottom>
-                </Style>
-              </Textbox>
-              <Textbox Name="Textbox14">
-                <CanGrow>true</CanGrow>
-                <KeepTogether>true</KeepTogether>
-                <Paragraphs>
-                  <Paragraph>
-                    <TextRuns>
-                      <TextRun>
-                        <Value>="Executed at: " + Globals!ExecutionTime</Value>
-                        <Style>
-                          <FontFamily>Arial</FontFamily>
-                          <FontSize>15pt</FontSize>
-                        </Style>
-                      </TextRun>
-                    </TextRuns>
-                    <Style>
-                      <TextAlign>Center</TextAlign>
-                    </Style>
-                  </Paragraph>
-                </Paragraphs>
-                <rd:DefaultName>Textbox13</rd:DefaultName>
-                <Top>2.2968in</Top>
-                <Left>2.23142in</Left>
-                <Height>0.3125in</Height>
-                <Width>3.5863in</Width>
-                <ZIndex>1</ZIndex>
-                <Style>
-                  <Border>
-                    <Style>None</Style>
-                  </Border>
-                  <PaddingLeft>2pt</PaddingLeft>
-                  <PaddingRight>2pt</PaddingRight>
-                  <PaddingTop>2pt</PaddingTop>
-                  <PaddingBottom>2pt</PaddingBottom>
-                </Style>
-              </Textbox>
-              <Image Name="Image1">
-                <Source>Embedded</Source>
-                <Value>AdStandardsLogo400x117</Value>
-                <Top>0.1in</Top>
-                <Left>2.02309in</Left>
-                <Height>3.09562cm</Height>
-                <Width>10.58333cm</Width>
-                <ZIndex>2</ZIndex>
-                <Style>
-                  <Border>
-                    <Style>None</Style>
-                  </Border>
-                </Style>
-              </Image>
-            </ReportItems>
-            <PageBreak>
-              <BreakLocation>End</BreakLocation>
-            </PageBreak>
-            <KeepTogether>true</KeepTogether>
-            <Top>0.635in</Top>
-            <Left>0.635cm</Left>
-            <Height>3.18931in</Height>
-            <Width>7.64908in</Width>
-            <Style>
-              <Border>
-                <Style>None</Style>
-              </Border>
-            </Style>
-          </Rectangle>
           <Tablix Name="Tablix1">
             <TablixBody>
               <TablixColumns>
@@ -1044,11 +943,10 @@ WHERE        (i.invoice_batch_id = @batch_id)</CommandText>
               </TablixMembers>
             </TablixRowHierarchy>
             <DataSetName>InvoiceBatchReportQuery</DataSetName>
-            <Top>4.08792in</Top>
-            <Left>1.16667in</Left>
+            <Top>0.50459in</Top>
+            <Left>0.635in</Left>
             <Height>0.75in</Height>
             <Width>6.58333in</Width>
-            <ZIndex>1</ZIndex>
             <Style>
               <Border>
                 <Style>None</Style>
@@ -1056,7 +954,7 @@ WHERE        (i.invoice_batch_id = @batch_id)</CommandText>
             </Style>
           </Tablix>
         </ReportItems>
-        <Height>8.27in</Height>
+        <Height>1.65889in</Height>
         <Style>
           <Border>
             <Style>None</Style>
@@ -1066,7 +964,7 @@ WHERE        (i.invoice_batch_id = @batch_id)</CommandText>
       <Width>8.17958in</Width>
       <Page>
         <PageFooter>
-          <Height>0.70455in</Height>
+          <Height>0.43691in</Height>
           <PrintOnFirstPage>true</PrintOnFirstPage>
           <PrintOnLastPage>true</PrintOnLastPage>
           <ReportItems>

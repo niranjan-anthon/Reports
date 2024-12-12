@@ -17,35 +17,134 @@
           <QueryParameter Name="@division_id">
             <Value>=Parameters!division_id.Value</Value>
           </QueryParameter>
+          <QueryParameter Name="from_date">
+            <Value>=Parameters!from_date.Value</Value>
+            <rd:UserDefined>true</rd:UserDefined>
+          </QueryParameter>
+          <QueryParameter Name="@clearance_division_category_id">
+            <Value>=Parameters!clearance_division_category_id.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="to_date">
+            <Value>=Parameters!to_date.Value</Value>
+            <rd:UserDefined>true</rd:UserDefined>
+          </QueryParameter>
+          <QueryParameter Name="@clearance_type_id">
+            <Value>=Parameters!clearance_type_id.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="clearance_division_category_id">
+            <Value>=Parameters!clearance_division_category_id.Value</Value>
+            <rd:UserDefined>true</rd:UserDefined>
+          </QueryParameter>
+          <QueryParameter Name="@media_type_id">
+            <Value>=Parameters!media_type_id.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="clearance_type_id">
+            <Value>=Parameters!clearance_type_id.Value</Value>
+            <rd:UserDefined>true</rd:UserDefined>
+          </QueryParameter>
+          <QueryParameter Name="@language_id">
+            <Value>=Parameters!language_id.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="media_type_id">
+            <Value>=Parameters!media_type_id.Value</Value>
+            <rd:UserDefined>true</rd:UserDefined>
+          </QueryParameter>
+          <QueryParameter Name="@member">
+            <Value>=Parameters!member.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="language_id">
+            <Value>=Parameters!language_id.Value</Value>
+            <rd:UserDefined>true</rd:UserDefined>
+          </QueryParameter>
+          <QueryParameter Name="@clearance_submission_status_id">
+            <Value>=Parameters!clearance_submission_status_id.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="member">
+            <Value>=Parameters!member.Value</Value>
+            <rd:UserDefined>true</rd:UserDefined>
+          </QueryParameter>
           <QueryParameter Name="@from_date">
             <Value>=Parameters!from_date.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="division_id">
+            <Value>=Parameters!division_id.Value</Value>
+            <rd:UserDefined>true</rd:UserDefined>
           </QueryParameter>
           <QueryParameter Name="@to_date">
             <Value>=Parameters!to_date.Value</Value>
           </QueryParameter>
+          <QueryParameter Name="report_name">
+            <Value>=Parameters!report_name.Value</Value>
+            <rd:UserDefined>true</rd:UserDefined>
+          </QueryParameter>
         </QueryParameters>
-        <CommandText>IF @division_id IS NOT NULL
-
-                                                                                   SELECT        sub_stat.submission_status, COUNT(csub.clearance_submission_status_id) AS Total, csub.clearance_division_id, cdiv.clearance_division 
-FROM            ClearanceOrderSubmissions AS csub LEFT OUTER JOIN
-                                                                                                             ClearanceOrders AS cord ON cord.clearance_order_id = csub.clearance_order_id LEFT OUTER JOIN
-                                                                                                             ClearanceDivisions AS cdiv ON csub.clearance_division_id = cdiv.clearance_division_id LEFT OUTER JOIN
-                                                                                                             ClearanceSubmissionStatuses AS sub_stat ON sub_stat.clearance_submission_status_id = csub.clearance_submission_status_id
-                                                                                    WHERE        (cord.activated = 1) AND (cord.active = 1) AND (csub.active = 1) AND csub.clearance_division_id = @division_id AND cord.created_date &gt;= @from_date AND 
-                                                                                                             cord.created_date &lt;= @to_date
-                                                                                    GROUP BY sub_stat.submission_status, csub.clearance_submission_status_id, csub.clearance_division_id, cdiv.clearance_division
-                                                                                    HAVING         (csub.clearance_submission_status_id IS NOT NULL)
-                                                                                    ORDER BY cdiv.clearance_division 
-ELSE
-SELECT        sub_stat.submission_status, COUNT(csub.clearance_submission_status_id) AS Total, csub.clearance_division_id, cdiv.clearance_division
-                                                      FROM            ClearanceOrderSubmissions AS csub LEFT OUTER JOIN
-                                                                               ClearanceOrders AS cord ON cord.clearance_order_id = csub.clearance_order_id LEFT OUTER JOIN
-                                                                               ClearanceDivisions AS cdiv ON csub.clearance_division_id = cdiv.clearance_division_id LEFT OUTER JOIN
-                                                                               ClearanceSubmissionStatuses AS sub_stat ON sub_stat.clearance_submission_status_id = csub.clearance_submission_status_id
-                                                      WHERE       (cord.active = 1) AND (csub.active = 1) AND cord.created_date &gt;= @from_date AND cord.created_date &lt;= @to_date
-                                                      GROUP BY sub_stat.submission_status, csub.clearance_submission_status_id, csub.clearance_division_id, cdiv.clearance_division
-                                                      HAVING         (csub.clearance_submission_status_id IS NOT NULL)
-                                                      ORDER BY cdiv.clearance_division </CommandText>
+        <CommandText>SELECT sub_stat.submission_status,
+       Count(csub.clearance_submission_status_id) AS Total,
+       csub.clearance_division_id,
+       cdiv.clearance_division,
+       ctype.clearance_type,
+       mtype.media_type,
+       lang.language,
+       comp.member
+       
+FROM   clearanceordersubmissions AS csub
+       LEFT OUTER JOIN clearanceorders AS cord
+                    ON cord.clearance_order_id = csub.clearance_order_id
+       LEFT OUTER JOIN clearancedivisions AS cdiv
+                    ON csub.clearance_division_id = cdiv.clearance_division_id
+       LEFT OUTER JOIN clearancetypes ctype
+                    ON ctype.clearance_type_id = csub.clearance_type_id
+       LEFT OUTER JOIN mediatypes mtype
+                    ON mtype.media_type_id = csub.media_type_id
+       LEFT OUTER JOIN languages lang
+                    ON lang.language_id = csub.language_id
+       LEFT OUTER JOIN companies comp
+                    ON comp.company_id = csub.company_id
+       LEFT OUTER JOIN clearancedivisioncategories cdivcat
+                    ON cdivcat.clearance_division_category_id =
+                       csub.clearance_division_category_id
+       LEFT OUTER JOIN clearancesubmissionstatuses AS sub_stat
+                    ON sub_stat.clearance_submission_status_id =
+                       csub.clearance_submission_status_id
+WHERE  ( cord.activated = 1 )
+       AND ( cord.active = 1 )
+       AND ( csub.active = 1 )
+       AND ( @division_id IS NULL
+              OR csub.clearance_division_id = @division_id )
+       AND ( @clearance_division_category_id IS NULL
+              OR csub.clearance_division_category_id =
+                 @clearance_division_category_id
+           )
+       AND ( @clearance_type_id IS NULL
+              OR csub.clearance_type_id = @clearance_type_id )
+       AND ( @media_type_id IS NULL
+              OR csub.media_type_id = @media_type_id )
+       AND ( @language_id IS NULL
+              OR csub.script_language_id = @language_id )
+       AND ( @member IS NULL
+              OR comp.member = @member )
+       AND ( @clearance_submission_status_id IS NULL
+              OR csub.clearance_submission_status_id =
+                 @clearance_submission_status_id
+           )
+       AND cord.created_date &gt;= @from_date
+       AND cord.created_date &lt;= @to_date
+GROUP  BY sub_stat.submission_status,
+          csub.clearance_submission_status_id,
+          csub.clearance_division_id,
+          cdiv.clearance_division,
+          ctype.clearance_type,
+          mtype.media_type,
+          mtype.media_type,
+          lang.language,
+          comp.member,
+          sub_stat.submission_status
+ORDER  BY cdiv.clearance_division,
+          mtype.media_type,
+          ctype.clearance_type,
+          sub_stat.submission_status,
+          lang.language,
+          comp.member </CommandText>
         <rd:UseGenericDesigner>true</rd:UseGenericDesigner>
       </Query>
       <Fields>
@@ -65,6 +164,22 @@ SELECT        sub_stat.submission_status, COUNT(csub.clearance_submission_status
           <DataField>clearance_division</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
+        <Field Name="clearance_type">
+          <DataField>clearance_type</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="media_type">
+          <DataField>media_type</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="language">
+          <DataField>language</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="member">
+          <DataField>member</DataField>
+          <rd:TypeName>System.Boolean</rd:TypeName>
+        </Field>
       </Fields>
     </DataSet>
   </DataSets>
@@ -76,13 +191,13 @@ SELECT        sub_stat.submission_status, COUNT(csub.clearance_submission_status
             <TablixBody>
               <TablixColumns>
                 <TablixColumn>
-                  <Width>2.42144in</Width>
+                  <Width>1.51172in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>1.67695in</Width>
+                  <Width>0.61791in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>1.60081in</Width>
+                  <Width>0.69803in</Width>
                 </TablixColumn>
               </TablixColumns>
               <TablixRows>
@@ -194,7 +309,7 @@ SELECT        sub_stat.submission_status, COUNT(csub.clearance_submission_status
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>% of Total</Value>
+                                  <Value> Total %</Value>
                                   <Style>
                                     <FontWeight>Bold</FontWeight>
                                   </Style>
@@ -462,19 +577,14 @@ SELECT        sub_stat.submission_status, COUNT(csub.clearance_submission_status
                             </Border>
                             <TopBorder>
                               <Color>Black</Color>
-                              <Style>Solid</Style>
+                              <Style>Double</Style>
                               <Width>2pt</Width>
                             </TopBorder>
                             <BottomBorder>
                               <Color>Black</Color>
+                              <Style>Solid</Style>
                               <Width>2pt</Width>
                             </BottomBorder>
-                            <LeftBorder>
-                              <Style>None</Style>
-                            </LeftBorder>
-                            <RightBorder>
-                              <Style>None</Style>
-                            </RightBorder>
                             <PaddingLeft>2pt</PaddingLeft>
                             <PaddingRight>2pt</PaddingRight>
                             <PaddingTop>2pt</PaddingTop>
@@ -511,19 +621,14 @@ SELECT        sub_stat.submission_status, COUNT(csub.clearance_submission_status
                             </Border>
                             <TopBorder>
                               <Color>Black</Color>
-                              <Style>Solid</Style>
+                              <Style>Double</Style>
                               <Width>2pt</Width>
                             </TopBorder>
                             <BottomBorder>
                               <Color>Black</Color>
+                              <Style>Solid</Style>
                               <Width>2pt</Width>
                             </BottomBorder>
-                            <LeftBorder>
-                              <Style>None</Style>
-                            </LeftBorder>
-                            <RightBorder>
-                              <Style>None</Style>
-                            </RightBorder>
                             <PaddingLeft>2pt</PaddingLeft>
                             <PaddingRight>2pt</PaddingRight>
                             <PaddingTop>2pt</PaddingTop>
@@ -547,7 +652,7 @@ SELECT        sub_stat.submission_status, COUNT(csub.clearance_submission_status
               <TablixMembers>
                 <TablixMember>
                   <TablixHeader>
-                    <Size>1.60081in</Size>
+                    <Size>1.58692in</Size>
                     <CellContents>
                       <Textbox Name="Textbox4">
                         <CanGrow>true</CanGrow>
@@ -596,7 +701,219 @@ SELECT        sub_stat.submission_status, COUNT(csub.clearance_submission_status
                     </CellContents>
                   </TablixHeader>
                   <TablixMembers>
-                    <TablixMember />
+                    <TablixMember>
+                      <TablixHeader>
+                        <Size>1.91632in</Size>
+                        <CellContents>
+                          <Textbox Name="Textbox11">
+                            <CanGrow>true</CanGrow>
+                            <KeepTogether>true</KeepTogether>
+                            <Paragraphs>
+                              <Paragraph>
+                                <TextRuns>
+                                  <TextRun>
+                                    <Value>Clearance Type</Value>
+                                    <Style>
+                                      <FontWeight>Bold</FontWeight>
+                                    </Style>
+                                  </TextRun>
+                                </TextRuns>
+                                <Style>
+                                  <TextAlign>Left</TextAlign>
+                                </Style>
+                              </Paragraph>
+                            </Paragraphs>
+                            <rd:DefaultName>Textbox11</rd:DefaultName>
+                            <Style>
+                              <Border>
+                                <Color>LightGrey</Color>
+                                <Style>Solid</Style>
+                              </Border>
+                              <TopBorder>
+                                <Color>Black</Color>
+                                <Width>2pt</Width>
+                              </TopBorder>
+                              <BottomBorder>
+                                <Color>Black</Color>
+                                <Width>2pt</Width>
+                              </BottomBorder>
+                              <LeftBorder>
+                                <Style>None</Style>
+                              </LeftBorder>
+                              <RightBorder>
+                                <Style>None</Style>
+                              </RightBorder>
+                              <PaddingLeft>2pt</PaddingLeft>
+                              <PaddingRight>2pt</PaddingRight>
+                              <PaddingTop>2pt</PaddingTop>
+                              <PaddingBottom>2pt</PaddingBottom>
+                            </Style>
+                          </Textbox>
+                        </CellContents>
+                      </TablixHeader>
+                      <TablixMembers>
+                        <TablixMember>
+                          <TablixHeader>
+                            <Size>1.6875in</Size>
+                            <CellContents>
+                              <Textbox Name="Textbox14">
+                                <CanGrow>true</CanGrow>
+                                <KeepTogether>true</KeepTogether>
+                                <Paragraphs>
+                                  <Paragraph>
+                                    <TextRuns>
+                                      <TextRun>
+                                        <Value>Media Type</Value>
+                                        <Style>
+                                          <FontWeight>Bold</FontWeight>
+                                        </Style>
+                                      </TextRun>
+                                    </TextRuns>
+                                    <Style>
+                                      <TextAlign>Left</TextAlign>
+                                    </Style>
+                                  </Paragraph>
+                                </Paragraphs>
+                                <rd:DefaultName>Textbox14</rd:DefaultName>
+                                <Style>
+                                  <Border>
+                                    <Color>LightGrey</Color>
+                                    <Style>Solid</Style>
+                                  </Border>
+                                  <TopBorder>
+                                    <Color>Black</Color>
+                                    <Width>2pt</Width>
+                                  </TopBorder>
+                                  <BottomBorder>
+                                    <Color>Black</Color>
+                                    <Width>2pt</Width>
+                                  </BottomBorder>
+                                  <LeftBorder>
+                                    <Style>None</Style>
+                                  </LeftBorder>
+                                  <RightBorder>
+                                    <Style>None</Style>
+                                  </RightBorder>
+                                  <PaddingLeft>2pt</PaddingLeft>
+                                  <PaddingRight>2pt</PaddingRight>
+                                  <PaddingTop>2pt</PaddingTop>
+                                  <PaddingBottom>2pt</PaddingBottom>
+                                </Style>
+                              </Textbox>
+                            </CellContents>
+                          </TablixHeader>
+                          <TablixMembers>
+                            <TablixMember>
+                              <TablixHeader>
+                                <Size>0.83333in</Size>
+                                <CellContents>
+                                  <Textbox Name="Textbox3">
+                                    <CanGrow>true</CanGrow>
+                                    <KeepTogether>true</KeepTogether>
+                                    <Paragraphs>
+                                      <Paragraph>
+                                        <TextRuns>
+                                          <TextRun>
+                                            <Value>Language</Value>
+                                            <Style>
+                                              <FontWeight>Bold</FontWeight>
+                                            </Style>
+                                          </TextRun>
+                                        </TextRuns>
+                                        <Style>
+                                          <TextAlign>Left</TextAlign>
+                                        </Style>
+                                      </Paragraph>
+                                    </Paragraphs>
+                                    <rd:DefaultName>Textbox3</rd:DefaultName>
+                                    <Style>
+                                      <Border>
+                                        <Color>LightGrey</Color>
+                                        <Style>Solid</Style>
+                                      </Border>
+                                      <TopBorder>
+                                        <Color>Black</Color>
+                                        <Width>2pt</Width>
+                                      </TopBorder>
+                                      <BottomBorder>
+                                        <Color>Black</Color>
+                                        <Width>2pt</Width>
+                                      </BottomBorder>
+                                      <LeftBorder>
+                                        <Style>None</Style>
+                                      </LeftBorder>
+                                      <RightBorder>
+                                        <Style>None</Style>
+                                      </RightBorder>
+                                      <PaddingLeft>2pt</PaddingLeft>
+                                      <PaddingRight>2pt</PaddingRight>
+                                      <PaddingTop>2pt</PaddingTop>
+                                      <PaddingBottom>2pt</PaddingBottom>
+                                    </Style>
+                                  </Textbox>
+                                </CellContents>
+                              </TablixHeader>
+                              <TablixMembers>
+                                <TablixMember>
+                                  <TablixHeader>
+                                    <Size>0.90972in</Size>
+                                    <CellContents>
+                                      <Textbox Name="Textbox7">
+                                        <CanGrow>true</CanGrow>
+                                        <KeepTogether>true</KeepTogether>
+                                        <Paragraphs>
+                                          <Paragraph>
+                                            <TextRuns>
+                                              <TextRun>
+                                                <Value>Member</Value>
+                                                <Style>
+                                                  <FontWeight>Bold</FontWeight>
+                                                </Style>
+                                              </TextRun>
+                                            </TextRuns>
+                                            <Style>
+                                              <TextAlign>Left</TextAlign>
+                                            </Style>
+                                          </Paragraph>
+                                        </Paragraphs>
+                                        <rd:DefaultName>Textbox7</rd:DefaultName>
+                                        <Style>
+                                          <Border>
+                                            <Color>LightGrey</Color>
+                                            <Style>Solid</Style>
+                                          </Border>
+                                          <TopBorder>
+                                            <Color>Black</Color>
+                                            <Width>2pt</Width>
+                                          </TopBorder>
+                                          <BottomBorder>
+                                            <Color>Black</Color>
+                                            <Width>2pt</Width>
+                                          </BottomBorder>
+                                          <LeftBorder>
+                                            <Style>None</Style>
+                                          </LeftBorder>
+                                          <RightBorder>
+                                            <Style>None</Style>
+                                          </RightBorder>
+                                          <PaddingLeft>2pt</PaddingLeft>
+                                          <PaddingRight>2pt</PaddingRight>
+                                          <PaddingTop>2pt</PaddingTop>
+                                          <PaddingBottom>2pt</PaddingBottom>
+                                        </Style>
+                                      </Textbox>
+                                    </CellContents>
+                                  </TablixHeader>
+                                  <TablixMembers>
+                                    <TablixMember />
+                                  </TablixMembers>
+                                </TablixMember>
+                              </TablixMembers>
+                            </TablixMember>
+                          </TablixMembers>
+                        </TablixMember>
+                      </TablixMembers>
+                    </TablixMember>
                   </TablixMembers>
                 </TablixMember>
                 <TablixMember>
@@ -611,7 +928,7 @@ SELECT        sub_stat.submission_status, COUNT(csub.clearance_submission_status
                     </SortExpression>
                   </SortExpressions>
                   <TablixHeader>
-                    <Size>1.60081in</Size>
+                    <Size>1.58692in</Size>
                     <CellContents>
                       <Textbox Name="clearance_division_id">
                         <CanGrow>true</CanGrow>
@@ -661,19 +978,484 @@ SELECT        sub_stat.submission_status, COUNT(csub.clearance_submission_status
                   </TablixHeader>
                   <TablixMembers>
                     <TablixMember>
-                      <Group Name="submission_status">
+                      <Group Name="clearance_type">
                         <GroupExpressions>
-                          <GroupExpression>=Fields!submission_status.Value</GroupExpression>
+                          <GroupExpression>=Fields!clearance_type.Value</GroupExpression>
                         </GroupExpressions>
                       </Group>
                       <SortExpressions>
                         <SortExpression>
-                          <Value>=Fields!submission_status.Value</Value>
+                          <Value>=Fields!clearance_type.Value</Value>
                         </SortExpression>
                       </SortExpressions>
+                      <TablixHeader>
+                        <Size>1.91632in</Size>
+                        <CellContents>
+                          <Textbox Name="clearance_type">
+                            <CanGrow>true</CanGrow>
+                            <KeepTogether>true</KeepTogether>
+                            <Paragraphs>
+                              <Paragraph>
+                                <TextRuns>
+                                  <TextRun>
+                                    <Value>=Fields!clearance_type.Value</Value>
+                                    <Style>
+                                      <FontWeight>Normal</FontWeight>
+                                    </Style>
+                                  </TextRun>
+                                </TextRuns>
+                                <Style>
+                                  <TextAlign>Left</TextAlign>
+                                </Style>
+                              </Paragraph>
+                            </Paragraphs>
+                            <rd:DefaultName>clearance_type</rd:DefaultName>
+                            <Style>
+                              <Border>
+                                <Color>LightGrey</Color>
+                                <Style>None</Style>
+                              </Border>
+                              <TopBorder>
+                                <Color>Black</Color>
+                                <Width>2pt</Width>
+                              </TopBorder>
+                              <BottomBorder>
+                                <Color>Black</Color>
+                                <Width>2pt</Width>
+                              </BottomBorder>
+                              <LeftBorder>
+                                <Style>None</Style>
+                              </LeftBorder>
+                              <RightBorder>
+                                <Style>None</Style>
+                              </RightBorder>
+                              <PaddingLeft>2pt</PaddingLeft>
+                              <PaddingRight>2pt</PaddingRight>
+                              <PaddingTop>2pt</PaddingTop>
+                              <PaddingBottom>2pt</PaddingBottom>
+                            </Style>
+                          </Textbox>
+                        </CellContents>
+                      </TablixHeader>
+                      <TablixMembers>
+                        <TablixMember>
+                          <Group Name="media_type">
+                            <GroupExpressions>
+                              <GroupExpression>=Fields!media_type.Value</GroupExpression>
+                            </GroupExpressions>
+                          </Group>
+                          <SortExpressions>
+                            <SortExpression>
+                              <Value>=Fields!media_type.Value</Value>
+                            </SortExpression>
+                          </SortExpressions>
+                          <TablixHeader>
+                            <Size>1.6875in</Size>
+                            <CellContents>
+                              <Textbox Name="media_type">
+                                <CanGrow>true</CanGrow>
+                                <KeepTogether>true</KeepTogether>
+                                <Paragraphs>
+                                  <Paragraph>
+                                    <TextRuns>
+                                      <TextRun>
+                                        <Value>=Fields!media_type.Value</Value>
+                                        <Style>
+                                          <FontWeight>Normal</FontWeight>
+                                        </Style>
+                                      </TextRun>
+                                    </TextRuns>
+                                    <Style>
+                                      <TextAlign>Left</TextAlign>
+                                    </Style>
+                                  </Paragraph>
+                                </Paragraphs>
+                                <rd:DefaultName>media_type</rd:DefaultName>
+                                <Style>
+                                  <Border>
+                                    <Color>LightGrey</Color>
+                                    <Style>None</Style>
+                                  </Border>
+                                  <TopBorder>
+                                    <Color>Black</Color>
+                                    <Width>2pt</Width>
+                                  </TopBorder>
+                                  <BottomBorder>
+                                    <Color>Black</Color>
+                                    <Width>2pt</Width>
+                                  </BottomBorder>
+                                  <LeftBorder>
+                                    <Style>None</Style>
+                                  </LeftBorder>
+                                  <RightBorder>
+                                    <Style>None</Style>
+                                  </RightBorder>
+                                  <PaddingLeft>2pt</PaddingLeft>
+                                  <PaddingRight>2pt</PaddingRight>
+                                  <PaddingTop>2pt</PaddingTop>
+                                  <PaddingBottom>2pt</PaddingBottom>
+                                </Style>
+                              </Textbox>
+                            </CellContents>
+                          </TablixHeader>
+                          <TablixMembers>
+                            <TablixMember>
+                              <Group Name="language">
+                                <GroupExpressions>
+                                  <GroupExpression>=Fields!language.Value</GroupExpression>
+                                </GroupExpressions>
+                              </Group>
+                              <SortExpressions>
+                                <SortExpression>
+                                  <Value>=Fields!language.Value</Value>
+                                </SortExpression>
+                              </SortExpressions>
+                              <TablixHeader>
+                                <Size>0.83333in</Size>
+                                <CellContents>
+                                  <Textbox Name="language">
+                                    <CanGrow>true</CanGrow>
+                                    <KeepTogether>true</KeepTogether>
+                                    <Paragraphs>
+                                      <Paragraph>
+                                        <TextRuns>
+                                          <TextRun>
+                                            <Value>=Fields!language.Value</Value>
+                                            <Style>
+                                              <FontWeight>Normal</FontWeight>
+                                            </Style>
+                                          </TextRun>
+                                        </TextRuns>
+                                        <Style>
+                                          <TextAlign>Left</TextAlign>
+                                        </Style>
+                                      </Paragraph>
+                                    </Paragraphs>
+                                    <rd:DefaultName>language</rd:DefaultName>
+                                    <Style>
+                                      <Border>
+                                        <Color>LightGrey</Color>
+                                        <Style>None</Style>
+                                      </Border>
+                                      <TopBorder>
+                                        <Color>Black</Color>
+                                        <Width>2pt</Width>
+                                      </TopBorder>
+                                      <BottomBorder>
+                                        <Color>Black</Color>
+                                        <Width>2pt</Width>
+                                      </BottomBorder>
+                                      <LeftBorder>
+                                        <Style>None</Style>
+                                      </LeftBorder>
+                                      <RightBorder>
+                                        <Style>None</Style>
+                                      </RightBorder>
+                                      <PaddingLeft>2pt</PaddingLeft>
+                                      <PaddingRight>2pt</PaddingRight>
+                                      <PaddingTop>2pt</PaddingTop>
+                                      <PaddingBottom>2pt</PaddingBottom>
+                                    </Style>
+                                  </Textbox>
+                                </CellContents>
+                              </TablixHeader>
+                              <TablixMembers>
+                                <TablixMember>
+                                  <Group Name="member">
+                                    <GroupExpressions>
+                                      <GroupExpression>=Fields!member.Value</GroupExpression>
+                                    </GroupExpressions>
+                                  </Group>
+                                  <SortExpressions>
+                                    <SortExpression>
+                                      <Value>=Fields!member.Value</Value>
+                                    </SortExpression>
+                                  </SortExpressions>
+                                  <TablixHeader>
+                                    <Size>0.90972in</Size>
+                                    <CellContents>
+                                      <Textbox Name="member">
+                                        <CanGrow>true</CanGrow>
+                                        <KeepTogether>true</KeepTogether>
+                                        <Paragraphs>
+                                          <Paragraph>
+                                            <TextRuns>
+                                              <TextRun>
+                                                <Value>=IIF(Fields!member.Value="1", "member", "non-member")</Value>
+                                                <Style>
+                                                  <FontWeight>Normal</FontWeight>
+                                                </Style>
+                                              </TextRun>
+                                            </TextRuns>
+                                            <Style>
+                                              <TextAlign>Left</TextAlign>
+                                            </Style>
+                                          </Paragraph>
+                                        </Paragraphs>
+                                        <rd:DefaultName>member</rd:DefaultName>
+                                        <Style>
+                                          <Border>
+                                            <Color>LightGrey</Color>
+                                            <Style>None</Style>
+                                          </Border>
+                                          <TopBorder>
+                                            <Color>Black</Color>
+                                            <Width>2pt</Width>
+                                          </TopBorder>
+                                          <BottomBorder>
+                                            <Color>Black</Color>
+                                            <Width>2pt</Width>
+                                          </BottomBorder>
+                                          <LeftBorder>
+                                            <Style>None</Style>
+                                          </LeftBorder>
+                                          <RightBorder>
+                                            <Style>None</Style>
+                                          </RightBorder>
+                                          <PaddingLeft>2pt</PaddingLeft>
+                                          <PaddingRight>2pt</PaddingRight>
+                                          <PaddingTop>2pt</PaddingTop>
+                                          <PaddingBottom>2pt</PaddingBottom>
+                                        </Style>
+                                      </Textbox>
+                                    </CellContents>
+                                  </TablixHeader>
+                                  <TablixMembers>
+                                    <TablixMember>
+                                      <Group Name="submission_status">
+                                        <GroupExpressions>
+                                          <GroupExpression>=Fields!submission_status.Value</GroupExpression>
+                                        </GroupExpressions>
+                                      </Group>
+                                      <SortExpressions>
+                                        <SortExpression>
+                                          <Value>=Fields!submission_status.Value</Value>
+                                        </SortExpression>
+                                      </SortExpressions>
+                                      <TablixMembers>
+                                        <TablixMember />
+                                      </TablixMembers>
+                                    </TablixMember>
+                                  </TablixMembers>
+                                </TablixMember>
+                              </TablixMembers>
+                            </TablixMember>
+                          </TablixMembers>
+                        </TablixMember>
+                      </TablixMembers>
                     </TablixMember>
                     <TablixMember>
-                      <KeepWithGroup>Before</KeepWithGroup>
+                      <TablixHeader>
+                        <Size>1.91632in</Size>
+                        <CellContents>
+                          <Textbox Name="Textbox13">
+                            <CanGrow>true</CanGrow>
+                            <KeepTogether>true</KeepTogether>
+                            <Paragraphs>
+                              <Paragraph>
+                                <TextRuns>
+                                  <TextRun>
+                                    <Value />
+                                    <Style>
+                                      <FontWeight>Normal</FontWeight>
+                                    </Style>
+                                  </TextRun>
+                                </TextRuns>
+                                <Style>
+                                  <TextAlign>Left</TextAlign>
+                                </Style>
+                              </Paragraph>
+                            </Paragraphs>
+                            <rd:DefaultName>Textbox13</rd:DefaultName>
+                            <Style>
+                              <Border>
+                                <Color>LightGrey</Color>
+                                <Style>None</Style>
+                              </Border>
+                              <TopBorder>
+                                <Color>Black</Color>
+                                <Width>2pt</Width>
+                              </TopBorder>
+                              <BottomBorder>
+                                <Color>Black</Color>
+                                <Width>2pt</Width>
+                              </BottomBorder>
+                              <LeftBorder>
+                                <Style>None</Style>
+                              </LeftBorder>
+                              <RightBorder>
+                                <Style>None</Style>
+                              </RightBorder>
+                              <PaddingLeft>2pt</PaddingLeft>
+                              <PaddingRight>2pt</PaddingRight>
+                              <PaddingTop>2pt</PaddingTop>
+                              <PaddingBottom>2pt</PaddingBottom>
+                            </Style>
+                          </Textbox>
+                        </CellContents>
+                      </TablixHeader>
+                      <TablixMembers>
+                        <TablixMember>
+                          <TablixHeader>
+                            <Size>1.6875in</Size>
+                            <CellContents>
+                              <Textbox Name="Textbox16">
+                                <CanGrow>true</CanGrow>
+                                <KeepTogether>true</KeepTogether>
+                                <Paragraphs>
+                                  <Paragraph>
+                                    <TextRuns>
+                                      <TextRun>
+                                        <Value />
+                                        <Style>
+                                          <FontWeight>Normal</FontWeight>
+                                        </Style>
+                                      </TextRun>
+                                    </TextRuns>
+                                    <Style>
+                                      <TextAlign>Left</TextAlign>
+                                    </Style>
+                                  </Paragraph>
+                                </Paragraphs>
+                                <rd:DefaultName>Textbox16</rd:DefaultName>
+                                <Style>
+                                  <Border>
+                                    <Color>LightGrey</Color>
+                                    <Style>None</Style>
+                                  </Border>
+                                  <TopBorder>
+                                    <Color>Black</Color>
+                                    <Width>2pt</Width>
+                                  </TopBorder>
+                                  <BottomBorder>
+                                    <Color>Black</Color>
+                                    <Width>2pt</Width>
+                                  </BottomBorder>
+                                  <LeftBorder>
+                                    <Style>None</Style>
+                                  </LeftBorder>
+                                  <RightBorder>
+                                    <Style>None</Style>
+                                  </RightBorder>
+                                  <PaddingLeft>2pt</PaddingLeft>
+                                  <PaddingRight>2pt</PaddingRight>
+                                  <PaddingTop>2pt</PaddingTop>
+                                  <PaddingBottom>2pt</PaddingBottom>
+                                </Style>
+                              </Textbox>
+                            </CellContents>
+                          </TablixHeader>
+                          <TablixMembers>
+                            <TablixMember>
+                              <TablixHeader>
+                                <Size>0.83333in</Size>
+                                <CellContents>
+                                  <Textbox Name="Textbox6">
+                                    <CanGrow>true</CanGrow>
+                                    <KeepTogether>true</KeepTogether>
+                                    <Paragraphs>
+                                      <Paragraph>
+                                        <TextRuns>
+                                          <TextRun>
+                                            <Value />
+                                            <Style>
+                                              <FontWeight>Normal</FontWeight>
+                                            </Style>
+                                          </TextRun>
+                                        </TextRuns>
+                                        <Style>
+                                          <TextAlign>Left</TextAlign>
+                                        </Style>
+                                      </Paragraph>
+                                    </Paragraphs>
+                                    <rd:DefaultName>Textbox6</rd:DefaultName>
+                                    <Style>
+                                      <Border>
+                                        <Color>LightGrey</Color>
+                                        <Style>None</Style>
+                                      </Border>
+                                      <TopBorder>
+                                        <Color>Black</Color>
+                                        <Width>2pt</Width>
+                                      </TopBorder>
+                                      <BottomBorder>
+                                        <Color>Black</Color>
+                                        <Width>2pt</Width>
+                                      </BottomBorder>
+                                      <LeftBorder>
+                                        <Style>None</Style>
+                                      </LeftBorder>
+                                      <RightBorder>
+                                        <Style>None</Style>
+                                      </RightBorder>
+                                      <PaddingLeft>2pt</PaddingLeft>
+                                      <PaddingRight>2pt</PaddingRight>
+                                      <PaddingTop>2pt</PaddingTop>
+                                      <PaddingBottom>2pt</PaddingBottom>
+                                    </Style>
+                                  </Textbox>
+                                </CellContents>
+                              </TablixHeader>
+                              <TablixMembers>
+                                <TablixMember>
+                                  <TablixHeader>
+                                    <Size>0.90972in</Size>
+                                    <CellContents>
+                                      <Textbox Name="Textbox9">
+                                        <CanGrow>true</CanGrow>
+                                        <KeepTogether>true</KeepTogether>
+                                        <Paragraphs>
+                                          <Paragraph>
+                                            <TextRuns>
+                                              <TextRun>
+                                                <Value />
+                                                <Style>
+                                                  <FontWeight>Normal</FontWeight>
+                                                </Style>
+                                              </TextRun>
+                                            </TextRuns>
+                                            <Style>
+                                              <TextAlign>Left</TextAlign>
+                                            </Style>
+                                          </Paragraph>
+                                        </Paragraphs>
+                                        <rd:DefaultName>Textbox9</rd:DefaultName>
+                                        <Style>
+                                          <Border>
+                                            <Color>LightGrey</Color>
+                                            <Style>None</Style>
+                                          </Border>
+                                          <TopBorder>
+                                            <Color>Black</Color>
+                                            <Width>2pt</Width>
+                                          </TopBorder>
+                                          <BottomBorder>
+                                            <Color>Black</Color>
+                                            <Width>2pt</Width>
+                                          </BottomBorder>
+                                          <LeftBorder>
+                                            <Style>None</Style>
+                                          </LeftBorder>
+                                          <RightBorder>
+                                            <Style>None</Style>
+                                          </RightBorder>
+                                          <PaddingLeft>2pt</PaddingLeft>
+                                          <PaddingRight>2pt</PaddingRight>
+                                          <PaddingTop>2pt</PaddingTop>
+                                          <PaddingBottom>2pt</PaddingBottom>
+                                        </Style>
+                                      </Textbox>
+                                    </CellContents>
+                                  </TablixHeader>
+                                  <TablixMembers>
+                                    <TablixMember />
+                                  </TablixMembers>
+                                </TablixMember>
+                              </TablixMembers>
+                            </TablixMember>
+                          </TablixMembers>
+                        </TablixMember>
+                      </TablixMembers>
                     </TablixMember>
                   </TablixMembers>
                 </TablixMember>
@@ -681,10 +1463,10 @@ SELECT        sub_stat.submission_status, COUNT(csub.clearance_submission_status
             </TablixRowHierarchy>
             <KeepTogether>true</KeepTogether>
             <DataSetName>ClearanceSubmissionSummaryByStatusQuery</DataSetName>
-            <Top>0.25in</Top>
-            <Left>0.3in</Left>
+            <Top>0.125in</Top>
+            <Left>0.175in</Left>
             <Height>0.73958in</Height>
-            <Width>7.30001in</Width>
+            <Width>9.76145in</Width>
             <Style>
               <Border>
                 <Style>None</Style>
@@ -692,17 +1474,17 @@ SELECT        sub_stat.submission_status, COUNT(csub.clearance_submission_status
             </Style>
           </Tablix>
         </ReportItems>
-        <Height>1.01667in</Height>
+        <Height>1.23958in</Height>
         <Style>
           <Border>
             <Style>None</Style>
           </Border>
         </Style>
       </Body>
-      <Width>7.9in</Width>
+      <Width>10.06944in</Width>
       <Page>
         <PageFooter>
-          <Height>0.39205in</Height>
+          <Height>0.3258in</Height>
           <PrintOnFirstPage>true</PrintOnFirstPage>
           <PrintOnLastPage>true</PrintOnLastPage>
           <ReportItems>
@@ -713,7 +1495,7 @@ SELECT        sub_stat.submission_status, COUNT(csub.clearance_submission_status
                 <Paragraph>
                   <TextRuns>
                     <TextRun>
-                      <Value>AdStandards</Value>
+                      <Value>=Parameters!report_name.Value</Value>
                       <Style>
                         <FontSize>9pt</FontSize>
                       </Style>
@@ -726,7 +1508,7 @@ SELECT        sub_stat.submission_status, COUNT(csub.clearance_submission_status
               </Paragraphs>
               <rd:DefaultName>Textbox61</rd:DefaultName>
               <Top>0.1in</Top>
-              <Left>7.72467cm</Left>
+              <Left>9.62967cm</Left>
               <Height>0.52062cm</Height>
               <Width>4.61667cm</Width>
               <Style>
@@ -759,7 +1541,7 @@ SELECT        sub_stat.submission_status, COUNT(csub.clearance_submission_status
               </Paragraphs>
               <rd:DefaultName>Textbox61</rd:DefaultName>
               <Top>0.06944in</Top>
-              <Left>15.70385cm</Left>
+              <Left>21.10135cm</Left>
               <Height>0.52062cm</Height>
               <Width>3.99703cm</Width>
               <ZIndex>1</ZIndex>
@@ -820,7 +1602,11 @@ SELECT        sub_stat.submission_status, COUNT(csub.clearance_submission_status
             </Border>
           </Style>
         </PageFooter>
+        <PageHeight>8.5in</PageHeight>
+        <PageWidth>10.5in</PageWidth>
         <InteractiveHeight>0in</InteractiveHeight>
+        <TopMargin>0.1in</TopMargin>
+        <BottomMargin>0.1in</BottomMargin>
         <ColumnSpacing>0.05118in</ColumnSpacing>
         <Style />
       </Page>
@@ -831,7 +1617,6 @@ SELECT        sub_stat.submission_status, COUNT(csub.clearance_submission_status
       <DataType>DateTime</DataType>
       <Nullable>true</Nullable>
       <Prompt>StartDate</Prompt>
-      <Hidden>true</Hidden>
     </ReportParameter>
     <ReportParameter Name="to_date">
       <DataType>DateTime</DataType>
@@ -842,7 +1627,6 @@ SELECT        sub_stat.submission_status, COUNT(csub.clearance_submission_status
         </Values>
       </DefaultValue>
       <Prompt>EndDate</Prompt>
-      <Hidden>true</Hidden>
     </ReportParameter>
     <ReportParameter Name="division_id">
       <DataType>String</DataType>
@@ -853,7 +1637,7 @@ SELECT        sub_stat.submission_status, COUNT(csub.clearance_submission_status
     <ReportParameter Name="clearance_division_category_id">
       <DataType>String</DataType>
       <Nullable>true</Nullable>
-      <Prompt>DivisionID</Prompt>
+      <Prompt>division_category</Prompt>
       <Hidden>true</Hidden>
     </ReportParameter>
     <ReportParameter Name="report_name">
@@ -881,7 +1665,7 @@ SELECT        sub_stat.submission_status, COUNT(csub.clearance_submission_status
           <Value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" />
         </Values>
       </DefaultValue>
-      <Prompt>edia_type_id</Prompt>
+      <Prompt>media_type_id</Prompt>
       <Hidden>true</Hidden>
     </ReportParameter>
     <ReportParameter Name="language_id">
@@ -904,11 +1688,15 @@ SELECT        sub_stat.submission_status, COUNT(csub.clearance_submission_status
       </DefaultValue>
       <Prompt>member</Prompt>
     </ReportParameter>
+    <ReportParameter Name="clearance_submission_status_id">
+      <DataType>String</DataType>
+      <Prompt>clearance submission status id</Prompt>
+    </ReportParameter>
   </ReportParameters>
   <ReportParametersLayout>
     <GridLayoutDefinition>
       <NumberOfColumns>1</NumberOfColumns>
-      <NumberOfRows>4</NumberOfRows>
+      <NumberOfRows>10</NumberOfRows>
       <CellDefinitions>
         <CellDefinition>
           <ColumnIndex>0</ColumnIndex>
@@ -928,7 +1716,37 @@ SELECT        sub_stat.submission_status, COUNT(csub.clearance_submission_status
         <CellDefinition>
           <ColumnIndex>0</ColumnIndex>
           <RowIndex>3</RowIndex>
+          <ParameterName>clearance_division_category_id</ParameterName>
+        </CellDefinition>
+        <CellDefinition>
+          <ColumnIndex>0</ColumnIndex>
+          <RowIndex>4</RowIndex>
           <ParameterName>report_name</ParameterName>
+        </CellDefinition>
+        <CellDefinition>
+          <ColumnIndex>0</ColumnIndex>
+          <RowIndex>5</RowIndex>
+          <ParameterName>clearance_type_id</ParameterName>
+        </CellDefinition>
+        <CellDefinition>
+          <ColumnIndex>0</ColumnIndex>
+          <RowIndex>6</RowIndex>
+          <ParameterName>media_type_id</ParameterName>
+        </CellDefinition>
+        <CellDefinition>
+          <ColumnIndex>0</ColumnIndex>
+          <RowIndex>7</RowIndex>
+          <ParameterName>language_id</ParameterName>
+        </CellDefinition>
+        <CellDefinition>
+          <ColumnIndex>0</ColumnIndex>
+          <RowIndex>8</RowIndex>
+          <ParameterName>member</ParameterName>
+        </CellDefinition>
+        <CellDefinition>
+          <ColumnIndex>0</ColumnIndex>
+          <RowIndex>9</RowIndex>
+          <ParameterName>clearance_submission_status_id</ParameterName>
         </CellDefinition>
       </CellDefinitions>
     </GridLayoutDefinition>

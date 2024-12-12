@@ -100,107 +100,6 @@ ORDER BY BillingCompany</CommandText>
     <ReportSection>
       <Body>
         <ReportItems>
-          <Rectangle Name="Rectangle2">
-            <ReportItems>
-              <Textbox Name="Textbox13">
-                <CanGrow>true</CanGrow>
-                <KeepTogether>true</KeepTogether>
-                <Paragraphs>
-                  <Paragraph>
-                    <TextRuns>
-                      <TextRun>
-                        <Value>Invoiced Orders</Value>
-                        <Style>
-                          <FontFamily>Arial</FontFamily>
-                          <FontSize>20pt</FontSize>
-                          <FontWeight>Bold</FontWeight>
-                        </Style>
-                      </TextRun>
-                    </TextRuns>
-                    <Style>
-                      <TextAlign>Center</TextAlign>
-                    </Style>
-                  </Paragraph>
-                </Paragraphs>
-                <rd:DefaultName>Textbox13</rd:DefaultName>
-                <Top>1.77819in</Top>
-                <Left>0.63767in</Left>
-                <Height>0.47694in</Height>
-                <Width>5.41765in</Width>
-                <Style>
-                  <Border>
-                    <Style>None</Style>
-                  </Border>
-                  <PaddingLeft>2pt</PaddingLeft>
-                  <PaddingRight>2pt</PaddingRight>
-                  <PaddingTop>2pt</PaddingTop>
-                  <PaddingBottom>2pt</PaddingBottom>
-                </Style>
-              </Textbox>
-              <Textbox Name="Textbox14">
-                <CanGrow>true</CanGrow>
-                <KeepTogether>true</KeepTogether>
-                <Paragraphs>
-                  <Paragraph>
-                    <TextRuns>
-                      <TextRun>
-                        <Value>="Executed at: " + Globals!ExecutionTime</Value>
-                        <Style>
-                          <FontFamily>Arial</FontFamily>
-                          <FontSize>15pt</FontSize>
-                        </Style>
-                      </TextRun>
-                    </TextRuns>
-                    <Style>
-                      <TextAlign>Center</TextAlign>
-                    </Style>
-                  </Paragraph>
-                </Paragraphs>
-                <rd:DefaultName>Textbox13</rd:DefaultName>
-                <Top>2.2968in</Top>
-                <Left>1.471in</Left>
-                <Height>0.3125in</Height>
-                <Width>3.5863in</Width>
-                <ZIndex>1</ZIndex>
-                <Style>
-                  <Border>
-                    <Style>None</Style>
-                  </Border>
-                  <PaddingLeft>2pt</PaddingLeft>
-                  <PaddingRight>2pt</PaddingRight>
-                  <PaddingTop>2pt</PaddingTop>
-                  <PaddingBottom>2pt</PaddingBottom>
-                </Style>
-              </Textbox>
-              <Image Name="Image1">
-                <Source>Embedded</Source>
-                <Value>AdStandardsLogo400x117</Value>
-                <Top>0.1in</Top>
-                <Left>1.26267in</Left>
-                <Height>3.09562cm</Height>
-                <Width>10.58333cm</Width>
-                <ZIndex>2</ZIndex>
-                <Style>
-                  <Border>
-                    <Style>None</Style>
-                  </Border>
-                </Style>
-              </Image>
-            </ReportItems>
-            <PageBreak>
-              <BreakLocation>End</BreakLocation>
-            </PageBreak>
-            <KeepTogether>true</KeepTogether>
-            <Top>0.43708in</Top>
-            <Left>5.92165cm</Left>
-            <Height>3.18931in</Height>
-            <Width>6.37825in</Width>
-            <Style>
-              <Border>
-                <Style>None</Style>
-              </Border>
-            </Style>
-          </Rectangle>
           <Tablix Name="Tablix1">
             <TablixBody>
               <TablixColumns>
@@ -1193,11 +1092,10 @@ ORDER BY BillingCompany</CommandText>
               </TablixMembers>
             </TablixRowHierarchy>
             <DataSetName>InvoicedOrders</DataSetName>
-            <Top>4.08792in</Top>
-            <Left>0.34178in</Left>
+            <Top>0.46986in</Top>
+            <Left>0.17709in</Left>
             <Height>0.75in</Height>
             <Width>10.02506in</Width>
-            <ZIndex>1</ZIndex>
             <Style>
               <Border>
                 <Style>None</Style>
@@ -1205,7 +1103,7 @@ ORDER BY BillingCompany</CommandText>
             </Style>
           </Tablix>
         </ReportItems>
-        <Height>8.27in</Height>
+        <Height>1.94361in</Height>
         <Style>
           <Border>
             <Style>None</Style>
@@ -1226,7 +1124,7 @@ ORDER BY BillingCompany</CommandText>
                 <Paragraph>
                   <TextRuns>
                     <TextRun>
-                      <Value>AdStandards</Value>
+                      <Value>=Parameters!report_name.Value</Value>
                       <Style>
                         <FontSize>9pt</FontSize>
                       </Style>

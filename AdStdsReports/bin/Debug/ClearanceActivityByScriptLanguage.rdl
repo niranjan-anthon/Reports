@@ -870,7 +870,7 @@ GROUP BY csub.clearance_division_id, cdiv.clearance_division, lang.language_id, 
                 <Paragraph>
                   <TextRuns>
                     <TextRun>
-                      <Value>AdStandards</Value>
+                      <Value>=Parameters!report_name.Value</Value>
                       <Style>
                         <FontSize>9pt</FontSize>
                       </Style>

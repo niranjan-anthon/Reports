@@ -829,15 +829,28 @@ SELECT        sub_stat.submission_status, COUNT(csub.clearance_submission_status
   <ReportParameters>
     <ReportParameter Name="from_date">
       <DataType>DateTime</DataType>
-      <Prompt>start date</Prompt>
-      <UsedInQuery>True</UsedInQuery>
+      <Nullable>true</Nullable>
+      <Prompt>StartDate</Prompt>
+      <Hidden>true</Hidden>
     </ReportParameter>
     <ReportParameter Name="to_date">
       <DataType>DateTime</DataType>
-      <Prompt>end date</Prompt>
-      <UsedInQuery>True</UsedInQuery>
+      <Nullable>true</Nullable>
+      <DefaultValue>
+        <Values>
+          <Value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" />
+        </Values>
+      </DefaultValue>
+      <Prompt>EndDate</Prompt>
+      <Hidden>true</Hidden>
     </ReportParameter>
     <ReportParameter Name="division_id">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <Prompt>DivisionID</Prompt>
+      <Hidden>true</Hidden>
+    </ReportParameter>
+    <ReportParameter Name="clearance_division_category_id">
       <DataType>String</DataType>
       <Nullable>true</Nullable>
       <Prompt>DivisionID</Prompt>
@@ -846,9 +859,50 @@ SELECT        sub_stat.submission_status, COUNT(csub.clearance_submission_status
     <ReportParameter Name="report_name">
       <DataType>String</DataType>
       <Nullable>true</Nullable>
-      <AllowBlank>true</AllowBlank>
-      <Prompt>report_name</Prompt>
+      <Prompt>Report Name</Prompt>
       <Hidden>true</Hidden>
+    </ReportParameter>
+    <ReportParameter Name="clearance_type_id">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <DefaultValue>
+        <Values>
+          <Value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" />
+        </Values>
+      </DefaultValue>
+      <Prompt>clearance_type_id</Prompt>
+      <Hidden>true</Hidden>
+    </ReportParameter>
+    <ReportParameter Name="media_type_id">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <DefaultValue>
+        <Values>
+          <Value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" />
+        </Values>
+      </DefaultValue>
+      <Prompt>edia_type_id</Prompt>
+      <Hidden>true</Hidden>
+    </ReportParameter>
+    <ReportParameter Name="language_id">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <DefaultValue>
+        <Values>
+          <Value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" />
+        </Values>
+      </DefaultValue>
+      <Prompt>language_id</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="member">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <DefaultValue>
+        <Values>
+          <Value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" />
+        </Values>
+      </DefaultValue>
+      <Prompt>member</Prompt>
     </ReportParameter>
   </ReportParameters>
   <ReportParametersLayout>

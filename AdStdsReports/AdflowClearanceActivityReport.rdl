@@ -9,700 +9,158 @@
       <rd:DataSourceID>32653eb9-be0a-4313-8b4c-c0a31bf07753</rd:DataSourceID>
     </DataSource>
   </DataSources>
-  <DataSets>
-    <DataSet Name="ClearanceSubmissionSummaryByStatusQuery">
-      <Query>
-        <DataSourceName>DataSource</DataSourceName>
-        <QueryParameters>
-          <QueryParameter Name="@division_id">
-            <Value>=Parameters!division_id.Value</Value>
-          </QueryParameter>
-          <QueryParameter Name="@from_date">
-            <Value>=Parameters!from_date.Value</Value>
-          </QueryParameter>
-          <QueryParameter Name="@to_date">
-            <Value>=Parameters!to_date.Value</Value>
-          </QueryParameter>
-        </QueryParameters>
-        <CommandText>IF @division_id IS NOT NULL
-
-                                                                                   SELECT        sub_stat.submission_status, COUNT(csub.clearance_submission_status_id) AS Total, csub.clearance_division_id, cdiv.clearance_division 
-FROM            ClearanceOrderSubmissions AS csub LEFT OUTER JOIN
-                                                                                                             ClearanceOrders AS cord ON cord.clearance_order_id = csub.clearance_order_id LEFT OUTER JOIN
-                                                                                                             ClearanceDivisions AS cdiv ON csub.clearance_division_id = cdiv.clearance_division_id LEFT OUTER JOIN
-                                                                                                             ClearanceSubmissionStatuses AS sub_stat ON sub_stat.clearance_submission_status_id = csub.clearance_submission_status_id
-                                                                                    WHERE        (cord.activated = 1) AND (cord.active = 1) AND (csub.active = 1) AND csub.clearance_division_id = @division_id AND cord.created_date &gt;= @from_date AND 
-                                                                                                             cord.created_date &lt;= @to_date
-                                                                                    GROUP BY sub_stat.submission_status, csub.clearance_submission_status_id, csub.clearance_division_id, cdiv.clearance_division
-                                                                                    HAVING         (csub.clearance_submission_status_id IS NOT NULL)
-                                                                                    ORDER BY cdiv.clearance_division 
-ELSE
-SELECT        sub_stat.submission_status, COUNT(csub.clearance_submission_status_id) AS Total, csub.clearance_division_id, cdiv.clearance_division
-                                                      FROM            ClearanceOrderSubmissions AS csub LEFT OUTER JOIN
-                                                                               ClearanceOrders AS cord ON cord.clearance_order_id = csub.clearance_order_id LEFT OUTER JOIN
-                                                                               ClearanceDivisions AS cdiv ON csub.clearance_division_id = cdiv.clearance_division_id LEFT OUTER JOIN
-                                                                               ClearanceSubmissionStatuses AS sub_stat ON sub_stat.clearance_submission_status_id = csub.clearance_submission_status_id
-                                                      WHERE       (cord.active = 1) AND (csub.active = 1) AND cord.created_date &gt;= @from_date AND cord.created_date &lt;= @to_date
-                                                      GROUP BY sub_stat.submission_status, csub.clearance_submission_status_id, csub.clearance_division_id, cdiv.clearance_division
-                                                      HAVING         (csub.clearance_submission_status_id IS NOT NULL)
-                                                      ORDER BY cdiv.clearance_division </CommandText>
-        <rd:UseGenericDesigner>true</rd:UseGenericDesigner>
-      </Query>
-      <Fields>
-        <Field Name="submission_status">
-          <DataField>submission_status</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="Total">
-          <DataField>Total</DataField>
-          <rd:TypeName>System.Int32</rd:TypeName>
-        </Field>
-        <Field Name="clearance_division_id">
-          <DataField>clearance_division_id</DataField>
-          <rd:TypeName>System.Int32</rd:TypeName>
-        </Field>
-        <Field Name="clearance_division">
-          <DataField>clearance_division</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-      </Fields>
-    </DataSet>
-  </DataSets>
   <ReportSections>
     <ReportSection>
       <Body>
         <ReportItems>
-          <Tablix Name="tbl_submission_subreport">
-            <TablixBody>
-              <TablixColumns>
-                <TablixColumn>
-                  <Width>2.42144in</Width>
-                </TablixColumn>
-                <TablixColumn>
-                  <Width>1.67695in</Width>
-                </TablixColumn>
-                <TablixColumn>
-                  <Width>1.60081in</Width>
-                </TablixColumn>
-              </TablixColumns>
-              <TablixRows>
-                <TablixRow>
-                  <Height>0.25in</Height>
-                  <TablixCells>
-                    <TablixCell>
-                      <CellContents>
-                        <Textbox Name="Textbox1">
-                          <CanGrow>true</CanGrow>
-                          <KeepTogether>true</KeepTogether>
-                          <Paragraphs>
-                            <Paragraph>
-                              <TextRuns>
-                                <TextRun>
-                                  <Value>Submission Status</Value>
-                                  <Style>
-                                    <FontWeight>Bold</FontWeight>
-                                  </Style>
-                                </TextRun>
-                              </TextRuns>
-                              <Style>
-                                <TextAlign>Left</TextAlign>
-                              </Style>
-                            </Paragraph>
-                          </Paragraphs>
-                          <rd:DefaultName>Textbox1</rd:DefaultName>
-                          <Style>
-                            <Border>
-                              <Color>LightGrey</Color>
-                              <Style>Solid</Style>
-                            </Border>
-                            <TopBorder>
-                              <Color>Black</Color>
-                              <Width>2pt</Width>
-                            </TopBorder>
-                            <BottomBorder>
-                              <Color>Black</Color>
-                              <Width>2pt</Width>
-                            </BottomBorder>
-                            <LeftBorder>
-                              <Style>None</Style>
-                            </LeftBorder>
-                            <RightBorder>
-                              <Style>None</Style>
-                            </RightBorder>
-                            <PaddingLeft>2pt</PaddingLeft>
-                            <PaddingRight>2pt</PaddingRight>
-                            <PaddingTop>2pt</PaddingTop>
-                            <PaddingBottom>2pt</PaddingBottom>
-                          </Style>
-                        </Textbox>
-                      </CellContents>
-                    </TablixCell>
-                    <TablixCell>
-                      <CellContents>
-                        <Textbox Name="Textbox2">
-                          <CanGrow>true</CanGrow>
-                          <KeepTogether>true</KeepTogether>
-                          <Paragraphs>
-                            <Paragraph>
-                              <TextRuns>
-                                <TextRun>
-                                  <Value>Total</Value>
-                                  <Style>
-                                    <FontWeight>Bold</FontWeight>
-                                  </Style>
-                                </TextRun>
-                              </TextRuns>
-                              <Style>
-                                <TextAlign>Right</TextAlign>
-                              </Style>
-                            </Paragraph>
-                          </Paragraphs>
-                          <rd:DefaultName>Textbox2</rd:DefaultName>
-                          <Style>
-                            <Border>
-                              <Color>LightGrey</Color>
-                              <Style>Solid</Style>
-                            </Border>
-                            <TopBorder>
-                              <Color>Black</Color>
-                              <Width>2pt</Width>
-                            </TopBorder>
-                            <BottomBorder>
-                              <Color>Black</Color>
-                              <Width>2pt</Width>
-                            </BottomBorder>
-                            <LeftBorder>
-                              <Style>None</Style>
-                            </LeftBorder>
-                            <RightBorder>
-                              <Style>None</Style>
-                            </RightBorder>
-                            <PaddingLeft>2pt</PaddingLeft>
-                            <PaddingRight>2pt</PaddingRight>
-                            <PaddingTop>2pt</PaddingTop>
-                            <PaddingBottom>2pt</PaddingBottom>
-                          </Style>
-                        </Textbox>
-                      </CellContents>
-                    </TablixCell>
-                    <TablixCell>
-                      <CellContents>
-                        <Textbox Name="Textbox85">
-                          <CanGrow>true</CanGrow>
-                          <KeepTogether>true</KeepTogether>
-                          <Paragraphs>
-                            <Paragraph>
-                              <TextRuns>
-                                <TextRun>
-                                  <Value>% of Total</Value>
-                                  <Style>
-                                    <FontWeight>Bold</FontWeight>
-                                  </Style>
-                                </TextRun>
-                              </TextRuns>
-                              <Style>
-                                <TextAlign>Right</TextAlign>
-                              </Style>
-                            </Paragraph>
-                          </Paragraphs>
-                          <rd:DefaultName>Textbox85</rd:DefaultName>
-                          <Style>
-                            <Border>
-                              <Color>LightGrey</Color>
-                              <Style>Solid</Style>
-                            </Border>
-                            <TopBorder>
-                              <Color>Black</Color>
-                              <Width>2pt</Width>
-                            </TopBorder>
-                            <BottomBorder>
-                              <Color>Black</Color>
-                              <Width>2pt</Width>
-                            </BottomBorder>
-                            <LeftBorder>
-                              <Style>None</Style>
-                            </LeftBorder>
-                            <RightBorder>
-                              <Style>None</Style>
-                            </RightBorder>
-                            <PaddingLeft>2pt</PaddingLeft>
-                            <PaddingRight>2pt</PaddingRight>
-                            <PaddingTop>2pt</PaddingTop>
-                            <PaddingBottom>2pt</PaddingBottom>
-                          </Style>
-                        </Textbox>
-                      </CellContents>
-                    </TablixCell>
-                  </TablixCells>
-                </TablixRow>
-                <TablixRow>
-                  <Height>0.23958in</Height>
-                  <TablixCells>
-                    <TablixCell>
-                      <CellContents>
-                        <Textbox Name="submission_status">
-                          <CanGrow>true</CanGrow>
-                          <KeepTogether>true</KeepTogether>
-                          <Paragraphs>
-                            <Paragraph>
-                              <TextRuns>
-                                <TextRun>
-                                  <Value>=Fields!submission_status.Value</Value>
-                                  <Style>
-                                    <FontWeight>Normal</FontWeight>
-                                  </Style>
-                                </TextRun>
-                              </TextRuns>
-                              <Style>
-                                <TextAlign>Left</TextAlign>
-                              </Style>
-                            </Paragraph>
-                          </Paragraphs>
-                          <rd:DefaultName>submission_status</rd:DefaultName>
-                          <Style>
-                            <Border>
-                              <Color>LightGrey</Color>
-                              <Style>None</Style>
-                            </Border>
-                            <TopBorder>
-                              <Color>Black</Color>
-                              <Width>2pt</Width>
-                            </TopBorder>
-                            <BottomBorder>
-                              <Color>Black</Color>
-                              <Width>2pt</Width>
-                            </BottomBorder>
-                            <LeftBorder>
-                              <Style>None</Style>
-                            </LeftBorder>
-                            <RightBorder>
-                              <Style>None</Style>
-                            </RightBorder>
-                            <PaddingLeft>2pt</PaddingLeft>
-                            <PaddingRight>2pt</PaddingRight>
-                            <PaddingTop>2pt</PaddingTop>
-                            <PaddingBottom>2pt</PaddingBottom>
-                          </Style>
-                        </Textbox>
-                      </CellContents>
-                    </TablixCell>
-                    <TablixCell>
-                      <CellContents>
-                        <Textbox Name="Total">
-                          <CanGrow>true</CanGrow>
-                          <KeepTogether>true</KeepTogether>
-                          <Paragraphs>
-                            <Paragraph>
-                              <TextRuns>
-                                <TextRun>
-                                  <Value>=Sum(Fields!Total.Value)</Value>
-                                  <Style>
-                                    <FontWeight>Normal</FontWeight>
-                                  </Style>
-                                </TextRun>
-                              </TextRuns>
-                              <Style>
-                                <TextAlign>Right</TextAlign>
-                              </Style>
-                            </Paragraph>
-                          </Paragraphs>
-                          <rd:DefaultName>Total</rd:DefaultName>
-                          <Style>
-                            <Border>
-                              <Color>LightGrey</Color>
-                              <Style>None</Style>
-                            </Border>
-                            <TopBorder>
-                              <Color>Black</Color>
-                              <Width>2pt</Width>
-                            </TopBorder>
-                            <BottomBorder>
-                              <Color>Black</Color>
-                              <Width>2pt</Width>
-                            </BottomBorder>
-                            <LeftBorder>
-                              <Style>None</Style>
-                            </LeftBorder>
-                            <RightBorder>
-                              <Style>None</Style>
-                            </RightBorder>
-                            <PaddingLeft>2pt</PaddingLeft>
-                            <PaddingRight>2pt</PaddingRight>
-                            <PaddingTop>2pt</PaddingTop>
-                            <PaddingBottom>2pt</PaddingBottom>
-                          </Style>
-                        </Textbox>
-                      </CellContents>
-                    </TablixCell>
-                    <TablixCell>
-                      <CellContents>
-                        <Textbox Name="Textbox29">
-                          <CanGrow>true</CanGrow>
-                          <KeepTogether>true</KeepTogether>
-                          <Paragraphs>
-                            <Paragraph>
-                              <TextRuns>
-                                <TextRun>
-                                  <Value>=ROUND((Fields!Total.Value/SUM(Fields!Total.Value, "DivisionGroup"))*100,0)</Value>
-                                  <Style>
-                                    <FontWeight>Normal</FontWeight>
-                                  </Style>
-                                </TextRun>
-                              </TextRuns>
-                              <Style>
-                                <TextAlign>Right</TextAlign>
-                              </Style>
-                            </Paragraph>
-                          </Paragraphs>
-                          <rd:DefaultName>Textbox29</rd:DefaultName>
-                          <Style>
-                            <Border>
-                              <Color>LightGrey</Color>
-                              <Style>None</Style>
-                            </Border>
-                            <TopBorder>
-                              <Color>Black</Color>
-                              <Width>2pt</Width>
-                            </TopBorder>
-                            <BottomBorder>
-                              <Color>Black</Color>
-                              <Width>2pt</Width>
-                            </BottomBorder>
-                            <LeftBorder>
-                              <Style>None</Style>
-                            </LeftBorder>
-                            <RightBorder>
-                              <Style>None</Style>
-                            </RightBorder>
-                            <PaddingLeft>2pt</PaddingLeft>
-                            <PaddingRight>2pt</PaddingRight>
-                            <PaddingTop>2pt</PaddingTop>
-                            <PaddingBottom>2pt</PaddingBottom>
-                          </Style>
-                        </Textbox>
-                      </CellContents>
-                    </TablixCell>
-                  </TablixCells>
-                </TablixRow>
-                <TablixRow>
-                  <Height>0.25in</Height>
-                  <TablixCells>
-                    <TablixCell>
-                      <CellContents>
-                        <Textbox Name="Textbox20">
-                          <CanGrow>true</CanGrow>
-                          <KeepTogether>true</KeepTogether>
-                          <Paragraphs>
-                            <Paragraph>
-                              <TextRuns>
-                                <TextRun>
-                                  <Value />
-                                  <Style>
-                                    <FontWeight>Normal</FontWeight>
-                                  </Style>
-                                </TextRun>
-                              </TextRuns>
-                              <Style>
-                                <TextAlign>Left</TextAlign>
-                              </Style>
-                            </Paragraph>
-                          </Paragraphs>
-                          <rd:DefaultName>Textbox20</rd:DefaultName>
-                          <Style>
-                            <Border>
-                              <Color>LightGrey</Color>
-                              <Style>None</Style>
-                            </Border>
-                            <TopBorder>
-                              <Color>Black</Color>
-                              <Width>2pt</Width>
-                            </TopBorder>
-                            <BottomBorder>
-                              <Color>Black</Color>
-                              <Width>2pt</Width>
-                            </BottomBorder>
-                            <LeftBorder>
-                              <Style>None</Style>
-                            </LeftBorder>
-                            <RightBorder>
-                              <Style>None</Style>
-                            </RightBorder>
-                            <PaddingLeft>2pt</PaddingLeft>
-                            <PaddingRight>2pt</PaddingRight>
-                            <PaddingTop>2pt</PaddingTop>
-                            <PaddingBottom>2pt</PaddingBottom>
-                          </Style>
-                        </Textbox>
-                      </CellContents>
-                    </TablixCell>
-                    <TablixCell>
-                      <CellContents>
-                        <Textbox Name="txt_submission_total">
-                          <CanGrow>true</CanGrow>
-                          <KeepTogether>true</KeepTogether>
-                          <Paragraphs>
-                            <Paragraph>
-                              <TextRuns>
-                                <TextRun>
-                                  <Value>=Sum(Fields!Total.Value)</Value>
-                                  <Style>
-                                    <FontWeight>Normal</FontWeight>
-                                  </Style>
-                                </TextRun>
-                              </TextRuns>
-                              <Style>
-                                <TextAlign>Right</TextAlign>
-                              </Style>
-                            </Paragraph>
-                          </Paragraphs>
-                          <Style>
-                            <Border>
-                              <Color>LightGrey</Color>
-                              <Style>None</Style>
-                            </Border>
-                            <TopBorder>
-                              <Color>Black</Color>
-                              <Style>Solid</Style>
-                              <Width>2pt</Width>
-                            </TopBorder>
-                            <BottomBorder>
-                              <Color>Black</Color>
-                              <Width>2pt</Width>
-                            </BottomBorder>
-                            <LeftBorder>
-                              <Style>None</Style>
-                            </LeftBorder>
-                            <RightBorder>
-                              <Style>None</Style>
-                            </RightBorder>
-                            <PaddingLeft>2pt</PaddingLeft>
-                            <PaddingRight>2pt</PaddingRight>
-                            <PaddingTop>2pt</PaddingTop>
-                            <PaddingBottom>2pt</PaddingBottom>
-                          </Style>
-                        </Textbox>
-                      </CellContents>
-                    </TablixCell>
-                    <TablixCell>
-                      <CellContents>
-                        <Textbox Name="Textbox22">
-                          <CanGrow>true</CanGrow>
-                          <KeepTogether>true</KeepTogether>
-                          <Paragraphs>
-                            <Paragraph>
-                              <TextRuns>
-                                <TextRun>
-                                  <Value>=ROUND(SUM((Fields!Total.Value/Sum(Fields!Total.Value))*100),2)</Value>
-                                  <Style>
-                                    <FontWeight>Normal</FontWeight>
-                                  </Style>
-                                </TextRun>
-                              </TextRuns>
-                              <Style>
-                                <TextAlign>Right</TextAlign>
-                              </Style>
-                            </Paragraph>
-                          </Paragraphs>
-                          <rd:DefaultName>Textbox22</rd:DefaultName>
-                          <Style>
-                            <Border>
-                              <Color>LightGrey</Color>
-                              <Style>None</Style>
-                            </Border>
-                            <TopBorder>
-                              <Color>Black</Color>
-                              <Style>Solid</Style>
-                              <Width>2pt</Width>
-                            </TopBorder>
-                            <BottomBorder>
-                              <Color>Black</Color>
-                              <Width>2pt</Width>
-                            </BottomBorder>
-                            <LeftBorder>
-                              <Style>None</Style>
-                            </LeftBorder>
-                            <RightBorder>
-                              <Style>None</Style>
-                            </RightBorder>
-                            <PaddingLeft>2pt</PaddingLeft>
-                            <PaddingRight>2pt</PaddingRight>
-                            <PaddingTop>2pt</PaddingTop>
-                            <PaddingBottom>2pt</PaddingBottom>
-                          </Style>
-                        </Textbox>
-                      </CellContents>
-                    </TablixCell>
-                  </TablixCells>
-                </TablixRow>
-              </TablixRows>
-            </TablixBody>
-            <TablixColumnHierarchy>
-              <TablixMembers>
-                <TablixMember />
-                <TablixMember />
-                <TablixMember />
-              </TablixMembers>
-            </TablixColumnHierarchy>
-            <TablixRowHierarchy>
-              <TablixMembers>
-                <TablixMember>
-                  <TablixHeader>
-                    <Size>1.60081in</Size>
-                    <CellContents>
-                      <Textbox Name="Textbox4">
-                        <CanGrow>true</CanGrow>
-                        <KeepTogether>true</KeepTogether>
-                        <Paragraphs>
-                          <Paragraph>
-                            <TextRuns>
-                              <TextRun>
-                                <Value>Division </Value>
-                                <Style>
-                                  <FontWeight>Bold</FontWeight>
-                                </Style>
-                              </TextRun>
-                            </TextRuns>
-                            <Style>
-                              <TextAlign>Left</TextAlign>
-                            </Style>
-                          </Paragraph>
-                        </Paragraphs>
-                        <rd:DefaultName>Textbox4</rd:DefaultName>
-                        <Style>
-                          <Border>
-                            <Color>LightGrey</Color>
-                            <Style>Solid</Style>
-                          </Border>
-                          <TopBorder>
-                            <Color>Black</Color>
-                            <Width>2pt</Width>
-                          </TopBorder>
-                          <BottomBorder>
-                            <Color>Black</Color>
-                            <Width>2pt</Width>
-                          </BottomBorder>
-                          <LeftBorder>
-                            <Style>None</Style>
-                          </LeftBorder>
-                          <RightBorder>
-                            <Style>None</Style>
-                          </RightBorder>
-                          <PaddingLeft>2pt</PaddingLeft>
-                          <PaddingRight>2pt</PaddingRight>
-                          <PaddingTop>2pt</PaddingTop>
-                          <PaddingBottom>2pt</PaddingBottom>
-                        </Style>
-                      </Textbox>
-                    </CellContents>
-                  </TablixHeader>
-                  <TablixMembers>
-                    <TablixMember />
-                  </TablixMembers>
-                </TablixMember>
-                <TablixMember>
-                  <Group Name="DivisionGroup">
-                    <GroupExpressions>
-                      <GroupExpression>=Fields!clearance_division_id.Value</GroupExpression>
-                    </GroupExpressions>
-                  </Group>
-                  <SortExpressions>
-                    <SortExpression>
-                      <Value>=Fields!clearance_division_id.Value</Value>
-                    </SortExpression>
-                  </SortExpressions>
-                  <TablixHeader>
-                    <Size>1.60081in</Size>
-                    <CellContents>
-                      <Textbox Name="clearance_division_id">
-                        <CanGrow>true</CanGrow>
-                        <KeepTogether>true</KeepTogether>
-                        <Paragraphs>
-                          <Paragraph>
-                            <TextRuns>
-                              <TextRun>
-                                <Value>=Fields!clearance_division.Value</Value>
-                                <Style>
-                                  <FontWeight>Bold</FontWeight>
-                                </Style>
-                              </TextRun>
-                            </TextRuns>
-                            <Style>
-                              <TextAlign>Left</TextAlign>
-                            </Style>
-                          </Paragraph>
-                        </Paragraphs>
-                        <rd:DefaultName>clearance_division_id</rd:DefaultName>
-                        <Style>
-                          <Border>
-                            <Color>LightGrey</Color>
-                            <Style>None</Style>
-                          </Border>
-                          <TopBorder>
-                            <Color>Black</Color>
-                            <Width>2pt</Width>
-                          </TopBorder>
-                          <BottomBorder>
-                            <Color>Black</Color>
-                            <Width>2pt</Width>
-                          </BottomBorder>
-                          <LeftBorder>
-                            <Style>None</Style>
-                          </LeftBorder>
-                          <RightBorder>
-                            <Style>None</Style>
-                          </RightBorder>
-                          <PaddingLeft>2pt</PaddingLeft>
-                          <PaddingRight>2pt</PaddingRight>
-                          <PaddingTop>2pt</PaddingTop>
-                          <PaddingBottom>2pt</PaddingBottom>
-                        </Style>
-                      </Textbox>
-                    </CellContents>
-                  </TablixHeader>
-                  <TablixMembers>
-                    <TablixMember>
-                      <Group Name="submission_status">
-                        <GroupExpressions>
-                          <GroupExpression>=Fields!submission_status.Value</GroupExpression>
-                        </GroupExpressions>
-                      </Group>
-                      <SortExpressions>
-                        <SortExpression>
-                          <Value>=Fields!submission_status.Value</Value>
-                        </SortExpression>
-                      </SortExpressions>
-                    </TablixMember>
-                    <TablixMember>
-                      <KeepWithGroup>Before</KeepWithGroup>
-                    </TablixMember>
-                  </TablixMembers>
-                </TablixMember>
-              </TablixMembers>
-            </TablixRowHierarchy>
-            <KeepTogether>true</KeepTogether>
-            <DataSetName>ClearanceSubmissionSummaryByStatusQuery</DataSetName>
-            <Top>0.25in</Top>
-            <Left>0.3in</Left>
-            <Height>0.73958in</Height>
-            <Width>7.30001in</Width>
+          <Rectangle Name="Rectangle1">
+            <ReportItems>
+              <Subreport Name="ActivityBySubmissionSubReport2">
+                <ReportName>AdflowClearanceActivityByStatus</ReportName>
+                <Parameters>
+                  <Parameter Name="from_date">
+                    <Value>=Parameters!from_date.Value</Value>
+                  </Parameter>
+                  <Parameter Name="to_date">
+                    <Value>=Parameters!to_date.Value</Value>
+                  </Parameter>
+                  <Parameter Name="division_id">
+                    <Value>=Parameters!division_id.Value</Value>
+                  </Parameter>
+                </Parameters>
+                <KeepTogether>true</KeepTogether>
+                <Top>0.04167in</Top>
+                <Left>0.2502cm</Left>
+                <Height>0.1875in</Height>
+                <Width>3.95208in</Width>
+                <Style>
+                  <Border>
+                    <Style>None</Style>
+                  </Border>
+                </Style>
+              </Subreport>
+              <Subreport Name="ActivityBySubmissionSubReport3">
+                <ReportName>AdflowClearanceActivityByService</ReportName>
+                <Parameters>
+                  <Parameter Name="from_date">
+                    <Value>=Parameters!from_date.Value</Value>
+                  </Parameter>
+                  <Parameter Name="to_date">
+                    <Value>=Parameters!to_date.Value</Value>
+                  </Parameter>
+                  <Parameter Name="division_id">
+                    <Value>=Parameters!division_id.Value</Value>
+                  </Parameter>
+                </Parameters>
+                <KeepTogether>true</KeepTogether>
+                <Top>0.25695in</Top>
+                <Left>0.2502cm</Left>
+                <Height>0.1875in</Height>
+                <Width>3.95208in</Width>
+                <ZIndex>1</ZIndex>
+                <Style>
+                  <Border>
+                    <Style>None</Style>
+                  </Border>
+                </Style>
+              </Subreport>
+              <Subreport Name="ActivityBySubmissionSubReport">
+                <ReportName>AdflowClearanceActivityByMediaType</ReportName>
+                <Parameters>
+                  <Parameter Name="from_date">
+                    <Value>=Parameters!from_date.Value</Value>
+                  </Parameter>
+                  <Parameter Name="to_date">
+                    <Value>=Parameters!to_date.Value</Value>
+                  </Parameter>
+                  <Parameter Name="division_id">
+                    <Value>=Parameters!division_id.Value</Value>
+                  </Parameter>
+                </Parameters>
+                <Top>1.19945cm</Top>
+                <Left>0.25019cm</Left>
+                <Height>0.1875in</Height>
+                <Width>3.95209in</Width>
+                <ZIndex>2</ZIndex>
+                <Style>
+                  <Border>
+                    <Style>None</Style>
+                  </Border>
+                </Style>
+              </Subreport>
+              <Subreport Name="ActivityBySubmissionSubReport4">
+                <ReportName>AdflowClearanceActivityBySubmissionType</ReportName>
+                <Parameters>
+                  <Parameter Name="from_date">
+                    <Value>=Parameters!from_date.Value</Value>
+                  </Parameter>
+                  <Parameter Name="to_date">
+                    <Value>=Parameters!to_date.Value</Value>
+                  </Parameter>
+                  <Parameter Name="division_id">
+                    <Value>=Parameters!division_id.Value</Value>
+                  </Parameter>
+                </Parameters>
+                <KeepTogether>true</KeepTogether>
+                <Top>1.73cm</Top>
+                <Left>0.25019cm</Left>
+                <Height>0.1875in</Height>
+                <Width>3.95209in</Width>
+                <ZIndex>3</ZIndex>
+                <Style>
+                  <Border>
+                    <Style>None</Style>
+                  </Border>
+                </Style>
+              </Subreport>
+              <Subreport Name="ActivityBySubmissionSubReport5">
+                <ReportName>AdflowClearanceActivityByScriptLanguage</ReportName>
+                <Parameters>
+                  <Parameter Name="from_date">
+                    <Value>=Parameters!from_date.Value</Value>
+                  </Parameter>
+                  <Parameter Name="to_date">
+                    <Value>=Parameters!to_date.Value</Value>
+                  </Parameter>
+                  <Parameter Name="division_id">
+                    <Value>=Parameters!division_id.Value</Value>
+                  </Parameter>
+                </Parameters>
+                <KeepTogether>true</KeepTogether>
+                <Top>2.28cm</Top>
+                <Left>0.25019cm</Left>
+                <Height>0.1875in</Height>
+                <Width>3.95209in</Width>
+                <ZIndex>4</ZIndex>
+                <Style>
+                  <Border>
+                    <Style>None</Style>
+                  </Border>
+                </Style>
+              </Subreport>
+            </ReportItems>
+            <Top>0.74444in</Top>
+            <Left>0.24999in</Left>
+            <Height>1.17709in</Height>
+            <Width>8in</Width>
             <Style>
               <Border>
                 <Style>None</Style>
               </Border>
             </Style>
-          </Tablix>
+          </Rectangle>
         </ReportItems>
-        <Height>1.01667in</Height>
+        <Height>5in</Height>
         <Style>
           <Border>
             <Style>None</Style>
           </Border>
         </Style>
       </Body>
-      <Width>7.9in</Width>
+      <Width>10.5in</Width>
       <Page>
         <PageFooter>
-          <Height>0.39205in</Height>
+          <Height>0.38163in</Height>
           <PrintOnFirstPage>true</PrintOnFirstPage>
           <PrintOnLastPage>true</PrintOnLastPage>
           <ReportItems>
@@ -726,7 +184,7 @@ SELECT        sub_stat.submission_status, COUNT(csub.clearance_submission_status
               </Paragraphs>
               <rd:DefaultName>Textbox61</rd:DefaultName>
               <Top>0.1in</Top>
-              <Left>7.72467cm</Left>
+              <Left>7.91687cm</Left>
               <Height>0.52062cm</Height>
               <Width>4.61667cm</Width>
               <Style>
@@ -758,10 +216,10 @@ SELECT        sub_stat.submission_status, COUNT(csub.clearance_submission_status
                 </Paragraph>
               </Paragraphs>
               <rd:DefaultName>Textbox61</rd:DefaultName>
-              <Top>0.06944in</Top>
-              <Left>15.70385cm</Left>
+              <Top>0.1in</Top>
+              <Left>16.89447cm</Left>
               <Height>0.52062cm</Height>
-              <Width>3.99703cm</Width>
+              <Width>3.80419cm</Width>
               <ZIndex>1</ZIndex>
               <Style>
                 <Border>
@@ -799,7 +257,7 @@ SELECT        sub_stat.submission_status, COUNT(csub.clearance_submission_status
               </Paragraphs>
               <rd:DefaultName>Textbox61</rd:DefaultName>
               <Top>0.1in</Top>
-              <Left>0.26in</Left>
+              <Left>0.385in</Left>
               <Height>0.52062cm</Height>
               <Width>5.35283cm</Width>
               <ZIndex>2</ZIndex>
@@ -820,7 +278,11 @@ SELECT        sub_stat.submission_status, COUNT(csub.clearance_submission_status
             </Border>
           </Style>
         </PageFooter>
+        <PageHeight>8.5in</PageHeight>
+        <PageWidth>11in</PageWidth>
         <InteractiveHeight>0in</InteractiveHeight>
+        <LeftMargin>0.1in</LeftMargin>
+        <RightMargin>0.1in</RightMargin>
         <ColumnSpacing>0.05118in</ColumnSpacing>
         <Style />
       </Page>
@@ -831,7 +293,6 @@ SELECT        sub_stat.submission_status, COUNT(csub.clearance_submission_status
       <DataType>DateTime</DataType>
       <Nullable>true</Nullable>
       <Prompt>StartDate</Prompt>
-      <Hidden>true</Hidden>
     </ReportParameter>
     <ReportParameter Name="to_date">
       <DataType>DateTime</DataType>
@@ -842,7 +303,6 @@ SELECT        sub_stat.submission_status, COUNT(csub.clearance_submission_status
         </Values>
       </DefaultValue>
       <Prompt>EndDate</Prompt>
-      <Hidden>true</Hidden>
     </ReportParameter>
     <ReportParameter Name="division_id">
       <DataType>String</DataType>
@@ -853,14 +313,13 @@ SELECT        sub_stat.submission_status, COUNT(csub.clearance_submission_status
     <ReportParameter Name="clearance_division_category_id">
       <DataType>String</DataType>
       <Nullable>true</Nullable>
-      <Prompt>DivisionID</Prompt>
+      <Prompt>division_category</Prompt>
       <Hidden>true</Hidden>
     </ReportParameter>
     <ReportParameter Name="report_name">
       <DataType>String</DataType>
       <Nullable>true</Nullable>
       <Prompt>Report Name</Prompt>
-      <Hidden>true</Hidden>
     </ReportParameter>
     <ReportParameter Name="clearance_type_id">
       <DataType>String</DataType>
@@ -881,7 +340,7 @@ SELECT        sub_stat.submission_status, COUNT(csub.clearance_submission_status
           <Value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" />
         </Values>
       </DefaultValue>
-      <Prompt>edia_type_id</Prompt>
+      <Prompt>media_type_id</Prompt>
       <Hidden>true</Hidden>
     </ReportParameter>
     <ReportParameter Name="language_id">
@@ -908,7 +367,7 @@ SELECT        sub_stat.submission_status, COUNT(csub.clearance_submission_status
   <ReportParametersLayout>
     <GridLayoutDefinition>
       <NumberOfColumns>1</NumberOfColumns>
-      <NumberOfRows>4</NumberOfRows>
+      <NumberOfRows>9</NumberOfRows>
       <CellDefinitions>
         <CellDefinition>
           <ColumnIndex>0</ColumnIndex>
@@ -928,7 +387,32 @@ SELECT        sub_stat.submission_status, COUNT(csub.clearance_submission_status
         <CellDefinition>
           <ColumnIndex>0</ColumnIndex>
           <RowIndex>3</RowIndex>
+          <ParameterName>clearance_division_category_id</ParameterName>
+        </CellDefinition>
+        <CellDefinition>
+          <ColumnIndex>0</ColumnIndex>
+          <RowIndex>4</RowIndex>
           <ParameterName>report_name</ParameterName>
+        </CellDefinition>
+        <CellDefinition>
+          <ColumnIndex>0</ColumnIndex>
+          <RowIndex>5</RowIndex>
+          <ParameterName>clearance_type_id</ParameterName>
+        </CellDefinition>
+        <CellDefinition>
+          <ColumnIndex>0</ColumnIndex>
+          <RowIndex>6</RowIndex>
+          <ParameterName>media_type_id</ParameterName>
+        </CellDefinition>
+        <CellDefinition>
+          <ColumnIndex>0</ColumnIndex>
+          <RowIndex>7</RowIndex>
+          <ParameterName>language_id</ParameterName>
+        </CellDefinition>
+        <CellDefinition>
+          <ColumnIndex>0</ColumnIndex>
+          <RowIndex>8</RowIndex>
+          <ParameterName>member</ParameterName>
         </CellDefinition>
       </CellDefinitions>
     </GridLayoutDefinition>
@@ -968,6 +452,7 @@ fjNvR4u8gYHIgnJSxiadCNn2OQ8Q0fsxoOUto8w8tW26BgGXdcPielQcn2MRCxIu0orEuEEAsgsX1pQo
 ZkFDKDVx+hA/PgUCRslSprcRJDePYaGZUNAFwurcG8N6/DcdATZduAAkZhJigQNHfyEiklqFlJBbxAAcGyKDwkPChwXPH6Qp8YfDIdLhqowyfEvBWYxNZ6xiyHQTBTYSNVp4KAU4vekMnQkEp21KWPkgOZHhzQkBZWZxUzZQCb6oK+qZaqoKFBuHSaPZCYLLIJhJiWzSfqUAhxD7SmDhSSmlMx0wgtyPZFF43ARMSuKLLAJIEUbQTxNM5v2zphKTzDT0e4wkkC20OzVs3ermoxgVhxdHRL4WHnfmDu1PsPbXkspbTdeCnjHBNpFkUkDGtNMEltJlJmWKwM3pTFvYvv0km/zUVgS46Va3kqGCSWfFC2RfWCBjeG0JnUc0IQWCxcJQ7hUnsWIRvNvxS0IdSYsATsJ71ry1saGAlr2SLkU4aIXMLKd5o9LxVu4tQcQLdukU89MscchHVWZOjCAWpw4rJL4sgGUmV66IvflIM4l3SRMjmV6SJyvIkXxUbfwUJRsehlO2i7LjFQFwmcluSKkEbxFqSlpZubARHZrultc8Kqt0eagh8hlgyrqrKuqv/MR//9k=</ImageData>
     </EmbeddedImage>
   </EmbeddedImages>
+  <ConsumeContainerWhitespace>true</ConsumeContainerWhitespace>
   <rd:ReportUnitType>Inch</rd:ReportUnitType>
   <rd:ReportID>b7c9dd41-839f-4524-ab2c-0cd031be4bd0</rd:ReportID>
 </Report>

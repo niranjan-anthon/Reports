@@ -867,7 +867,7 @@ GROUP BY csub.media_type_id, csub.clearance_division_id, cdiv.clearance_division
                 <Paragraph>
                   <TextRuns>
                     <TextRun>
-                      <Value>AdStandards</Value>
+                      <Value>=Parameters!report_name.Value</Value>
                       <Style>
                         <FontSize>9pt</FontSize>
                       </Style>

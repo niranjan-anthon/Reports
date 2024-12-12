@@ -53,6 +53,12 @@
     <DataSource Include="AdStdsTEST.rds" />
   </ItemGroup>
   <ItemGroup>
+    <Report Include="AdflowClearanceActivityByMediaType.rdl" />
+    <Report Include="AdflowClearanceActivityByScriptLanguage.rdl" />
+    <Report Include="AdflowClearanceActivityByService.rdl" />
+    <Report Include="AdflowClearanceActivityByStatus.rdl" />
+    <Report Include="AdflowClearanceActivityBySubmissionType.rdl" />
+    <Report Include="AdflowClearanceActivityReport.rdl" />
     <Report Include="ClearanceActivityByMediaType.rdl" />
     <Report Include="ClearanceActivityByScriptLanguage.rdl" />
     <Report Include="ClearanceActivityByService.rdl" />
